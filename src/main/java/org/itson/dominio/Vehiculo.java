@@ -1,10 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package org.itson.dominio;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,6 +44,8 @@ public class Vehiculo implements Serializable {
     @JoinColumn(name = "persona_rfc", nullable = false)
     private Persona persona; 
     
+    @OneToMany(mappedBy = "vehiculo")
+    private List<Placa> placas = new ArrayList<>();
     
     public Vehiculo() {
     }
@@ -57,6 +58,8 @@ public class Vehiculo implements Serializable {
         this.modelo = modelo;
         this.persona = persona;
     }
+
+    
 
     public String getNumero() {
         return numero;
@@ -104,6 +107,14 @@ public class Vehiculo implements Serializable {
 
     public void setPersona(Persona persona) {
         this.persona = persona;
+    }
+
+    public List<Placa> getPlacas() {
+        return placas;
+    }
+
+    public void setPlacas(List<Placa> placas) {
+        this.placas = placas;
     }
     
     

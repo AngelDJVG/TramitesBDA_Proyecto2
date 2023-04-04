@@ -53,6 +53,7 @@ public class Persona implements Serializable {
     @OneToMany(mappedBy = "persona")
     private List<Vehiculo> vehiculos = new ArrayList<>();
     
+    
     public Persona() {
     }
 

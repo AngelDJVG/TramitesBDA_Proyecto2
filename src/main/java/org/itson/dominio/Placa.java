@@ -5,12 +5,17 @@
 package org.itson.dominio;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -38,7 +43,11 @@ public class Placa extends Tramite implements Serializable {
     
     @Column(name = "esActivo")
     private boolean esActivo;
-
+    
+    @ManyToOne
+    @JoinColumn(name = "serie_vehiculo", nullable = false)
+    private Vehiculo vehiculo; 
+    
     public Placa() {
     }
 
@@ -57,6 +66,17 @@ public class Placa extends Tramite implements Serializable {
         this.fechaRecepcion = fechaRecepcion;
         this.esActivo = esActivo;
     }
+
+    public Placa(String numero, Calendar fechaEmision, Calendar fechaRecepcion, boolean esActivo, Vehiculo vehiculo, String nombrePersona, Float costo, Persona persona) {
+        super(nombrePersona, costo, persona);
+        this.numero = numero;
+        this.fechaEmision = fechaEmision;
+        this.fechaRecepcion = fechaRecepcion;
+        this.esActivo = esActivo;
+        this.vehiculo = vehiculo;
+    }
+    
+    
 
     public String getNumero() {
         return numero;
