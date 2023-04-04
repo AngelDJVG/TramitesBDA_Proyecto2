@@ -6,8 +6,9 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import org.itson.dominio.Tramite;
+import org.itson.dominio.Vehiculo;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2023-03-29T20:28:48", comments="EclipseLink-2.7.10.v20211216-rNA")
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2023-04-04T15:34:10", comments="EclipseLink-2.7.10.v20211216-rNA")
 @StaticMetamodel(Persona.class)
 public class Persona_ { 
 
@@ -17,6 +18,7 @@ public class Persona_ {
     public static volatile SingularAttribute<Persona, String> telefono;
     public static volatile SingularAttribute<Persona, String> nombre;
     public static volatile SingularAttribute<Persona, String> rfc;
+    public static volatile ListAttribute<Persona, Vehiculo> vehiculos;
     public static volatile SingularAttribute<Persona, String> apellidoMaterno;
 
 }
