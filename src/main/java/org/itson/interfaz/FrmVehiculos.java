@@ -4,16 +4,18 @@
  */
 package org.itson.interfaz;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Ángel De Jesús Valenzuela García
  */
-public class FrmAutomoviles extends javax.swing.JFrame {
+public class FrmVehiculos extends javax.swing.JFrame {
 
     /**
      * Creates new form Automoviles
      */
-    public FrmAutomoviles() {
+    public FrmVehiculos() {
         initComponents();
     }
 
@@ -32,7 +34,7 @@ public class FrmAutomoviles extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAutomoviles = new javax.swing.JTable();
         btnRegresar = new javax.swing.JButton();
-        btnCambiarPlaca2 = new javax.swing.JButton();
+        btnCambiarPlaca = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,11 +45,18 @@ public class FrmAutomoviles extends javax.swing.JFrame {
         btnAgregarAutomovil.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnAgregarAutomovil.setForeground(new java.awt.Color(255, 255, 255));
         btnAgregarAutomovil.setText("Agregar");
+        btnAgregarAutomovil.setBorderPainted(false);
+        btnAgregarAutomovil.setFocusPainted(false);
+        btnAgregarAutomovil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarAutomovilActionPerformed(evt);
+            }
+        });
 
         lblTitulo.setFont(new java.awt.Font("Yu Gothic UI", 1, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(105, 28, 50));
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitulo.setText("Automóviles y Placas");
+        lblTitulo.setText("Vehículos y Placas");
         lblTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         tblAutomoviles.setModel(new javax.swing.table.DefaultTableModel(
@@ -87,11 +96,25 @@ public class FrmAutomoviles extends javax.swing.JFrame {
         btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
         btnRegresar.setText("Regresar");
+        btnRegresar.setBorderPainted(false);
+        btnRegresar.setFocusPainted(false);
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
 
-        btnCambiarPlaca2.setBackground(new java.awt.Color(159, 34, 65));
-        btnCambiarPlaca2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnCambiarPlaca2.setForeground(new java.awt.Color(255, 255, 255));
-        btnCambiarPlaca2.setText("Cambiar Placa");
+        btnCambiarPlaca.setBackground(new java.awt.Color(159, 34, 65));
+        btnCambiarPlaca.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnCambiarPlaca.setForeground(new java.awt.Color(255, 255, 255));
+        btnCambiarPlaca.setText("Cambiar Placa");
+        btnCambiarPlaca.setBorderPainted(false);
+        btnCambiarPlaca.setFocusPainted(false);
+        btnCambiarPlaca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCambiarPlacaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -102,7 +125,7 @@ public class FrmAutomoviles extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregarAutomovil, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCambiarPlaca2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCambiarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -110,7 +133,7 @@ public class FrmAutomoviles extends javax.swing.JFrame {
                 .addGap(19, 19, 19))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAgregarAutomovil, btnCambiarPlaca2, btnRegresar});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAgregarAutomovil, btnCambiarPlaca, btnRegresar});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,13 +148,13 @@ public class FrmAutomoviles extends javax.swing.JFrame {
                         .addGap(116, 116, 116)
                         .addComponent(btnAgregarAutomovil, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnCambiarPlaca2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCambiarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAgregarAutomovil, btnCambiarPlaca2, btnRegresar});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAgregarAutomovil, btnCambiarPlaca, btnRegresar});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -145,13 +168,28 @@ public class FrmAutomoviles extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        new FrmPlaca().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void btnAgregarAutomovilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAutomovilActionPerformed
+        new FrmRegistrarPlaca().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnAgregarAutomovilActionPerformed
+
+    private void btnCambiarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarPlacaActionPerformed
+        JOptionPane.showInputDialog(this, "Ingrese el número de placas anteriores:", "Módulo de placas", JOptionPane.QUESTION_MESSAGE);
+    }//GEN-LAST:event_btnCambiarPlacaActionPerformed
 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarAutomovil;
-    private javax.swing.JButton btnCambiarPlaca2;
+    private javax.swing.JButton btnCambiarPlaca;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

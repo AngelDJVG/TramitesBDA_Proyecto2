@@ -4,6 +4,8 @@
  */
 package org.itson.interfaz;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author LoanWeefos
@@ -45,50 +47,64 @@ public class FrmReporte extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblTitulo.setFont(new java.awt.Font("Yu Gothic UI", 1, 36)); // NOI18N
-        lblTitulo.setForeground(new java.awt.Color(105, 28, 50));
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("Módulo de reportes");
+        lblTitulo.setFont(new java.awt.Font("Yu Gothic UI", 1, 36)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(105, 28, 50));
         lblTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        lblTramite.setText("Tipo de trámite:");
         lblTramite.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblTramite.setForeground(new java.awt.Color(105, 28, 50));
-        lblTramite.setText("Tipo de trámite:");
 
-        lblTramites.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lblTramites.setForeground(new java.awt.Color(105, 28, 50));
         lblTramites.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTramites.setText("Reporte de Trámites Realizados");
+        lblTramites.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblTramites.setForeground(new java.awt.Color(105, 28, 50));
 
         cbTramite.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Licencia", "Placas" }));
 
+        lblNombre.setText("Nombre:");
         lblNombre.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblNombre.setForeground(new java.awt.Color(105, 28, 50));
-        lblNombre.setText("Nombre:");
 
+        btnImprimir.setText("Generar");
         btnImprimir.setBackground(new java.awt.Color(159, 34, 65));
+        btnImprimir.setBorderPainted(false);
+        btnImprimir.setFocusPainted(false);
         btnImprimir.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnImprimir.setForeground(new java.awt.Color(255, 255, 255));
-        btnImprimir.setText("Imprimir");
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirActionPerformed(evt);
+            }
+        });
 
+        btnRegresar.setText("Regresar");
         btnRegresar.setBackground(new java.awt.Color(159, 34, 65));
+        btnRegresar.setBorderPainted(false);
+        btnRegresar.setFocusPainted(false);
         btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
-        btnRegresar.setText("Regresar");
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
 
         txtNombre.setText("Luis Esteban Durán Quintanar");
 
+        lblPeriodo.setText("Periodo:");
         lblPeriodo.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblPeriodo.setForeground(new java.awt.Color(105, 28, 50));
-        lblPeriodo.setText("Periodo:");
 
+        lblDesde.setText("Desde");
         lblDesde.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         lblDesde.setForeground(new java.awt.Color(105, 28, 50));
-        lblDesde.setText("Desde");
 
+        lblHasta.setText("Hasta");
         lblHasta.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         lblHasta.setForeground(new java.awt.Color(105, 28, 50));
-        lblHasta.setText("Hasta");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -168,7 +184,17 @@ public class FrmReporte extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        new FrmPrincipal().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        JOptionPane.showMessageDialog(this, "Generando...");
+    }//GEN-LAST:event_btnImprimirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

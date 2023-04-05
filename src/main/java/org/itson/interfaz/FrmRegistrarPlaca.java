@@ -57,7 +57,7 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
         lblRegistrar.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblRegistrar.setForeground(new java.awt.Color(105, 28, 50));
         lblRegistrar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblRegistrar.setText("Cambiar Placas");
+        lblRegistrar.setText("Registrar vehículo y generar placas");
 
         lblCosto.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblCosto.setForeground(new java.awt.Color(105, 28, 50));
@@ -65,17 +65,26 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
 
         lblTotal.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblTotal.setForeground(new java.awt.Color(105, 28, 50));
-        lblTotal.setText("$1000");
+        lblTotal.setText("$");
 
         btnRegistrar.setBackground(new java.awt.Color(159, 34, 65));
         btnRegistrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRegistrar.setForeground(new java.awt.Color(255, 255, 255));
-        btnRegistrar.setText("Cambiar");
+        btnRegistrar.setText("Registrar");
+        btnRegistrar.setBorderPainted(false);
+        btnRegistrar.setFocusPainted(false);
 
         btnRegresar.setBackground(new java.awt.Color(159, 34, 65));
         btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
         btnRegresar.setText("Regresar");
+        btnRegresar.setBorderPainted(false);
+        btnRegresar.setFocusPainted(false);
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
 
         lblMarca.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblMarca.setForeground(new java.awt.Color(105, 28, 50));
@@ -85,32 +94,27 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
         lblSerie.setForeground(new java.awt.Color(105, 28, 50));
         lblSerie.setText("Serie: ");
 
-        txtMarca.setText("Honda");
-        txtMarca.setEnabled(false);
+        txtMarca.setToolTipText("");
 
         lblLinea.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblLinea.setForeground(new java.awt.Color(105, 28, 50));
         lblLinea.setText("Línea:");
 
-        txtLinea.setText("Civic");
-        txtLinea.setEnabled(false);
+        txtLinea.setToolTipText("");
 
         lblColor.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblColor.setForeground(new java.awt.Color(105, 28, 50));
         lblColor.setText("Color:");
 
-        txtColor.setText("Negro");
-        txtColor.setEnabled(false);
+        txtColor.setToolTipText("");
 
         lblModelo.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblModelo.setForeground(new java.awt.Color(105, 28, 50));
         lblModelo.setText("Modelo:");
 
-        txtModelo.setText("2003");
-        txtModelo.setEnabled(false);
+        txtModelo.setToolTipText("");
 
-        jTextField1.setText("ABC-123");
-        jTextField1.setEnabled(false);
+        jTextField1.setToolTipText("");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -206,7 +210,13 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        new FrmVehiculos().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

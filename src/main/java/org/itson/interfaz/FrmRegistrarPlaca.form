@@ -6,7 +6,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -168,7 +168,7 @@
               <Color blue="32" green="1c" red="69" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Cambiar Placas"/>
+            <Property name="text" type="java.lang.String" value="Registrar veh&#xed;culo y generar placas"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblCosto">
@@ -190,7 +190,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="32" green="1c" red="69" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="$1000"/>
+            <Property name="text" type="java.lang.String" value="$"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnRegistrar">
@@ -204,7 +204,9 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Cambiar"/>
+            <Property name="text" type="java.lang.String" value="Registrar"/>
+            <Property name="borderPainted" type="boolean" value="false"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnRegresar">
@@ -219,7 +221,12 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Regresar"/>
+            <Property name="borderPainted" type="boolean" value="false"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegresarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblMarca">
           <Properties>
@@ -245,8 +252,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtMarca">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Honda"/>
-            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblLinea">
@@ -262,8 +268,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtLinea">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Civic"/>
-            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblColor">
@@ -279,8 +284,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtColor">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Negro"/>
-            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblModelo">
@@ -296,14 +300,12 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtModelo">
           <Properties>
-            <Property name="text" type="java.lang.String" value="2003"/>
-            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="ABC-123"/>
-            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
       </SubComponents>

@@ -57,7 +57,6 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
         lblRegistrar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblRegistrar.setText("Registrar nueva licencia");
 
-        cbVigencia.setBackground(new java.awt.Color(153, 153, 153));
         cbVigencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 año", "2 años", "3 años" }));
 
         lblDiscapacidad.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
@@ -70,17 +69,26 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
 
         lblTotal.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblTotal.setForeground(new java.awt.Color(105, 28, 50));
-        lblTotal.setText("$600");
+        lblTotal.setText("$");
 
         btnRegistrar.setBackground(new java.awt.Color(159, 34, 65));
         btnRegistrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRegistrar.setForeground(new java.awt.Color(255, 255, 255));
         btnRegistrar.setText("Registrar");
+        btnRegistrar.setBorderPainted(false);
+        btnRegistrar.setFocusPainted(false);
 
         btnRegresar.setBackground(new java.awt.Color(159, 34, 65));
         btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
         btnRegresar.setText("Regresar");
+        btnRegresar.setBorderPainted(false);
+        btnRegresar.setFocusPainted(false);
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -148,7 +156,13 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        new FrmLicencia().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
 
 

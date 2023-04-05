@@ -4,6 +4,8 @@
  */
 package org.itson.interfaz;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author LoanWeefos
@@ -49,31 +51,73 @@ public class FrmPrincipal extends javax.swing.JFrame {
         btnLicencias.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLicencias.setForeground(new java.awt.Color(255, 255, 255));
         btnLicencias.setText("Módulo de licencias");
+        btnLicencias.setBorderPainted(false);
+        btnLicencias.setFocusPainted(false);
+        btnLicencias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLicenciasActionPerformed(evt);
+            }
+        });
 
         btnPlacas.setBackground(new java.awt.Color(159, 34, 65));
         btnPlacas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnPlacas.setForeground(new java.awt.Color(255, 255, 255));
         btnPlacas.setText("Módulo de placas");
+        btnPlacas.setBorderPainted(false);
+        btnPlacas.setFocusPainted(false);
+        btnPlacas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlacasActionPerformed(evt);
+            }
+        });
 
         btnConsultas.setBackground(new java.awt.Color(159, 34, 65));
         btnConsultas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnConsultas.setForeground(new java.awt.Color(255, 255, 255));
         btnConsultas.setText("Módulo de consultas");
+        btnConsultas.setBorderPainted(false);
+        btnConsultas.setFocusPainted(false);
+        btnConsultas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultasActionPerformed(evt);
+            }
+        });
 
         btnReportes.setBackground(new java.awt.Color(159, 34, 65));
         btnReportes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnReportes.setForeground(new java.awt.Color(255, 255, 255));
         btnReportes.setText("Módulo de reportes");
+        btnReportes.setBorderPainted(false);
+        btnReportes.setFocusPainted(false);
+        btnReportes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportesActionPerformed(evt);
+            }
+        });
 
         btnAgregarPersonas.setBackground(new java.awt.Color(159, 34, 65));
         btnAgregarPersonas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnAgregarPersonas.setForeground(new java.awt.Color(255, 255, 255));
         btnAgregarPersonas.setText("Agregar personas");
+        btnAgregarPersonas.setBorderPainted(false);
+        btnAgregarPersonas.setFocusPainted(false);
+        btnAgregarPersonas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarPersonasActionPerformed(evt);
+            }
+        });
 
         btnSalir.setBackground(new java.awt.Color(159, 34, 65));
         btnSalir.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnSalir.setForeground(new java.awt.Color(255, 255, 255));
         btnSalir.setText("Salir");
+        btnSalir.setBorderPainted(false);
+        btnSalir.setFocusPainted(false);
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -129,7 +173,36 @@ public class FrmPrincipal extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnAgregarPersonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPersonasActionPerformed
+        JOptionPane.showMessageDialog(this, "!");
+    }//GEN-LAST:event_btnAgregarPersonasActionPerformed
+
+    private void btnLicenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLicenciasActionPerformed
+        new FrmLicencia().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLicenciasActionPerformed
+
+    private void btnPlacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlacasActionPerformed
+        new FrmPlaca().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnPlacasActionPerformed
+
+    private void btnConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultasActionPerformed
+        new FrmConsulta().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnConsultasActionPerformed
+
+    private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
+        new FrmReporte().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnReportesActionPerformed
 
 
 
