@@ -6,14 +6,10 @@ package org.itson.dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -59,6 +55,13 @@ public class Licencia extends Tramite implements Serializable {
         this.tipo = tipo;
     }
 
+    public Licencia(int vigencia, Calendar fechaExpedicion, EnumTipoLicencia tipo, String nombrePersona, Float costo, Persona persona) {
+        super(nombrePersona, costo, persona);
+        this.vigencia = vigencia;
+        this.fechaExpedicion = fechaExpedicion;
+        this.tipo = tipo;
+    }
+    
     public int getVigencia() {
         return vigencia;
     }

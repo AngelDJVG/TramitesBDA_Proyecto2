@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
-import org.itson.interfaz.FrmHistorial;
+import org.itson.vista.FrmHistorial;
 
 /**
  *
