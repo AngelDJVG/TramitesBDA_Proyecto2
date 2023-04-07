@@ -16,6 +16,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.itson.dominio.Persona;
@@ -98,20 +99,21 @@ public class PersonaDAO implements IPersona {
         Root<Persona> entidadPersona = criteria.from(Persona.class);
         List<Predicate> filtros = new LinkedList<>();
         if (params.getRfc() != null) {
-            filtros.add(builder.like(entidadPersona.get("rfc"), "%"+params.getRfc()+"%"));
+            filtros.add(builder.like(entidadPersona.get("rfc"), "%" + params.getRfc() + "%"));
         }
         if (params.getNombre() != null) {
             filtros.add(builder.like(
                     builder.concat(
                             builder.concat(entidadPersona.get("nombre"), entidadPersona.get("apellidoPaterno")),
                             entidadPersona.get("apellidoMaterno")
-                    ),"%" + params.getNombre() + "%")
+                    ), "%" + params.getNombre() + "%")
             );
         }
-        if(params.getFechaNacimiento() != null){
-            filtros.add(builder.equal(entidadPersona.get("fechaNacimiento"),params.getFechaNacimiento()));
+        if (params.getYear() != null) {
+            Expression<Integer> year = builder.function("year", Integer.class, entidadPersona.get("fechaNacimiento"));
+            filtros.add(builder.equal(year, params.getYear()));
         }
-        criteria = criteria.select(entidadPersona).where(builder.and((filtros.toArray(new Predicate[0]))));
+        criteria = criteria.select(entidadPersona).where(builder.or((filtros.toArray(new Predicate[0]))));
         TypedQuery<Persona> query = entityManager.createQuery(criteria);
         query.setFirstResult(configPaginado.getElementosSaltar());
         query.setMaxResults(configPaginado.getElementosPorPagina());

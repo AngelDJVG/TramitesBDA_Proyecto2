@@ -72,7 +72,7 @@ public class FrmConsulta extends javax.swing.JFrame {
         btnAnterior = new javax.swing.JButton();
         btnSiguiente = new javax.swing.JButton();
         cmbPaginas = new javax.swing.JComboBox<>();
-        dpFechaNacimiento = new com.github.lgooddatepicker.components.DatePicker();
+        txtYear = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -203,16 +203,16 @@ public class FrmConsulta extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(lblAnioNacimiento)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(dpFechaNacimiento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                                    .addComponent(txtCurp, javax.swing.GroupLayout.Alignment.LEADING)))
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                                    .addComponent(txtCurp, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtYear, javax.swing.GroupLayout.Alignment.LEADING)))
                             .addComponent(lblCurp, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -245,7 +245,7 @@ public class FrmConsulta extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAnioNacimiento)
                     .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dpFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNombre)
@@ -314,17 +314,14 @@ public class FrmConsulta extends javax.swing.JFrame {
     
     private void validacionesCampos() {
         
-        if (txtCurp.getText().isBlank() && txtNombre.getText().isBlank() && dpFechaNacimiento.getText().isBlank()) {
+        if (txtCurp.getText().isBlank() && txtNombre.getText().isBlank() && txtYear.getText().isBlank()) {
             JOptionPane.showMessageDialog(null, "No deje los campos de texto vacios", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             if (!txtCurp.getText().isBlank()) {
                 params.setRfc(txtCurp.getText());
             }
-            if (!dpFechaNacimiento.getText().isBlank()) {
-                LocalDate fechaNacimiento = dpFechaNacimiento.getDate();
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(fechaNacimiento.getYear(), fechaNacimiento.getMonthValue() - 1, fechaNacimiento.getDayOfMonth());
-                params.setFechaNacimiento(calendar);
+            if (!txtYear.getText().isBlank()) {
+                params.setYear(Integer.valueOf(txtYear.getText()));
             }
             if (!txtNombre.getText().isBlank()) {
                 params.setNombre(txtNombre.getText());
@@ -367,7 +364,6 @@ public class FrmConsulta extends javax.swing.JFrame {
     private javax.swing.JButton btnRegresar;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JComboBox<String> cmbPaginas;
-    private com.github.lgooddatepicker.components.DatePicker dpFechaNacimiento;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAnioNacimiento;
@@ -378,5 +374,6 @@ public class FrmConsulta extends javax.swing.JFrame {
     private javax.swing.JTable tblConsultas;
     private javax.swing.JTextField txtCurp;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtYear;
     // End of variables declaration//GEN-END:variables
 }

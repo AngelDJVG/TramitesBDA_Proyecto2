@@ -10,15 +10,15 @@ import java.util.Calendar;
 public class ParametrosBusquedaConsultaDTO {
 
     private String rfc;
-    private Calendar fechaNacimiento;
+    private Integer year;
     private String nombre;
     
     public ParametrosBusquedaConsultaDTO() {
     }
 
-    public ParametrosBusquedaConsultaDTO(String rfc, Calendar fechaNacimiento, String nombre) {
+    public ParametrosBusquedaConsultaDTO(String rfc, Integer year, String nombre) {
         this.rfc = rfc;
-        this.fechaNacimiento = fechaNacimiento;
+        this.year = year;
         this.nombre = nombre;
     }
 
@@ -30,13 +30,15 @@ public class ParametrosBusquedaConsultaDTO {
         this.rfc = rfc;
     }
 
-    public Calendar getFechaNacimiento() {
-        return fechaNacimiento;
+    public Integer getYear() {
+        return year;
     }
 
-    public void setFechaNacimiento(Calendar fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
+    public void setYear(Integer year) {
+        this.year = year;
     }
+
+    
 
     public String getNombre() {
         return nombre;
