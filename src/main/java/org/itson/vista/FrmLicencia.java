@@ -5,7 +5,6 @@
 package org.itson.vista;
 
 import java.util.List;
-import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 import org.itson.dao.LicenciaDAO;
 import org.itson.dao.PersonaDAO;
@@ -19,18 +18,18 @@ import org.itson.interfaces.IPersona;
  * @author LoanWeefos
  */
 public class FrmLicencia extends javax.swing.JFrame {
-    private EntityManager entityManager;
+
     private IPersona personaDAO;
     private ILicencia licenciaDAO;
+
     /**
      * Creates new form licencias
-     * @param entityManager
+     *
      */
-    public FrmLicencia(EntityManager entityManager) {
+    public FrmLicencia() {
         initComponents();
-        this.entityManager = entityManager;
-        personaDAO = new PersonaDAO(this.entityManager);
-        licenciaDAO = new LicenciaDAO(this.entityManager);
+        personaDAO = new PersonaDAO();
+        licenciaDAO = new LicenciaDAO();
     }
 
     /**
@@ -54,45 +53,39 @@ public class FrmLicencia extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblTitulo.setFont(new java.awt.Font("Yu Gothic UI", 1, 36)); // NOI18N
-        lblTitulo.setForeground(new java.awt.Color(105, 28, 50));
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("Módulo de licencias");
+        lblTitulo.setFont(new java.awt.Font("Yu Gothic UI", 1, 36)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(105, 28, 50));
         lblTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        lblCurp.setText("RFC");
         lblCurp.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblCurp.setForeground(new java.awt.Color(105, 28, 50));
-        lblCurp.setText("RFC");
 
-        lblDisponibilidad.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lblDisponibilidad.setForeground(new java.awt.Color(105, 28, 50));
         lblDisponibilidad.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblDisponibilidad.setText("Buscar disponibilidad");
+        lblDisponibilidad.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblDisponibilidad.setForeground(new java.awt.Color(105, 28, 50));
 
-        txtRFC.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRFCActionPerformed(evt);
-            }
-        });
-
-        btnBuscar.setBackground(new java.awt.Color(159, 34, 65));
-        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscar.setText("Buscar");
+        btnBuscar.setBackground(new java.awt.Color(159, 34, 65));
         btnBuscar.setBorderPainted(false);
         btnBuscar.setFocusPainted(false);
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
             }
         });
 
-        btnRegresar.setBackground(new java.awt.Color(159, 34, 65));
-        btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
         btnRegresar.setText("Regresar");
+        btnRegresar.setBackground(new java.awt.Color(159, 34, 65));
         btnRegresar.setBorderPainted(false);
         btnRegresar.setFocusPainted(false);
+        btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarActionPerformed(evt);
@@ -149,49 +142,32 @@ public class FrmLicencia extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtRFCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRFCActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtRFCActionPerformed
-
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         new FrmPrincipal().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        if(txtRFC.getText().isBlank()){
+        if (txtRFC.getText().isBlank()) {
             JOptionPane.showMessageDialog(null, "Por favor, ingrese datos en el campo de texto", "Error", JOptionPane.ERROR_MESSAGE);
-        }else{
+        } else {
             verificarLicencia();
         }
-        
+
     }//GEN-LAST:event_btnBuscarActionPerformed
-    /**
-     * Método que consulta una persona por su RFC que recibio el campo de texto de RFC
-     * @return Regresa la persona si la encuentra, null en caso contrario
-     */
-    private Persona consultarPersona(){
-        Persona persona = entityManager.find(Persona.class, txtRFC.getText().trim());
-        if(persona != null){
-            return persona;
-        }
-        return null;
-    }
+
     /**
      * Método que verifica si una persona ya tiene una licencia
-     * @return verdadero si ya cuenta con una licencia activa, falso en caso contrario
+     *
+     * @return verdadero si ya cuenta con una licencia activa, falso en caso
+     * contrario
      */
     private void verificarLicencia() {
 
-        Persona persona = this.consultarPersona();
+        Persona persona = personaDAO.consultarPersona(txtRFC.getText());
         if (persona != null) {
-            Licencia licencia = this.licenciaDAO.consultarLicenciaPersona(persona.getRfc());
-            if (licencia != null) {
-                JOptionPane.showMessageDialog(null, "La persona ya cuenta con una licencia activa", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                new FrmRegistroLicencia(this.entityManager, persona).setVisible(true);
-                this.dispose();
-            }
+            new FrmRegistroLicencia(persona).setVisible(true);
+            this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Ninguna persona cuenta con ese RFC", "Error", JOptionPane.ERROR_MESSAGE);
         }

@@ -4,17 +4,53 @@
  */
 package org.itson.vista;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+import javax.swing.JOptionPane;
+import org.itson.dao.PersonaDAO;
+import org.itson.dao.PlacaDAO;
+import org.itson.dao.AutomovilDAO;
+import org.itson.dominio.Persona;
+import org.itson.dominio.Placa;
+import org.itson.interfaces.IPersona;
+import org.itson.interfaces.IPlaca;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.itson.dao.VehiculoDAO;
+import org.itson.dominio.Automovil;
+import org.itson.dominio.Tramite;
+import org.itson.dominio.Vehiculo;
+import org.itson.enums.EnumCostosPlacas;
+import org.itson.interfaces.IAutomovil;
+import org.itson.interfaces.IVehiculo;
+
 /**
  *
  * @author LoanWeefos
  */
 public class FrmRegistrarPlaca extends javax.swing.JFrame {
 
+    private Persona persona;
+    private IAutomovil automovilDAO;
+    private IVehiculo vehiculoDAO;
+    private IPlaca placaDAO;
+    private IPersona personaDAO;
+    private boolean esNuevo;
+    private String numSerie;
+
     /**
      * Creates new form registrarPlacas
      */
-    public FrmRegistrarPlaca() {
+    public FrmRegistrarPlaca(Persona persona, Boolean esNuevo, String numSerie) {
         initComponents();
+        this.esNuevo = esNuevo;
+        this.numSerie = numSerie;
+        this.vehiculoDAO = new VehiculoDAO();
+        this.cambiarPorTipo();
+        this.persona = persona;
+        this.automovilDAO = new AutomovilDAO();
+        this.placaDAO = new PlacaDAO();
+        this.personaDAO = new PersonaDAO();
     }
 
     /**
@@ -42,7 +78,7 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
         txtColor = new javax.swing.JTextField();
         lblModelo = new javax.swing.JLabel();
         txtModelo = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
+        txtSerie = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,11 +97,11 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
 
         lblCosto.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblCosto.setForeground(new java.awt.Color(105, 28, 50));
+        lblCosto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblCosto.setText("Costo:");
 
         lblTotal.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblTotal.setForeground(new java.awt.Color(105, 28, 50));
-        lblTotal.setText("$");
 
         btnRegistrar.setBackground(new java.awt.Color(159, 34, 65));
         btnRegistrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -73,6 +109,11 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
         btnRegistrar.setText("Registrar");
         btnRegistrar.setBorderPainted(false);
         btnRegistrar.setFocusPainted(false);
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
 
         btnRegresar.setBackground(new java.awt.Color(159, 34, 65));
         btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -88,33 +129,38 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
 
         lblMarca.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblMarca.setForeground(new java.awt.Color(105, 28, 50));
+        lblMarca.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblMarca.setText("Marca:");
 
         lblSerie.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblSerie.setForeground(new java.awt.Color(105, 28, 50));
-        lblSerie.setText("Serie: ");
+        lblSerie.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblSerie.setText("Serie:");
 
         txtMarca.setToolTipText("");
 
         lblLinea.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblLinea.setForeground(new java.awt.Color(105, 28, 50));
+        lblLinea.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblLinea.setText("Línea:");
 
         txtLinea.setToolTipText("");
 
         lblColor.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblColor.setForeground(new java.awt.Color(105, 28, 50));
+        lblColor.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblColor.setText("Color:");
 
         txtColor.setToolTipText("");
 
         lblModelo.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblModelo.setForeground(new java.awt.Color(105, 28, 50));
+        lblModelo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblModelo.setText("Modelo:");
 
         txtModelo.setToolTipText("");
 
-        jTextField1.setToolTipText("");
+        txtSerie.setToolTipText("");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -127,29 +173,29 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
                         .addGap(74, 74, 74)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(lblModelo)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtModelo))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblModelo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblSerie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblLinea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(5, 5, 5)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtModelo)
+                                    .addComponent(txtSerie)
+                                    .addComponent(txtLinea)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(lblCosto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblMarca, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+                                    .addComponent(lblColor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblColor, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblMarca))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(lblCosto)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblTotal))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblLinea)
-                                    .addComponent(lblSerie))
-                                .addGap(23, 23, 23)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1)
-                                    .addComponent(txtLinea)))))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(35, 35, 35)
                         .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -168,7 +214,7 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSerie)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblLinea)
@@ -186,9 +232,9 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
                     .addComponent(lblColor)
                     .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCosto)
-                    .addComponent(lblTotal))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblCosto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -214,16 +260,101 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        new FrmVehiculos().setVisible(true);
+        new FrmVehiculos(persona).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        if (esNuevo) {
+            if (vehiculoDAO.verificarExistencia(extraerDatosFormulario().getNumero())) {
+                JOptionPane.showMessageDialog(null, "El vehículo con ese número de serie ya se encuentra registrado.\nFavor de dirigirse a la sección CAMBIAR PLACA.", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                guardar();
+                personaDAO.actualizarPersona(persona);
+                JOptionPane.showMessageDialog(null, "Se han tramitado las placas y registrado el vehículo correctamente");
+                this.dispose();
+                new FrmVehiculos(persona).setVisible(true);
+            }
+        } else {
+            Vehiculo vehiculo = vehiculoDAO.consultarVehiculo(numSerie);
+            placaDAO.actualizarPlaca(vehiculo);
+            guardar();
+            personaDAO.actualizarPersona(persona);
+            JOptionPane.showMessageDialog(null, "Se han cambiado las placas correctamente");
+            this.dispose();
+            new FrmVehiculos(persona).setVisible(true);
+        }
+
+    }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private String generarNumPlaca() {
+        String numPlaca = RandomStringUtils.randomAlphabetic(3).toUpperCase() + "-" + RandomStringUtils.randomNumeric(3);
+        if (placaDAO.verificarExistencia(numPlaca)) {
+            return generarNumPlaca();
+        } else {
+            return numPlaca;
+        }
+    }
+
+    private void cambiarPorTipo() {
+        if (esNuevo) {
+            lblTotal.setText("$"+String.valueOf(EnumCostosPlacas.NUEVO.getCosto()));
+        } else {
+            lblTotal.setText("$"+String.valueOf(EnumCostosPlacas.USADO.getCosto()));
+            lblRegistrar.setText("Cambiar placas");
+            Vehiculo vehiculo = vehiculoDAO.consultarVehiculo(numSerie);
+            txtSerie.setText(vehiculo.getNumero());
+            txtLinea.setText(vehiculo.getLinea());
+            txtModelo.setText(vehiculo.getModelo());
+            txtMarca.setText(vehiculo.getMarca());
+            txtColor.setText(vehiculo.getColor());
+
+            txtSerie.setEnabled(false);
+            txtLinea.setEnabled(false);
+            txtModelo.setEnabled(false);
+            txtMarca.setEnabled(false);
+            txtColor.setEnabled(false);
+            btnRegistrar.setText("Cambiar");
+        }
+    }
+
+    private Placa generarPlaca() {
+        String nombrePersona = persona.getNombre() + " " + persona.getApellidoPaterno() + " " + persona.getApellidoMaterno();
+        Calendar fechaExpedicion = new GregorianCalendar();
+        return new Placa(generarNumPlaca(), fechaExpedicion, fechaExpedicion, true, extraerDatosFormulario(), nombrePersona, Float.valueOf(lblTotal.getText()), persona);
+
+    }
+
+    private Automovil extraerDatosFormulario() {
+        this.numSerie = txtSerie.getText();
+        String linea = txtLinea.getText();
+        String modelo = txtModelo.getText();
+        String marca = txtMarca.getText();
+        String color = txtColor.getText();
+
+        return new Automovil(numSerie, marca, linea, color, modelo, persona);
+    }
+
+    private void guardar() {
+        if (esNuevo) {
+            Automovil automovil = extraerDatosFormulario();
+            automovilDAO.agregarAutomovil(automovil);
+            List<Vehiculo> listaVehiculo = persona.getVehiculos();
+            listaVehiculo.add(automovil);
+            persona.setVehiculos(listaVehiculo);
+        }
+
+        Placa placa = generarPlaca();
+        placaDAO.agregarPlaca(placa);
+        List<Tramite> listaTramites = persona.getTramites();
+        listaTramites.add(placa);
+        persona.setTramites(listaTramites);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblColor;
     private javax.swing.JLabel lblCosto;
     private javax.swing.JLabel lblLinea;
@@ -237,5 +368,6 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
     private javax.swing.JTextField txtLinea;
     private javax.swing.JTextField txtMarca;
     private javax.swing.JTextField txtModelo;
+    private javax.swing.JTextField txtSerie;
     // End of variables declaration//GEN-END:variables
 }

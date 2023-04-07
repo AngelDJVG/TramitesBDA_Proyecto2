@@ -47,10 +47,10 @@ public class Persona implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar fechaNacimiento;
     
-    @OneToMany(mappedBy = "persona",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "persona",cascade = CascadeType.REMOVE)
     private List<Tramite> tramites = new ArrayList<>();
     
-    @OneToMany(mappedBy = "persona")
+    @OneToMany(mappedBy = "persona",cascade = CascadeType.REMOVE)
     private List<Vehiculo> vehiculos = new ArrayList<>();
     
     

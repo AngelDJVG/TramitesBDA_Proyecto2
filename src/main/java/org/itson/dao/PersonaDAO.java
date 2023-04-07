@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.itson.dominio.Persona;
@@ -19,13 +21,10 @@ import org.itson.interfaces.IPersona;
  */
 public class PersonaDAO implements IPersona {
     
-    private EntityManager entityManager;
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.itson.tramites");
+    private EntityManager entityManager = emf.createEntityManager();
 
     public PersonaDAO() {
-    }
-
-    public PersonaDAO(EntityManager entityManager) {
-        this.entityManager = entityManager;
     }
     
     @Override
@@ -42,6 +41,14 @@ public class PersonaDAO implements IPersona {
         entityManager.getTransaction().commit();
     }
     
+    @Override
+    public Persona consultarPersona(String RFC) {
+        Persona persona = entityManager.find(Persona.class, RFC.trim());
+        if (persona != null) {
+            return persona;
+        }
+        return null;
+    }
     
 //    @Override
 //    public void crearListaPersonas() {
@@ -101,7 +108,5 @@ public class PersonaDAO implements IPersona {
         query.setParameter("rfc", rfc);
         return query.getResultList();
     }
-
-    
     
 }

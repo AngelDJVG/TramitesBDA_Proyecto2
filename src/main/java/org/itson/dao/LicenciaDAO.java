@@ -6,9 +6,10 @@ package org.itson.dao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import org.itson.dominio.Licencia;
-import org.itson.dominio.Persona;
 import org.itson.interfaces.ILicencia;
 
 /**
@@ -17,13 +18,10 @@ import org.itson.interfaces.ILicencia;
  */
 public class LicenciaDAO implements ILicencia{
     
-    private EntityManager entityManager;
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.itson.tramites");
+    private EntityManager entityManager = emf.createEntityManager();
 
     public LicenciaDAO() {
-    }
-
-    public LicenciaDAO(EntityManager entityManager) {
-        this.entityManager = entityManager;
     }
     
     @Override

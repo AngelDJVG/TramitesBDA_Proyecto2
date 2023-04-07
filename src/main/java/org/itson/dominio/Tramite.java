@@ -37,7 +37,7 @@ public class Tramite implements Serializable {
     @Column(name = "costo",nullable = false)
     private Float costo;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "persona_rfc", nullable = false)
     private Persona persona;
             

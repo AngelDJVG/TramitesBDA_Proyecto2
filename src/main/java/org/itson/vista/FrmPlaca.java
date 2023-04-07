@@ -4,17 +4,25 @@
  */
 package org.itson.vista;
 
+import javax.swing.JOptionPane;
+import org.itson.dao.PersonaDAO;
+import org.itson.dominio.Persona;
+import org.itson.interfaces.IPersona;
+
 /**
  *
  * @author LoanWeefos
  */
 public class FrmPlaca extends javax.swing.JFrame {
 
+    private IPersona personaDAO;
+    
     /**
      * Creates new form placas
      */
     public FrmPlaca() {
         initComponents();
+        personaDAO = new PersonaDAO();
     }
 
     /**
@@ -30,7 +38,7 @@ public class FrmPlaca extends javax.swing.JFrame {
         lblTitulo = new javax.swing.JLabel();
         lblSerie = new javax.swing.JLabel();
         lblDisponibilidad = new javax.swing.JLabel();
-        txtSerie = new javax.swing.JTextField();
+        txtRFC = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
 
@@ -38,20 +46,20 @@ public class FrmPlaca extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblTitulo.setFont(new java.awt.Font("Yu Gothic UI", 1, 36)); // NOI18N
-        lblTitulo.setForeground(new java.awt.Color(105, 28, 50));
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("Módulo de placas");
+        lblTitulo.setFont(new java.awt.Font("Yu Gothic UI", 1, 36)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(105, 28, 50));
         lblTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        lblSerie.setText("RFC");
         lblSerie.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblSerie.setForeground(new java.awt.Color(105, 28, 50));
-        lblSerie.setText("RFC");
 
-        lblDisponibilidad.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lblDisponibilidad.setForeground(new java.awt.Color(105, 28, 50));
         lblDisponibilidad.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblDisponibilidad.setText("Buscar disponibilidad");
+        lblDisponibilidad.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblDisponibilidad.setForeground(new java.awt.Color(105, 28, 50));
 
         btnBuscar.setBackground(new java.awt.Color(159, 34, 65));
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -65,12 +73,12 @@ public class FrmPlaca extends javax.swing.JFrame {
             }
         });
 
-        btnRegresar.setBackground(new java.awt.Color(159, 34, 65));
-        btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
         btnRegresar.setText("Regresar");
+        btnRegresar.setBackground(new java.awt.Color(159, 34, 65));
         btnRegresar.setBorderPainted(false);
         btnRegresar.setFocusPainted(false);
+        btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarActionPerformed(evt);
@@ -92,7 +100,7 @@ public class FrmPlaca extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblSerie)
                         .addGap(18, 18, 18)
-                        .addComponent(txtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(105, 105, 105))))
             .addComponent(lblDisponibilidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -107,7 +115,7 @@ public class FrmPlaca extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblSerie)
-                    .addComponent(txtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtRFC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -136,11 +144,28 @@ public class FrmPlaca extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        new FrmVehiculos().setVisible(true);
-        this.dispose();
+        if (txtRFC.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Por favor, ingrese datos en el campo de texto", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            verificarLicencia();
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-
+/**
+     * Método que verifica si una persona ya tiene una licencia
+     *
+     * @return verdadero si ya cuenta con una licencia activa, falso en caso
+     * contrario
+     */
+    private void verificarLicencia() {
+        Persona persona = personaDAO.consultarPersona(txtRFC.getText());
+        if (persona != null) {
+            new FrmVehiculos(persona).setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ninguna persona cuenta con ese RFC", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -149,6 +174,6 @@ public class FrmPlaca extends javax.swing.JFrame {
     private javax.swing.JLabel lblDisponibilidad;
     private javax.swing.JLabel lblSerie;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JTextField txtSerie;
+    private javax.swing.JTextField txtRFC;
     // End of variables declaration//GEN-END:variables
 }

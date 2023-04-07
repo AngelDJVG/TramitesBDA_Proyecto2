@@ -4,7 +4,16 @@
  */
 package org.itson.vista;
 
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.itson.boton.CeldaBotonEditor;
+import org.itson.boton.CeldaBotonRender;
+import org.itson.dao.AutomovilDAO;
+import org.itson.dao.VehiculoDAO;
+import org.itson.dominio.Persona;
+import org.itson.interfaces.IAutomovil;
+import org.itson.interfaces.IVehiculo;
 
 /**
  *
@@ -12,11 +21,21 @@ import javax.swing.JOptionPane;
  */
 public class FrmVehiculos extends javax.swing.JFrame {
 
+    private Persona persona;
+    private IAutomovil automovilDAO;
+    private IVehiculo vehiculoDAO;
+
     /**
      * Creates new form Automoviles
      */
-    public FrmVehiculos() {
+    public FrmVehiculos(Persona persona) {
         initComponents();
+        this.persona = persona;
+        this.automovilDAO = new AutomovilDAO();
+        this.vehiculoDAO = new VehiculoDAO();
+        tblVehiculos.getColumnModel().getColumn(2).setCellEditor(new CeldaBotonEditor(this, persona, tblVehiculos));
+        tblVehiculos.getColumnModel().getColumn(2).setCellRenderer(new CeldaBotonRender("Cambiar"));
+        this.cargarTabla();
     }
 
     /**
@@ -31,10 +50,12 @@ public class FrmVehiculos extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnAgregarAutomovil = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblAutomoviles = new javax.swing.JTable();
         btnRegresar = new javax.swing.JButton();
-        btnCambiarPlaca = new javax.swing.JButton();
+        btnAnterior = new javax.swing.JButton();
+        btnSiguiente = new javax.swing.JButton();
+        cmbPaginas = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblVehiculos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,39 +80,6 @@ public class FrmVehiculos extends javax.swing.JFrame {
         lblTitulo.setText("Vehículos y Placas");
         lblTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        tblAutomoviles.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"asd-123", "qwe-567"},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Serie", "Placa"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(tblAutomoviles);
-
         btnRegresar.setBackground(new java.awt.Color(159, 34, 65));
         btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
@@ -104,57 +92,103 @@ public class FrmVehiculos extends javax.swing.JFrame {
             }
         });
 
-        btnCambiarPlaca.setBackground(new java.awt.Color(159, 34, 65));
-        btnCambiarPlaca.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnCambiarPlaca.setForeground(new java.awt.Color(255, 255, 255));
-        btnCambiarPlaca.setText("Cambiar Placa");
-        btnCambiarPlaca.setBorderPainted(false);
-        btnCambiarPlaca.setFocusPainted(false);
-        btnCambiarPlaca.addActionListener(new java.awt.event.ActionListener() {
+        btnAnterior.setBackground(new java.awt.Color(159, 34, 65));
+        btnAnterior.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAnterior.setForeground(new java.awt.Color(255, 255, 255));
+        btnAnterior.setText("<--");
+        btnAnterior.setBorderPainted(false);
+        btnAnterior.setFocusPainted(false);
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCambiarPlacaActionPerformed(evt);
+                btnAnteriorActionPerformed(evt);
             }
         });
+
+        btnSiguiente.setBackground(new java.awt.Color(159, 34, 65));
+        btnSiguiente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnSiguiente.setForeground(new java.awt.Color(255, 255, 255));
+        btnSiguiente.setText("-->");
+        btnSiguiente.setBorderPainted(false);
+        btnSiguiente.setFocusPainted(false);
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
+
+        cmbPaginas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "3", "5", "10" }));
+
+        tblVehiculos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Serie", "Placas", ""
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblVehiculos.setRowHeight(30);
+        tblVehiculos.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tblVehiculos);
+        if (tblVehiculos.getColumnModel().getColumnCount() > 0) {
+            tblVehiculos.getColumnModel().getColumn(0).setResizable(false);
+            tblVehiculos.getColumnModel().getColumn(1).setResizable(false);
+            tblVehiculos.getColumnModel().getColumn(2).setResizable(false);
+            tblVehiculos.getColumnModel().getColumn(2).setPreferredWidth(30);
+        }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(100, 100, 100)
+                        .addComponent(cmbPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregarAutomovil, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCambiarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19))
+                    .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(12, Short.MAX_VALUE))
+            .addComponent(lblTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAgregarAutomovil, btnCambiarPlaca, btnRegresar});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAgregarAutomovil, btnRegresar});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTitulo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(17, Short.MAX_VALUE)
-                        .addComponent(lblTitulo)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(116, 116, 116)
                         .addComponent(btnAgregarAutomovil, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnCambiarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                        .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAgregarAutomovil, btnCambiarPlaca, btnRegresar});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAgregarAutomovil, btnRegresar});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -177,23 +211,53 @@ public class FrmVehiculos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnAgregarAutomovilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAutomovilActionPerformed
-        new FrmRegistrarPlaca().setVisible(true);
+        new FrmRegistrarPlaca(persona, true, null).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnAgregarAutomovilActionPerformed
 
-    private void btnCambiarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarPlacaActionPerformed
-        JOptionPane.showInputDialog(this, "Ingrese el número de placas anteriores:", "Módulo de placas", JOptionPane.QUESTION_MESSAGE);
-    }//GEN-LAST:event_btnCambiarPlacaActionPerformed
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAnteriorActionPerformed
 
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void cargarTabla() {
+        List<Object[]> datos = vehiculoDAO.consultarActivosPorRFC(persona.getRfc());
+        DefaultTableModel modelo = (DefaultTableModel) tblVehiculos.getModel();
+        modelo.setRowCount(0);
+        for (Object[] fila : datos) {
+            modelo.addRow(fila);
+        }
+    }
+    
+//    private void verificarNumSerie(){
+//        String numSerie = JOptionPane.showInputDialog(this, "Ingrese el número de placas anteriores:", "Módulo de placas", JOptionPane.QUESTION_MESSAGE);
+//        if (numSerie != null) {
+//            if (!numSerie.isBlank()) {
+//                if (vehiculoDAO.verificarExistencia(numSerie)) {
+//                    new FrmRegistrarPlaca(persona, false, numSerie).setVisible(true);
+//                    this.dispose();
+//                } else {
+//                    JOptionPane.showMessageDialog(null, "El vehículo con ese número de serie no se encuentra registrado.\nFavor de dirigirse a la sección AGREGAR.", "Error", JOptionPane.ERROR_MESSAGE);
+//                }
+//            } else {
+//                JOptionPane.showMessageDialog(null, "Por favor, ingrese datos en el campo de texto", "Error", JOptionPane.ERROR_MESSAGE);
+//            }
+//        }
+//    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarAutomovil;
-    private javax.swing.JButton btnCambiarPlaca;
+    private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JButton btnSiguiente;
+    private javax.swing.JComboBox<String> cmbPaginas;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JTable tblAutomoviles;
+    private javax.swing.JTable tblVehiculos;
     // End of variables declaration//GEN-END:variables
 }

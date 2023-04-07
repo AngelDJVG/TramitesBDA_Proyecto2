@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,7 +45,7 @@ public class Placa extends Tramite implements Serializable {
     @Column(name = "esActivo")
     private boolean esActivo;
     
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "serie_vehiculo", nullable = false)
     private Vehiculo vehiculo; 
     

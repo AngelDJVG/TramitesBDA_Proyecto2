@@ -7,9 +7,6 @@ package org.itson.vista;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
 import org.itson.dao.PersonaDAO;
 import org.itson.dominio.Persona;
@@ -21,16 +18,12 @@ import org.itson.interfaces.IPersona;
  */
 public class FrmPrincipal extends javax.swing.JFrame {
     private IPersona personaDAO;
-    private EntityManagerFactory emf;
-    private EntityManager entityManager;
     /**
      * Creates new form principal
      */
     public FrmPrincipal() {
         initComponents();
-        emf = Persistence.createEntityManagerFactory("org.itson.tramites");
-        entityManager = emf.createEntityManager();
-        personaDAO = new PersonaDAO(entityManager);
+        personaDAO = new PersonaDAO();
     }
 
     /**
@@ -195,11 +188,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnAgregarPersonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPersonasActionPerformed
-        this.insertar20Personas();
+        this.insertarPersonas();
     }//GEN-LAST:event_btnAgregarPersonasActionPerformed
 
     private void btnLicenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLicenciasActionPerformed
-        new FrmLicencia(entityManager).setVisible(true);
+        new FrmLicencia().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnLicenciasActionPerformed
 
@@ -262,7 +255,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         personas.add(persona20);
         return personas;
     }
-    private void insertar20Personas() {
+    private void insertarPersonas() {
         List<Persona> personas = lista20Personas();
         System.out.println(lista20Personas());
         System.out.println(personaDAO.consultarTodos());

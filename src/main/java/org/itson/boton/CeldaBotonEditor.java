@@ -14,7 +14,10 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableModel;
+import org.itson.dominio.Persona;
 import org.itson.vista.FrmHistorial;
+import org.itson.vista.FrmRegistrarPlaca;
 
 /**
  *
@@ -35,6 +38,24 @@ public class CeldaBotonEditor extends AbstractCellEditor implements TableCellEdi
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(frame, "Buscando");
                 new FrmHistorial().setVisible(true);
+                frame.dispose();
+            }
+        });
+    }
+
+    public CeldaBotonEditor(JFrame frame, Persona persona, JTable tabla) {
+        boton = new JButton();
+        boton.setFocusPainted(false);
+        boton.setBorderPainted(false);
+        boton.setText("Cambiar︎");
+        boton.setBackground(new Color(159, 34, 65));
+        boton.setForeground(Color.WHITE);
+        boton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int fila = tabla.convertRowIndexToModel(tabla.getEditingRow());
+                TableModel model = tabla.getModel();
+                String numSerie = model.getValueAt(fila, 0).toString();
+                new FrmRegistrarPlaca(persona, false, numSerie).setVisible(true);
                 frame.dispose();
             }
         });

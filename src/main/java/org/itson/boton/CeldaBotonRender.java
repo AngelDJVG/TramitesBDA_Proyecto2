@@ -6,7 +6,6 @@ package org.itson.boton;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
@@ -25,6 +24,14 @@ public class CeldaBotonRender implements TableCellRenderer {
         boton.setBackground(new Color(159, 34, 65));
         boton.setForeground(Color.WHITE);
     }
+    
+    public CeldaBotonRender(String texto) {
+        boton = new JButton();
+        boton.setText("Cambiar︎");
+        boton.setBackground(new Color(159, 34, 65));
+        boton.setForeground(Color.WHITE);
+    }
+
 
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         return boton;

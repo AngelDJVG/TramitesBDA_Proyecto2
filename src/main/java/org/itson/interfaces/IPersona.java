@@ -14,6 +14,7 @@ import org.itson.dominio.Persona;
 public interface IPersona {
     public void agregarPersona(Persona persona);
     public void actualizarPersona(Persona persona);
+    public Persona consultarPersona(String RFC);
     public List<Persona> consultarTodos();
     public List<Persona> consultarPorRFC(String rfc);
 }

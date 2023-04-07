@@ -4,17 +4,16 @@
  */
 package org.itson.vista;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 import org.itson.dao.LicenciaDAO;
 import org.itson.dao.PersonaDAO;
 import org.itson.dominio.Licencia;
 import org.itson.dominio.Persona;
 import org.itson.dominio.Tramite;
+import org.itson.enums.EnumCostosLicencias;
 import org.itson.enums.EnumTipoLicencia;
 import org.itson.interfaces.ILicencia;
 import org.itson.interfaces.IPersona;
@@ -24,22 +23,21 @@ import org.itson.interfaces.IPersona;
  * @author LoanWeefos
  */
 public class FrmRegistroLicencia extends javax.swing.JFrame {
-    private EntityManager entityManager;
+    
     private Persona persona;
     private ILicencia licenciaDAO;
     private IPersona personaDAO;
+    
     /**
      * Creates new form registroLicencias
-     * @param entityManager
      * @param persona
      */
-    public FrmRegistroLicencia(EntityManager entityManager, Persona persona) {
+    public FrmRegistroLicencia(Persona persona) {
         initComponents();
-        this.entityManager = entityManager;
         this.actualizarCosto();
         this.persona = persona;
-        this.licenciaDAO = new LicenciaDAO(entityManager);
-        this.personaDAO = new PersonaDAO(entityManager);
+        this.licenciaDAO = new LicenciaDAO();
+        this.personaDAO = new PersonaDAO();
     }
 
     /**
@@ -137,24 +135,26 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(47, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblVigencia)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblVigencia)
+                                .addGap(18, 18, 18)
+                                .addComponent(cbVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addComponent(cbVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblDiscapacidad)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(chbDiscapacidad)))
+                        .addGap(86, 86, 86))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblCosto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(44, 44, 44)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblDiscapacidad)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(chbDiscapacidad)))
-                .addGap(86, 86, 86))
+                        .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(221, 221, 221))))
             .addComponent(lblRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -199,7 +199,7 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        new FrmLicencia(entityManager).setVisible(true);
+        new FrmLicencia().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
@@ -247,22 +247,23 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
         listaTramites.add(licencia);
         persona.setTramites(listaTramites);
     }
+    
     private void actualizarCosto() {
         if (chbDiscapacidad.isSelected()) {
             if (cbVigencia.getSelectedItem().equals("1 año")) {
-                lblTotal.setText("200");
+                lblTotal.setText(String.valueOf(EnumCostosLicencias.UN_ANIO.getCostoDiscapacitado()));
             } else if (cbVigencia.getSelectedItem().equals("2 años")) {
-                lblTotal.setText("500");
+                lblTotal.setText(String.valueOf(EnumCostosLicencias.DOS_ANIOS.getCostoDiscapacitado()));
             } else {
-                lblTotal.setText("700");
+                lblTotal.setText(String.valueOf(EnumCostosLicencias.TRES_ANIOS.getCostoDiscapacitado()));
             }
         } else {
             if (cbVigencia.getSelectedItem().equals("1 año")) {
-                lblTotal.setText("600");
+                lblTotal.setText(String.valueOf(EnumCostosLicencias.UN_ANIO.getCostoNormal()));
             } else if (cbVigencia.getSelectedItem().equals("2 años")) {
-                lblTotal.setText("900");
+                lblTotal.setText(String.valueOf(EnumCostosLicencias.DOS_ANIOS.getCostoNormal()));
             } else {
-                lblTotal.setText("1100");
+                lblTotal.setText(String.valueOf(EnumCostosLicencias.TRES_ANIOS.getCostoNormal()));
             }
         }
     }  
