@@ -4,23 +4,48 @@
  */
 package org.itson.vista;
 
+import java.awt.event.ItemEvent;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import org.itson.boton.CeldaBotonEditor;
 import org.itson.boton.CeldaBotonRender;
+import org.itson.dao.PersonaDAO;
+import org.itson.dominio.Persona;
+import org.itson.interfaces.IPersona;
+import org.itson.utilidades.ConfiguracionPaginado;
+import org.itson.utilidades.ParametrosBusquedaConsultaDTO;
 
 /**
  *
  * @author LoanWeefos
  */
 public class FrmConsulta extends javax.swing.JFrame {
-
+    
+    private ParametrosBusquedaConsultaDTO params;
+    private List<Persona> listaPersonas;
+    private IPersona personaDAO;
+    private EntityManager entityManager;
+    private Persona persona;
+    private ConfiguracionPaginado configPaginado;
     /**
      * Creates new form consultas
      */
     public FrmConsulta() {
         initComponents();
-        tblConsultas.getColumnModel().getColumn(3).setCellEditor(new CeldaBotonEditor(this));
+        params = new ParametrosBusquedaConsultaDTO();
+        listaPersonas = new ArrayList<>();
+        personaDAO = new PersonaDAO();
+        tblConsultas.getColumnModel().getColumn(3).setCellEditor(new CeldaBotonEditor(this,personaDAO, tblConsultas));
         tblConsultas.getColumnModel().getColumn(3).setCellRenderer(new CeldaBotonRender());
+        configPaginado = new ConfiguracionPaginado();
+        
     }
 
     /**
@@ -43,45 +68,45 @@ public class FrmConsulta extends javax.swing.JFrame {
         lblCurp = new javax.swing.JLabel();
         lblNombre = new javax.swing.JLabel();
         lblAnioNacimiento = new javax.swing.JLabel();
-        txtNacimiento = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         btnAnterior = new javax.swing.JButton();
         btnSiguiente = new javax.swing.JButton();
         cmbPaginas = new javax.swing.JComboBox<>();
+        dpFechaNacimiento = new com.github.lgooddatepicker.components.DatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblTitulo.setFont(new java.awt.Font("Yu Gothic UI", 1, 36)); // NOI18N
-        lblTitulo.setForeground(new java.awt.Color(105, 28, 50));
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("Módulo de consultas");
+        lblTitulo.setFont(new java.awt.Font("Yu Gothic UI", 1, 36)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(105, 28, 50));
         lblTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        lblBuscarPersona.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lblBuscarPersona.setForeground(new java.awt.Color(105, 28, 50));
         lblBuscarPersona.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblBuscarPersona.setText("Buscar persona");
+        lblBuscarPersona.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblBuscarPersona.setForeground(new java.awt.Color(105, 28, 50));
 
-        btnBuscar.setBackground(new java.awt.Color(159, 34, 65));
-        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscar.setText("Buscar");
+        btnBuscar.setBackground(new java.awt.Color(159, 34, 65));
         btnBuscar.setBorderPainted(false);
         btnBuscar.setFocusPainted(false);
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
             }
         });
 
-        btnRegresar.setBackground(new java.awt.Color(159, 34, 65));
-        btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
         btnRegresar.setText("Regresar");
+        btnRegresar.setBackground(new java.awt.Color(159, 34, 65));
         btnRegresar.setBorderPainted(false);
         btnRegresar.setFocusPainted(false);
+        btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarActionPerformed(evt);
@@ -90,10 +115,10 @@ public class FrmConsulta extends javax.swing.JFrame {
 
         tblConsultas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1 Año", "DUQL031102LM4", "Luis Esteban Durán Quintanar", null}
+
             },
             new String [] {
-                "Vigencia", "RFC", "Nombre", ""
+                "RFC", "Nombre", "Fecha de nacimiento", ""
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -118,38 +143,38 @@ public class FrmConsulta extends javax.swing.JFrame {
             tblConsultas.getColumnModel().getColumn(3).setPreferredWidth(30);
         }
 
+        lblCurp.setText("RFC:");
         lblCurp.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblCurp.setForeground(new java.awt.Color(105, 28, 50));
-        lblCurp.setText("RFC:");
 
+        lblNombre.setText("Nombre:");
         lblNombre.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblNombre.setForeground(new java.awt.Color(105, 28, 50));
-        lblNombre.setText("Nombre:");
 
+        lblAnioNacimiento.setText("Año de nacimiento:");
         lblAnioNacimiento.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblAnioNacimiento.setForeground(new java.awt.Color(105, 28, 50));
-        lblAnioNacimiento.setText("Año de nacimiento:");
 
-        btnAnterior.setBackground(new java.awt.Color(159, 34, 65));
-        btnAnterior.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnAnterior.setForeground(new java.awt.Color(255, 255, 255));
         btnAnterior.setText("<--");
+        btnAnterior.setBackground(new java.awt.Color(159, 34, 65));
         btnAnterior.setBorderPainted(false);
         btnAnterior.setEnabled(false);
         btnAnterior.setFocusPainted(false);
+        btnAnterior.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAnterior.setForeground(new java.awt.Color(255, 255, 255));
         btnAnterior.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAnteriorActionPerformed(evt);
             }
         });
 
-        btnSiguiente.setBackground(new java.awt.Color(159, 34, 65));
-        btnSiguiente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnSiguiente.setForeground(new java.awt.Color(255, 255, 255));
         btnSiguiente.setText("-->");
+        btnSiguiente.setBackground(new java.awt.Color(159, 34, 65));
         btnSiguiente.setBorderPainted(false);
         btnSiguiente.setEnabled(false);
         btnSiguiente.setFocusPainted(false);
+        btnSiguiente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnSiguiente.setForeground(new java.awt.Color(255, 255, 255));
         btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSiguienteActionPerformed(evt);
@@ -158,6 +183,16 @@ public class FrmConsulta extends javax.swing.JFrame {
 
         cmbPaginas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "3", "5", "10" }));
         cmbPaginas.setEnabled(false);
+        cmbPaginas.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbPaginasItemStateChanged(evt);
+            }
+        });
+        cmbPaginas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbPaginasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -168,18 +203,18 @@ public class FrmConsulta extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(lblAnioNacimiento)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtNacimiento)
-                                    .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                                    .addComponent(txtCurp, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(dpFechaNacimiento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                                    .addComponent(txtCurp, javax.swing.GroupLayout.Alignment.LEADING)))
                             .addComponent(lblCurp, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnBuscar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnRegresar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -208,9 +243,9 @@ public class FrmConsulta extends javax.swing.JFrame {
                     .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNacimiento)
                     .addComponent(lblAnioNacimiento)
-                    .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dpFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNombre)
@@ -229,7 +264,9 @@ public class FrmConsulta extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,10 +278,7 @@ public class FrmConsulta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        JOptionPane.showMessageDialog(this, "VA A BUSCAR");
-        btnAnterior.setEnabled(true);
-        btnSiguiente.setEnabled(true);
-        cmbPaginas.setEnabled(true);
+        actualizarTabla();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
@@ -253,21 +287,87 @@ public class FrmConsulta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
-        // TODO add your handling code here:
+        retrocederPagina();
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        // TODO add your handling code here:
+        avanzarPagina();
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
+    private void cmbPaginasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbPaginasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbPaginasActionPerformed
 
+    private void cmbPaginasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbPaginasItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            int elementosPorPagina = Integer.parseInt((String) evt.getItem());
+            int numeroPagina = 0;
+            this.configPaginado.setElementosPorPagina(elementosPorPagina);   
+            this.configPaginado.setNumeroPagina(numeroPagina);
+            actualizarTabla();
+        }
+    }//GEN-LAST:event_cmbPaginasItemStateChanged
 
+    private void actualizarTabla(){
+        validacionesCampos();
+    }
+    
+    private void validacionesCampos() {
+        
+        if (txtCurp.getText().isBlank() && txtNombre.getText().isBlank() && dpFechaNacimiento.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "No deje los campos de texto vacios", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            if (!txtCurp.getText().isBlank()) {
+                params.setRfc(txtCurp.getText());
+            }
+            if (!dpFechaNacimiento.getText().isBlank()) {
+                LocalDate fechaNacimiento = dpFechaNacimiento.getDate();
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(fechaNacimiento.getYear(), fechaNacimiento.getMonthValue() - 1, fechaNacimiento.getDayOfMonth());
+                params.setFechaNacimiento(calendar);
+            }
+            if (!txtNombre.getText().isBlank()) {
+                params.setNombre(txtNombre.getText());
+            }
+            listaPersonas = personaDAO.consultarPorParametros(params,configPaginado);
+            btnAnterior.setEnabled(true);
+            btnSiguiente.setEnabled(true);
+            cmbPaginas.setEnabled(true);
+            cargarTablaPersonas();
+        }
+    }
+
+    /**
+     * Este método carga y recarga la tabla de  personas
+     */
+    private void cargarTablaPersonas() {       
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblConsultas.getModel();
+        modeloTabla.setRowCount(0);
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        for (Persona p : listaPersonas) {
+            Object[] fila = {p.getRfc(),(p.getNombre()+" "+p.getApellidoPaterno()+" "+p.getApellidoMaterno()),formatoFecha.format(p.getFechaNacimiento().getTime())};
+            modeloTabla.addRow(fila);
+        }
+        params = new ParametrosBusquedaConsultaDTO();
+    }
+    
+    private void avanzarPagina(){
+        configPaginado.avanzarPagina();
+        actualizarTabla();
+    }
+    private void retrocederPagina(){
+        configPaginado.retrocederPagina();
+        actualizarTabla();
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JComboBox<String> cmbPaginas;
+    private com.github.lgooddatepicker.components.DatePicker dpFechaNacimiento;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAnioNacimiento;
@@ -277,7 +377,6 @@ public class FrmConsulta extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JTable tblConsultas;
     private javax.swing.JTextField txtCurp;
-    private javax.swing.JTextField txtNacimiento;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

@@ -16,6 +16,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableModel;
 import org.itson.dominio.Persona;
+import org.itson.interfaces.IPersona;
 import org.itson.vista.FrmHistorial;
 import org.itson.vista.FrmRegistrarPlaca;
 
@@ -27,7 +28,7 @@ public class CeldaBotonEditor extends AbstractCellEditor implements TableCellEdi
 
     private JButton boton;
 
-    public CeldaBotonEditor(JFrame frame) {
+    public CeldaBotonEditor(JFrame frame, IPersona personaDAO, JTable tabla) {
         boton = new JButton();
         boton.setFocusPainted(false);
         boton.setBorderPainted(false);
@@ -37,7 +38,11 @@ public class CeldaBotonEditor extends AbstractCellEditor implements TableCellEdi
         boton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(frame, "Buscando");
-                new FrmHistorial().setVisible(true);
+                int fila = tabla.convertRowIndexToModel(tabla.getEditingRow());
+                TableModel model = tabla.getModel();
+                String rfc = model.getValueAt(fila, 0).toString();
+                Persona persona = personaDAO.consultarPersona(rfc);
+                new FrmHistorial(persona).setVisible(true);
                 frame.dispose();
             }
         });

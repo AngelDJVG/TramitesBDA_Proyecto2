@@ -5,6 +5,7 @@
 package org.itson.dominio;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -36,7 +39,11 @@ public class Tramite implements Serializable {
     
     @Column(name = "costo",nullable = false)
     private Float costo;
-
+    
+    @Column(name = "fecha_expedicion", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar fechaExpedicion;
+    
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "persona_rfc", nullable = false)
     private Persona persona;
@@ -44,10 +51,11 @@ public class Tramite implements Serializable {
     public Tramite() {
     }
 
-    public Tramite(String nombrePersona, Float costo, Persona persona) {
+    public Tramite(String nombrePersona, Float costo, Persona persona,Calendar fechaExpedicion) {
         this.nombrePersona = nombrePersona;
         this.costo = costo;
         this.persona = persona;
+        this.fechaExpedicion = fechaExpedicion;
     }
     
     
@@ -88,6 +96,15 @@ public class Tramite implements Serializable {
     public void setPersona(Persona persona) {
         this.persona = persona;
     }
+
+    public Calendar getFechaExpedicion() {
+        return fechaExpedicion;
+    }
+
+    public void setFechaExpedicion(Calendar fechaExpedicion) {
+        this.fechaExpedicion = fechaExpedicion;
+    }
+    
     
     @Override
     public int hashCode() {

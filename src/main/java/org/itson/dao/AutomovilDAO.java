@@ -8,6 +8,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.itson.dominio.Automovil;
 import org.itson.interfaces.IAutomovil;
@@ -23,14 +25,50 @@ public class AutomovilDAO implements IAutomovil {
     
     @Override
     public void agregarAutomovil(Automovil automovil) {
-        entityManager.getTransaction().begin();
-        entityManager.persist(automovil);
-        entityManager.getTransaction().commit();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(automovil);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            throw new PersistenceException("Error al agregar el automóvil");
+        }
     }
 
     @Override
     public void actualizarAutomovil(Automovil automovil) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.merge(automovil);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            throw new PersistenceException("Error al actualizar el automóvil");
+        }
+    }
+
+    @Override
+    public void eliminarAutomovil(Automovil automovil) {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.remove(automovil);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            throw new PersistenceException("Error al eliminar el automóvil");
+        }
+    }
+
+    @Override
+    public List<Automovil> consultarTodos() {
+        Query query = entityManager.createQuery("SELECT a FROM Automovil a");
+        return query.getResultList();
     }
 
 }

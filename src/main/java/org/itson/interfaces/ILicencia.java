@@ -15,6 +15,7 @@ import org.itson.dominio.Persona;
 public interface ILicencia {
     public void agregarLicencia(Licencia licencia);
     public void actualizarLicencia(Licencia licencia);
+    public void eliminarLicencia(Licencia licencia);
     public List<Licencia> consultarTodos();
     public Licencia consultarLicenciaPersona(String rfc);
 }

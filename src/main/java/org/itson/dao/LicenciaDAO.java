@@ -8,6 +8,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.itson.dominio.Licencia;
 import org.itson.interfaces.ILicencia;
@@ -26,19 +28,49 @@ public class LicenciaDAO implements ILicencia{
     
     @Override
     public void agregarLicencia(Licencia licencia) {
-        entityManager.getTransaction().begin();
-        entityManager.persist(licencia);
-        entityManager.getTransaction().commit();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(licencia);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            throw new PersistenceException("Error al agregar la licencia");
+        }
     }
 
     @Override
     public void actualizarLicencia(Licencia licencia) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.merge(licencia);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            throw new PersistenceException("Error al actualizar la licencia");
+        }
     }
-
+    
+    @Override
+    public void eliminarLicencia(Licencia licencia){
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.remove(licencia);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            throw new PersistenceException("Error al eliminar la licencia");
+        }
+    }
     @Override
     public List<Licencia> consultarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Query query = entityManager.createQuery("SELECT l FROM Licencia  l");
+        return query.getResultList();
     }
 
     @Override

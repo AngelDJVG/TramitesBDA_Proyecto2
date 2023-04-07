@@ -14,4 +14,7 @@ import org.itson.dominio.Automovil;
 public interface IAutomovil {
     public void agregarAutomovil(Automovil automovil);
     public void actualizarAutomovil(Automovil automovil);
+    public void eliminarAutomovil(Automovil automovil);
+    public List<Automovil> consultarTodos();
+    
 }

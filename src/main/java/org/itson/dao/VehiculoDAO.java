@@ -11,6 +11,7 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import org.itson.dominio.Vehiculo;
 import org.itson.interfaces.IVehiculo;
+import org.itson.utilidades.ConfiguracionPaginado;
 
 /**
  *
@@ -20,15 +21,17 @@ public class VehiculoDAO implements IVehiculo {
 
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.itson.tramites");
     private EntityManager entityManager = emf.createEntityManager();
-
+    
     @Override
-    public List<Object[]> consultarActivosPorRFC(String rfc) {
+    public List<Object[]> consultarActivosPorRFC(String rfc, ConfiguracionPaginado configPaginado) {
         String consulta = "SELECT v.numero, p.numero "
                 + "FROM Vehiculo v "
                 + "JOIN v.placas p "
                 + "WHERE v.persona.rfc = :rfc AND p.esActivo = true";
         TypedQuery<Object[]> query = entityManager.createQuery(consulta, Object[].class);
         query.setParameter("rfc", rfc);
+        query.setFirstResult(configPaginado.getElementosSaltar());
+        query.setMaxResults(configPaginado.getElementosPorPagina());
         return query.getResultList();
     }
     

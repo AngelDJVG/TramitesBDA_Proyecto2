@@ -15,5 +15,6 @@ public interface IPlaca {
     
     public void agregarPlaca(Placa placa);
     public void actualizarPlaca(Vehiculo vehiculo);
+    public void eliminarPlaca(Placa placa);
     public boolean verificarExistencia(String placa);
 }

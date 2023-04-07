@@ -34,9 +34,6 @@ public class Placa extends Tramite implements Serializable {
     @Column(name = "numero", unique = true, nullable = false, length = 7)
     private String numero;
     
-    @Column(name = "fecha_emision", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Calendar fechaEmision;
     
     @Column(name = "fecha_recepcion", nullable = false)
     @Temporal(TemporalType.DATE)
@@ -53,25 +50,22 @@ public class Placa extends Tramite implements Serializable {
     }
 
     public Placa(String nombrePersona, Float costo, Persona persona, Long id, String numero, Calendar fechaEmision, Calendar fechaRecepcion, boolean esActivo) {
-        super(nombrePersona, costo, persona);
+        super(nombrePersona, costo, persona,fechaEmision);
         this.numero = numero;
-        this.fechaEmision = fechaEmision;
         this.fechaRecepcion = fechaRecepcion;
         this.esActivo = esActivo;
     }
 
     public Placa(String nombrePersona, Float costo, Persona persona, String numero, Calendar fechaEmision, Calendar fechaRecepcion, boolean esActivo) {
-        super(nombrePersona, costo, persona);
+        super(nombrePersona, costo, persona,fechaEmision);
         this.numero = numero;
-        this.fechaEmision = fechaEmision;
         this.fechaRecepcion = fechaRecepcion;
         this.esActivo = esActivo;
     }
 
     public Placa(String numero, Calendar fechaEmision, Calendar fechaRecepcion, boolean esActivo, Vehiculo vehiculo, String nombrePersona, Float costo, Persona persona) {
-        super(nombrePersona, costo, persona);
+        super(nombrePersona, costo, persona,fechaEmision);
         this.numero = numero;
-        this.fechaEmision = fechaEmision;
         this.fechaRecepcion = fechaRecepcion;
         this.esActivo = esActivo;
         this.vehiculo = vehiculo;
@@ -85,14 +79,6 @@ public class Placa extends Tramite implements Serializable {
 
     public void setNumero(String numero) {
         this.numero = numero;
-    }
-
-    public Calendar getFechaEmision() {
-        return fechaEmision;
-    }
-
-    public void setFechaEmision(Calendar fechaEmision) {
-        this.fechaEmision = fechaEmision;
     }
 
     public Calendar getFechaRecepcion() {
@@ -134,7 +120,7 @@ public class Placa extends Tramite implements Serializable {
 
     @Override
     public String toString() {
-        return "Placa{" + "numero=" + numero + ", fechaEmision=" + fechaEmision + ", fechaRecepcion=" + fechaRecepcion + ", esActivo=" + esActivo + '}';
+        return "Placa{" + "numero=" + numero + ", fechaEmision=" + super.getFechaExpedicion() + ", fechaRecepcion=" + fechaRecepcion + ", esActivo=" + esActivo + '}';
     }
 
     

@@ -28,9 +28,7 @@ public class Licencia extends Tramite implements Serializable {
     @Column(name = "vigencia", nullable = false)
     private int vigencia;
 
-    @Column(name = "fecha_expedicion", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Calendar fechaExpedicion;
+    
     
     @Column(name = "fecha_vencimiento", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -43,22 +41,20 @@ public class Licencia extends Tramite implements Serializable {
     public Licencia() {
     }
 
-    public Licencia(String nombrePersona, Float costo, Persona persona) {
-        super(nombrePersona, costo, persona);
+    public Licencia(String nombrePersona, Float costo, Persona persona, Calendar fechaExpedicion) {
+        super(nombrePersona, costo, persona,fechaExpedicion);
     }
 
     public Licencia(String nombrePersona, Float costo, Persona persona, int vigencia, Calendar fechaExpedicion, Calendar fechaVencimiento, EnumTipoLicencia tipo) {
-        super(nombrePersona, costo, persona);
+        super(nombrePersona, costo, persona,fechaExpedicion);
         this.vigencia = vigencia;
-        this.fechaExpedicion = fechaExpedicion;
         this.fechaVencimiento = fechaVencimiento;
         this.tipo = tipo;
     }
 
     public Licencia(int vigencia, Calendar fechaExpedicion, EnumTipoLicencia tipo, String nombrePersona, Float costo, Persona persona) {
-        super(nombrePersona, costo, persona);
+        super(nombrePersona, costo, persona,fechaExpedicion);
         this.vigencia = vigencia;
-        this.fechaExpedicion = fechaExpedicion;
         this.tipo = tipo;
     }
     
@@ -70,13 +66,6 @@ public class Licencia extends Tramite implements Serializable {
         this.vigencia = vigencia;
     }
 
-    public Calendar getFechaExpedicion() {
-        return fechaExpedicion;
-    }
-
-    public void setFechaExpedicion(Calendar fechaExpedicion) {
-        this.fechaExpedicion = fechaExpedicion;
-    }
 
     public Calendar getFechaVencimiento() {
         return fechaVencimiento;
@@ -118,7 +107,7 @@ public class Licencia extends Tramite implements Serializable {
 
     @Override
     public String toString() {
-        return "Licencia{" + "vigencia=" + vigencia + ", fechaExpedicion=" + fechaExpedicion + ", fechaVencimiento=" + fechaVencimiento + ", tipo=" + tipo + '}';
+        return "Licencia{" + "vigencia=" + vigencia + ", fechaExpedicion=" + super.getFechaExpedicion() + ", fechaVencimiento=" + fechaVencimiento + ", tipo=" + tipo + '}';
     }
 
     

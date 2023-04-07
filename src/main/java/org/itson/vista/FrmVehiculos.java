@@ -4,6 +4,7 @@
  */
 package org.itson.vista;
 
+import java.awt.event.ItemEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,6 +15,7 @@ import org.itson.dao.VehiculoDAO;
 import org.itson.dominio.Persona;
 import org.itson.interfaces.IAutomovil;
 import org.itson.interfaces.IVehiculo;
+import org.itson.utilidades.ConfiguracionPaginado;
 
 /**
  *
@@ -24,15 +26,17 @@ public class FrmVehiculos extends javax.swing.JFrame {
     private Persona persona;
     private IAutomovil automovilDAO;
     private IVehiculo vehiculoDAO;
-
+    private ConfiguracionPaginado configPaginado;
     /**
      * Creates new form Automoviles
+     * @param persona
      */
     public FrmVehiculos(Persona persona) {
         initComponents();
         this.persona = persona;
         this.automovilDAO = new AutomovilDAO();
         this.vehiculoDAO = new VehiculoDAO();
+        configPaginado = new ConfiguracionPaginado();
         tblVehiculos.getColumnModel().getColumn(2).setCellEditor(new CeldaBotonEditor(this, persona, tblVehiculos));
         tblVehiculos.getColumnModel().getColumn(2).setCellRenderer(new CeldaBotonRender("Cambiar"));
         this.cargarTabla();
@@ -117,6 +121,11 @@ public class FrmVehiculos extends javax.swing.JFrame {
         });
 
         cmbPaginas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "3", "5", "10" }));
+        cmbPaginas.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbPaginasItemStateChanged(evt);
+            }
+        });
 
         tblVehiculos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -216,20 +225,39 @@ public class FrmVehiculos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarAutomovilActionPerformed
 
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
-        // TODO add your handling code here:
+        retrocederPagina();
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        // TODO add your handling code here:
+        avanzarPagina();
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
+    private void cmbPaginasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbPaginasItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            int elementosPorPagina = Integer.parseInt((String) evt.getItem());
+            int numeroPagina = 0;
+            this.configPaginado.setElementosPorPagina(elementosPorPagina);   
+            this.configPaginado.setNumeroPagina(numeroPagina);
+            cargarTabla();
+        }
+    }//GEN-LAST:event_cmbPaginasItemStateChanged
+
     private void cargarTabla() {
-        List<Object[]> datos = vehiculoDAO.consultarActivosPorRFC(persona.getRfc());
+        List<Object[]> datos = vehiculoDAO.consultarActivosPorRFC(persona.getRfc(),configPaginado);
         DefaultTableModel modelo = (DefaultTableModel) tblVehiculos.getModel();
         modelo.setRowCount(0);
         for (Object[] fila : datos) {
             modelo.addRow(fila);
         }
+    }
+    
+    private void avanzarPagina(){
+        configPaginado.avanzarPagina();
+        cargarTabla();
+    }
+    private void retrocederPagina(){
+        configPaginado.retrocederPagina();
+        cargarTabla();
     }
     
 //    private void verificarNumSerie(){
@@ -248,7 +276,7 @@ public class FrmVehiculos extends javax.swing.JFrame {
 //        }
 //    }
 
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarAutomovil;
     private javax.swing.JButton btnAnterior;

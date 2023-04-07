@@ -4,17 +4,37 @@
  */
 package org.itson.vista;
 
+import java.awt.event.ItemEvent;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import org.itson.dao.TramiteDAO;
+import org.itson.dominio.Licencia;
+import org.itson.dominio.Persona;
+import org.itson.dominio.Placa;
+import org.itson.dominio.Tramite;
+import org.itson.interfaces.ITramite;
+import org.itson.utilidades.ConfiguracionPaginado;
+
 /**
- *
+ * Clase historial que muestra los tramites hechos por una persona
  * @author LoanWeefos
  */
 public class FrmHistorial extends javax.swing.JFrame {
-
+    private Persona persona; 
+    private ITramite tramiteDAO;
+    private ConfiguracionPaginado configPaginado;
     /**
-     * Creates new form historial
+     * Método constructor que inicializa los atributos
+     * @param persona Persona la cual se tienen los registros de los tramites
      */
-    public FrmHistorial() {
+    public FrmHistorial(Persona persona) {
         initComponents();
+        this.persona = persona;
+        asignarDatosLabels();
+        tramiteDAO = new TramiteDAO();
+        configPaginado = new ConfiguracionPaginado();
+        cargarTablaTramites();
     }
 
     /**
@@ -65,8 +85,6 @@ public class FrmHistorial extends javax.swing.JFrame {
 
         tblHistorial.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Placas", "26/03/2023"},
-                {"Licencia", "26/03/2023"},
                 {null, null},
                 {null, null},
                 {null, null},
@@ -79,7 +97,15 @@ public class FrmHistorial extends javax.swing.JFrame {
             new String [] {
                 "Trámite", "Fecha"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblHistorial);
         if (tblHistorial.getColumnModel().getColumnCount() > 0) {
             tblHistorial.getColumnModel().getColumn(0).setResizable(false);
@@ -115,6 +141,11 @@ public class FrmHistorial extends javax.swing.JFrame {
         });
 
         cmbPaginas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "3", "5", "10" }));
+        cmbPaginas.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbPaginasItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -190,15 +221,54 @@ public class FrmHistorial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
-        // TODO add your handling code here:
+        retrocederPagina();
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        // TODO add your handling code here:
+        avanzarPagina();
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
+    private void cmbPaginasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbPaginasItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            int elementosPorPagina = Integer.parseInt((String) evt.getItem());
+            int numeroPagina = 0;
+            this.configPaginado.setElementosPorPagina(elementosPorPagina);   
+            this.configPaginado.setNumeroPagina(numeroPagina);
+            cargarTablaTramites();
+        }
+    }//GEN-LAST:event_cmbPaginasItemStateChanged
 
-
+    private void asignarDatosLabels(){
+        lblNombre.setText("Nombre: "+persona.getNombre()+" "+persona.getApellidoPaterno()+" "+persona.getApellidoMaterno());
+        lblRFC.setText("RFC: "+persona.getRfc());
+    }
+    
+    /**
+     * Este método carga y recarga la tabla de tramites
+     */
+    private void cargarTablaTramites() {
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblHistorial.getModel();
+        modeloTabla.setRowCount(0);
+        List<Tramite> listaTramites = tramiteDAO.consultarTramitesPersona(persona.getRfc(),configPaginado);
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        for (Tramite t : listaTramites) {
+            if (t instanceof Placa) {
+                Object[] fila = {"Placa",formatoFecha.format(t.getFechaExpedicion().getTime())};
+                modeloTabla.addRow(fila);
+            } else if (t instanceof Licencia) {
+                Object[] fila = {"Licencia",formatoFecha.format(t.getFechaExpedicion().getTime())};
+                modeloTabla.addRow(fila);
+            }
+        }
+    }
+    private void avanzarPagina(){
+        configPaginado.avanzarPagina();
+        cargarTablaTramites();
+    }
+    private void retrocederPagina(){
+        configPaginado.retrocederPagina();
+        cargarTablaTramites();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnRegresar;

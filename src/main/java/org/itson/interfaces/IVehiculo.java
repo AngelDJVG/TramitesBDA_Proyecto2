@@ -6,13 +6,14 @@ package org.itson.interfaces;
 
 import java.util.List;
 import org.itson.dominio.Vehiculo;
+import org.itson.utilidades.ConfiguracionPaginado;
 
 /**
  *
  * @author wikit
  */
 public interface IVehiculo {
-    public List<Object[]> consultarActivosPorRFC(String rfc);
+    public List<Object[]> consultarActivosPorRFC(String rfc, ConfiguracionPaginado configPaginado);
     public Vehiculo consultarVehiculo(String numSerie);
     public boolean verificarExistencia(String numSerie);
 }
