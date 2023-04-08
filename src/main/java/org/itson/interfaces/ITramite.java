@@ -19,5 +19,5 @@ public interface ITramite {
     public Tramite consultarTramite(Integer id);
     public List<Tramite> consultarTodos();
     public List<Tramite> consultarTramitesPersona(String rfc, ConfiguracionPaginado configPaginado);
-    
+    public List<Tramite> consultarTramitesPersona(String rfc);
 }

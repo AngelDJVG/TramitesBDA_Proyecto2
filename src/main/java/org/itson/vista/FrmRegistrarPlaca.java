@@ -81,6 +81,7 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
         txtSerie = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 

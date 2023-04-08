@@ -15,8 +15,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableModel;
+import org.itson.dao.TramiteDAO;
 import org.itson.dominio.Persona;
 import org.itson.interfaces.IPersona;
+import org.itson.interfaces.ITramite;
 import org.itson.vista.FrmHistorial;
 import org.itson.vista.FrmRegistrarPlaca;
 
@@ -27,6 +29,7 @@ import org.itson.vista.FrmRegistrarPlaca;
 public class CeldaBotonEditor extends AbstractCellEditor implements TableCellEditor {
 
     private JButton boton;
+    private ITramite tramiteDAO;
 
     public CeldaBotonEditor(JFrame frame, IPersona personaDAO, JTable tabla) {
         boton = new JButton();
@@ -35,6 +38,7 @@ public class CeldaBotonEditor extends AbstractCellEditor implements TableCellEdi
         boton.setText("🔍︎");
         boton.setBackground(new Color(159, 34, 65));
         boton.setForeground(Color.WHITE);
+        tramiteDAO = new TramiteDAO();
         boton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(frame, "Buscando");
@@ -42,8 +46,12 @@ public class CeldaBotonEditor extends AbstractCellEditor implements TableCellEdi
                 TableModel model = tabla.getModel();
                 String rfc = model.getValueAt(fila, 0).toString();
                 Persona persona = personaDAO.consultarPersona(rfc);
-                new FrmHistorial(persona).setVisible(true);
-                frame.dispose();
+                if (tramiteDAO.consultarTramitesPersona(rfc).isEmpty()) {
+                    JOptionPane.showMessageDialog(null, persona.getNombre() + " " + persona.getApellidoPaterno() + " " + persona.getApellidoMaterno() + ", no cuenta con trámites realizados", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    new FrmHistorial(persona).setVisible(true);
+                    frame.dispose();
+                }
             }
         });
     }

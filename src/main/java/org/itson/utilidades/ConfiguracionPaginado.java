@@ -1,5 +1,3 @@
-
-
 package org.itson.utilidades;
 
 import java.util.List;
@@ -9,6 +7,7 @@ import java.util.List;
  * @author Ángel Valenzuela, Luis Duran
  */
 public class ConfiguracionPaginado {
+
     private int numeroPagina;
     private int elementosPorPagina;
 
@@ -21,10 +20,9 @@ public class ConfiguracionPaginado {
         this.numeroPagina = 0;
         this.elementosPorPagina = 3;
     }
-    
+
     public void avanzarPagina() {
-            this.numeroPagina++;
-        
+        this.numeroPagina++;
     }
 
     public void retrocederPagina() {
@@ -32,7 +30,6 @@ public class ConfiguracionPaginado {
             this.numeroPagina--;
         }
     }
-
 
     public int getNumeroPagina() {
         return numeroPagina;
@@ -49,9 +46,9 @@ public class ConfiguracionPaginado {
     public void setElementosPorPagina(int elementosPorPagina) {
         this.elementosPorPagina = elementosPorPagina;
     }
-    
-    public int getElementosSaltar(){
-        return this.numeroPagina*this.elementosPorPagina;
+
+    public int getElementosSaltar() {
+        return this.numeroPagina * this.elementosPorPagina;
     }
-    
+
 }

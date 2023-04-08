@@ -5,8 +5,8 @@
 package org.itson.vista;
 
 import java.awt.event.ItemEvent;
+import java.text.SimpleDateFormat;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.itson.boton.CeldaBotonEditor;
 import org.itson.boton.CeldaBotonRender;
@@ -27,8 +27,11 @@ public class FrmVehiculos extends javax.swing.JFrame {
     private IAutomovil automovilDAO;
     private IVehiculo vehiculoDAO;
     private ConfiguracionPaginado configPaginado;
+    private ConfiguracionPaginado configPaginadoSiguiente;
+
     /**
      * Creates new form Automoviles
+     *
      * @param persona
      */
     public FrmVehiculos(Persona persona) {
@@ -37,9 +40,12 @@ public class FrmVehiculos extends javax.swing.JFrame {
         this.automovilDAO = new AutomovilDAO();
         this.vehiculoDAO = new VehiculoDAO();
         configPaginado = new ConfiguracionPaginado();
+        configPaginadoSiguiente = new ConfiguracionPaginado();
+        configPaginadoSiguiente.setNumeroPagina(1);
         tblVehiculos.getColumnModel().getColumn(2).setCellEditor(new CeldaBotonEditor(this, persona, tblVehiculos));
         tblVehiculos.getColumnModel().getColumn(2).setCellRenderer(new CeldaBotonRender("Cambiar"));
         this.cargarTabla();
+        this.cargarDatosPersona();
     }
 
     /**
@@ -60,8 +66,17 @@ public class FrmVehiculos extends javax.swing.JFrame {
         cmbPaginas = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblVehiculos = new javax.swing.JTable();
+        lblFechaP = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
+        lblRFC = new javax.swing.JLabel();
+        lblFecha = new javax.swing.JLabel();
+        lblTelefono = new javax.swing.JLabel();
+        lblNombreP = new javax.swing.JLabel();
+        lblRFCP = new javax.swing.JLabel();
+        lblTelefonoP = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -121,6 +136,7 @@ public class FrmVehiculos extends javax.swing.JFrame {
         });
 
         cmbPaginas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "3", "5", "10" }));
+        cmbPaginas.setFocusable(false);
         cmbPaginas.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbPaginasItemStateChanged(evt);
@@ -153,12 +169,56 @@ public class FrmVehiculos extends javax.swing.JFrame {
             tblVehiculos.getColumnModel().getColumn(2).setPreferredWidth(30);
         }
 
+        lblFechaP.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblFechaP.setForeground(new java.awt.Color(105, 28, 50));
+        lblFechaP.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
+        lblNombre.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblNombre.setForeground(new java.awt.Color(105, 28, 50));
+        lblNombre.setText("Nombre:");
+
+        lblRFC.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblRFC.setForeground(new java.awt.Color(105, 28, 50));
+        lblRFC.setText("RFC:");
+
+        lblFecha.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblFecha.setForeground(new java.awt.Color(105, 28, 50));
+        lblFecha.setText("Fecha de nacimiento:");
+
+        lblTelefono.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblTelefono.setForeground(new java.awt.Color(105, 28, 50));
+        lblTelefono.setText("Telefono:");
+
+        lblNombreP.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblNombreP.setForeground(new java.awt.Color(105, 28, 50));
+        lblNombreP.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
+        lblRFCP.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblRFCP.setForeground(new java.awt.Color(105, 28, 50));
+        lblRFCP.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
+        lblTelefonoP.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblTelefonoP.setForeground(new java.awt.Color(105, 28, 50));
+        lblTelefonoP.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNombreP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblRFCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblTelefono, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                    .addComponent(lblTelefonoP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblFechaP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAgregarAutomovil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRegresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblRFC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -167,16 +227,11 @@ public class FrmVehiculos extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAgregarAutomovil, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(12, Short.MAX_VALUE))
-            .addComponent(lblTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
-
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAgregarAutomovil, btnRegresar});
-
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -185,15 +240,32 @@ public class FrmVehiculos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnAgregarAutomovil, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblNombre)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblNombreP, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblRFC)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblRFCP, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblFecha)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblFechaP, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblTelefono)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblTelefonoP, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbPaginas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnAgregarAutomovil, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -236,30 +308,62 @@ public class FrmVehiculos extends javax.swing.JFrame {
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             int elementosPorPagina = Integer.parseInt((String) evt.getItem());
             int numeroPagina = 0;
-            this.configPaginado.setElementosPorPagina(elementosPorPagina);   
+            this.configPaginado.setElementosPorPagina(elementosPorPagina);
             this.configPaginado.setNumeroPagina(numeroPagina);
+            this.configPaginadoSiguiente.setElementosPorPagina(elementosPorPagina);
+            this.configPaginadoSiguiente.setNumeroPagina(numeroPagina + 1);
             cargarTabla();
         }
     }//GEN-LAST:event_cmbPaginasItemStateChanged
 
     private void cargarTabla() {
-        List<Object[]> datos = vehiculoDAO.consultarActivosPorRFC(persona.getRfc(),configPaginado);
+        List<Object[]> datos = vehiculoDAO.consultarActivosPorRFC(persona.getRfc(), configPaginado);
         DefaultTableModel modelo = (DefaultTableModel) tblVehiculos.getModel();
         modelo.setRowCount(0);
         for (Object[] fila : datos) {
             modelo.addRow(fila);
         }
+        controlarBotones(datos);
     }
     
-    private void avanzarPagina(){
+    private void cargarDatosPersona() {     
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        lblNombreP.setText(persona.getNombre() + " " + persona.getApellidoPaterno() + " " + persona.getApellidoMaterno());
+        lblRFCP.setText(persona.getRfc());
+        lblFechaP.setText(formatoFecha.format(persona.getFechaNacimiento().getTime()));
+        lblTelefonoP.setText(persona.getTelefono());
+    }
+
+    private void controlarBotones(List datos) {
+        if (datos.isEmpty()){
+            cmbPaginas.setEnabled(false);
+        }else{
+            cmbPaginas.setEnabled(true);
+        }
+        if (vehiculoDAO.consultarActivosPorRFC(persona.getRfc(), configPaginadoSiguiente).isEmpty()) {
+            btnSiguiente.setEnabled(false);
+        } else {
+            btnSiguiente.setEnabled(true);
+        }
+        if (configPaginado.getNumeroPagina() == 0) {
+            btnAnterior.setEnabled(false);
+        } else {
+            btnAnterior.setEnabled(true);
+        }
+    }
+
+    private void avanzarPagina() {
         configPaginado.avanzarPagina();
+        configPaginadoSiguiente.avanzarPagina();
         cargarTabla();
     }
-    private void retrocederPagina(){
+
+    private void retrocederPagina() {
         configPaginado.retrocederPagina();
+        configPaginadoSiguiente.retrocederPagina();
         cargarTabla();
     }
-    
+
 //    private void verificarNumSerie(){
 //        String numSerie = JOptionPane.showInputDialog(this, "Ingrese el número de placas anteriores:", "Módulo de placas", JOptionPane.QUESTION_MESSAGE);
 //        if (numSerie != null) {
@@ -276,7 +380,6 @@ public class FrmVehiculos extends javax.swing.JFrame {
 //        }
 //    }
 
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarAutomovil;
     private javax.swing.JButton btnAnterior;
@@ -285,6 +388,14 @@ public class FrmVehiculos extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbPaginas;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblFecha;
+    private javax.swing.JLabel lblFechaP;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblNombreP;
+    private javax.swing.JLabel lblRFC;
+    private javax.swing.JLabel lblRFCP;
+    private javax.swing.JLabel lblTelefono;
+    private javax.swing.JLabel lblTelefonoP;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JTable tblVehiculos;
     // End of variables declaration//GEN-END:variables

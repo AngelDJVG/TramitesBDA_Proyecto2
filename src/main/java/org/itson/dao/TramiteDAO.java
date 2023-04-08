@@ -89,5 +89,13 @@ public class TramiteDAO implements ITramite {
         return tramites;
     }
 
+    @Override
+    public List<Tramite> consultarTramitesPersona(String rfc) {
+        TypedQuery<Tramite> query = entityManager.createQuery("SELECT t FROM Tramite t WHERE t.persona.rfc = :persona", Tramite.class);
+        query.setParameter("persona", rfc);
+        List<Tramite> tramites = query.getResultList();
+        return tramites;
+    }
+
 
 }

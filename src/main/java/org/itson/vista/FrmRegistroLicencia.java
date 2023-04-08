@@ -4,6 +4,7 @@
  */
 package org.itson.vista;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -27,9 +28,11 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
     private Persona persona;
     private ILicencia licenciaDAO;
     private IPersona personaDAO;
-    
+    private float costo;
+
     /**
      * Creates new form registroLicencias
+     *
      * @param persona
      */
     public FrmRegistroLicencia(Persona persona) {
@@ -38,6 +41,8 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
         this.persona = persona;
         this.licenciaDAO = new LicenciaDAO();
         this.personaDAO = new PersonaDAO();
+        this.costo = 0;
+        this.cargarDatosPersona();
     }
 
     /**
@@ -55,13 +60,22 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
         lblRegistrar = new javax.swing.JLabel();
         cbVigencia = new javax.swing.JComboBox<>();
         lblDiscapacidad = new javax.swing.JLabel();
-        lblCosto = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
         btnRegistrar = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
         chbDiscapacidad = new javax.swing.JCheckBox();
+        lblDatos = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
+        lblRFC = new javax.swing.JLabel();
+        lblFecha = new javax.swing.JLabel();
+        lblTelefono = new javax.swing.JLabel();
+        lblNombreP = new javax.swing.JLabel();
+        lblRFCP = new javax.swing.JLabel();
+        lblTelefonoP = new javax.swing.JLabel();
+        lblFechaP = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -91,12 +105,9 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
         lblDiscapacidad.setForeground(new java.awt.Color(105, 28, 50));
         lblDiscapacidad.setText("Discapacidad");
 
-        lblCosto.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lblCosto.setForeground(new java.awt.Color(105, 28, 50));
-        lblCosto.setText("Costo: $");
-
         lblTotal.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblTotal.setForeground(new java.awt.Color(105, 28, 50));
+        lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         btnRegistrar.setBackground(new java.awt.Color(159, 34, 65));
         btnRegistrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -128,43 +139,112 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
             }
         });
 
+        lblDatos.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblDatos.setForeground(new java.awt.Color(105, 28, 50));
+        lblDatos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDatos.setText("Datos de la persona");
+
+        lblNombre.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblNombre.setForeground(new java.awt.Color(105, 28, 50));
+        lblNombre.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblNombre.setText("Nombre:");
+
+        lblRFC.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblRFC.setForeground(new java.awt.Color(105, 28, 50));
+        lblRFC.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblRFC.setText("RFC:");
+
+        lblFecha.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblFecha.setForeground(new java.awt.Color(105, 28, 50));
+        lblFecha.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblFecha.setText("Fecha de nacimiento:");
+
+        lblTelefono.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblTelefono.setForeground(new java.awt.Color(105, 28, 50));
+        lblTelefono.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTelefono.setText("Telefono:");
+
+        lblNombreP.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblNombreP.setForeground(new java.awt.Color(105, 28, 50));
+        lblNombreP.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
+        lblRFCP.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblRFCP.setForeground(new java.awt.Color(105, 28, 50));
+        lblRFCP.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
+        lblTelefonoP.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblTelefonoP.setForeground(new java.awt.Color(105, 28, 50));
+        lblTelefonoP.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
+        lblFechaP.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblFechaP.setForeground(new java.awt.Color(105, 28, 50));
+        lblFechaP.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(47, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblVigencia)
-                                .addGap(18, 18, 18)
-                                .addComponent(cbVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblDiscapacidad)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(chbDiscapacidad)))
-                        .addGap(86, 86, 86))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblCosto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(221, 221, 221))))
             .addComponent(lblRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblDatos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblRFC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                            .addComponent(lblTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNombreP, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                            .addComponent(lblRFCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTelefonoP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblFechaP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblVigencia)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblDiscapacidad)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(chbDiscapacidad))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(70, 70, 70)
+                                .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(11, 11, 11))
+            .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblTitulo)
-                .addGap(18, 18, 18)
-                .addComponent(lblRegistrar)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblTitulo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblRegistrar)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblDatos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblNombre)
+                            .addComponent(lblNombreP, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblRFC))
+                    .addComponent(lblRFCP, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblFecha)
+                    .addComponent(lblFechaP, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblTelefono)
+                    .addComponent(lblTelefonoP, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(chbDiscapacidad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -172,15 +252,13 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
                         .addComponent(lblVigencia)
                         .addComponent(cbVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblDiscapacidad)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblCosto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -220,10 +298,9 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarActionPerformed
     
     private Licencia extraerDatosFormulario() {
-        Float costo = Float.valueOf(lblTotal.getText());
         String nombrePersona = persona.getNombre() + " " + persona.getApellidoPaterno() + " " + persona.getApellidoMaterno();
         Calendar fechaExpedicion = new GregorianCalendar();
-
+        
         EnumTipoLicencia tipo;
         if (chbDiscapacidad.isSelected()) {
             tipo = EnumTipoLicencia.DISCAPACITADOS;
@@ -231,7 +308,7 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
             tipo = EnumTipoLicencia.NORMAL;
         }
         int vigencia = cbVigencia.getSelectedIndex() + 1;
-
+        
         Calendar fechaVencimiento = new GregorianCalendar();
         fechaVencimiento.setTime(fechaExpedicion.getTime());
         fechaVencimiento.add(Calendar.YEAR, vigencia);
@@ -239,7 +316,7 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
         Licencia licencia = new Licencia(nombrePersona, costo, persona, vigencia, fechaExpedicion, fechaVencimiento, tipo);
         return licencia;
     }
-
+    
     private void guardar() {
         Licencia licencia = extraerDatosFormulario();
         licenciaDAO.agregarLicencia(licencia);
@@ -248,25 +325,34 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
         persona.setTramites(listaTramites);
     }
     
+    private void cargarDatosPersona() {     
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        lblNombreP.setText(persona.getNombre() + " " + persona.getApellidoPaterno() + " " + persona.getApellidoMaterno());
+        lblRFCP.setText(persona.getRfc());
+        lblFechaP.setText(formatoFecha.format(persona.getFechaNacimiento().getTime()));
+        lblTelefonoP.setText(persona.getTelefono());
+    }
+    
     private void actualizarCosto() {
         if (chbDiscapacidad.isSelected()) {
             if (cbVigencia.getSelectedItem().equals("1 año")) {
-                lblTotal.setText(String.valueOf(EnumCostosLicencias.UN_ANIO.getCostoDiscapacitado()));
+                costo = EnumCostosLicencias.UN_ANIO.getCostoDiscapacitado();
             } else if (cbVigencia.getSelectedItem().equals("2 años")) {
-                lblTotal.setText(String.valueOf(EnumCostosLicencias.DOS_ANIOS.getCostoDiscapacitado()));
+                costo = EnumCostosLicencias.DOS_ANIOS.getCostoDiscapacitado();
             } else {
-                lblTotal.setText(String.valueOf(EnumCostosLicencias.TRES_ANIOS.getCostoDiscapacitado()));
+                costo = EnumCostosLicencias.TRES_ANIOS.getCostoDiscapacitado();
             }
         } else {
             if (cbVigencia.getSelectedItem().equals("1 año")) {
-                lblTotal.setText(String.valueOf(EnumCostosLicencias.UN_ANIO.getCostoNormal()));
+                costo = EnumCostosLicencias.UN_ANIO.getCostoNormal();
             } else if (cbVigencia.getSelectedItem().equals("2 años")) {
-                lblTotal.setText(String.valueOf(EnumCostosLicencias.DOS_ANIOS.getCostoNormal()));
+                costo = EnumCostosLicencias.DOS_ANIOS.getCostoNormal();
             } else {
-                lblTotal.setText(String.valueOf(EnumCostosLicencias.TRES_ANIOS.getCostoNormal()));
+                costo = EnumCostosLicencias.TRES_ANIOS.getCostoNormal();
             }
         }
-    }  
+        lblTotal.setText("Costo: $" + costo);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegistrar;
@@ -274,9 +360,17 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbVigencia;
     private javax.swing.JCheckBox chbDiscapacidad;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblCosto;
+    private javax.swing.JLabel lblDatos;
     private javax.swing.JLabel lblDiscapacidad;
+    private javax.swing.JLabel lblFecha;
+    private javax.swing.JLabel lblFechaP;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblNombreP;
+    private javax.swing.JLabel lblRFC;
+    private javax.swing.JLabel lblRFCP;
     private javax.swing.JLabel lblRegistrar;
+    private javax.swing.JLabel lblTelefono;
+    private javax.swing.JLabel lblTelefonoP;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JLabel lblVigencia;

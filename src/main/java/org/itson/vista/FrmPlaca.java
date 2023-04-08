@@ -16,7 +16,7 @@ import org.itson.interfaces.IPersona;
 public class FrmPlaca extends javax.swing.JFrame {
 
     private IPersona personaDAO;
-    
+
     /**
      * Creates new form placas
      */
@@ -43,23 +43,24 @@ public class FrmPlaca extends javax.swing.JFrame {
         btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitulo.setText("Módulo de placas");
         lblTitulo.setFont(new java.awt.Font("Yu Gothic UI", 1, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(105, 28, 50));
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setText("Módulo de placas");
         lblTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        lblSerie.setText("RFC");
         lblSerie.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblSerie.setForeground(new java.awt.Color(105, 28, 50));
+        lblSerie.setText("RFC");
 
-        lblDisponibilidad.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDisponibilidad.setText("Buscar disponibilidad");
         lblDisponibilidad.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblDisponibilidad.setForeground(new java.awt.Color(105, 28, 50));
+        lblDisponibilidad.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDisponibilidad.setText("Buscar disponibilidad");
 
         btnBuscar.setBackground(new java.awt.Color(159, 34, 65));
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -73,12 +74,12 @@ public class FrmPlaca extends javax.swing.JFrame {
             }
         });
 
-        btnRegresar.setText("Regresar");
         btnRegresar.setBackground(new java.awt.Color(159, 34, 65));
-        btnRegresar.setBorderPainted(false);
-        btnRegresar.setFocusPainted(false);
         btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegresar.setText("Regresar");
+        btnRegresar.setBorderPainted(false);
+        btnRegresar.setFocusPainted(false);
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarActionPerformed(evt);
@@ -151,7 +152,7 @@ public class FrmPlaca extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-/**
+    /**
      * Método que verifica si una persona ya tiene una licencia
      *
      * @return verdadero si ya cuenta con una licencia activa, falso en caso

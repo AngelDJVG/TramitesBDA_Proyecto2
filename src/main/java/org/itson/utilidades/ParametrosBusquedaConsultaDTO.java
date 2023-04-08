@@ -1,7 +1,6 @@
 
 package org.itson.utilidades;
 
-import java.util.Calendar;
 
 /**
  *
@@ -36,9 +35,7 @@ public class ParametrosBusquedaConsultaDTO {
 
     public void setYear(Integer year) {
         this.year = year;
-    }
-
-    
+    } 
 
     public String getNombre() {
         return nombre;
@@ -47,7 +44,5 @@ public class ParametrosBusquedaConsultaDTO {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
-    
     
 }

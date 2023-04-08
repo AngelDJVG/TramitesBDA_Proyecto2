@@ -27,13 +27,16 @@ import org.itson.utilidades.ParametrosBusquedaConsultaDTO;
  * @author LoanWeefos
  */
 public class FrmConsulta extends javax.swing.JFrame {
-    
+
     private ParametrosBusquedaConsultaDTO params;
     private List<Persona> listaPersonas;
+    private List<Persona> listaPersonasSiguiente;
     private IPersona personaDAO;
     private EntityManager entityManager;
     private Persona persona;
     private ConfiguracionPaginado configPaginado;
+    private ConfiguracionPaginado configPaginadoSiguiente;
+
     /**
      * Creates new form consultas
      */
@@ -41,11 +44,13 @@ public class FrmConsulta extends javax.swing.JFrame {
         initComponents();
         params = new ParametrosBusquedaConsultaDTO();
         listaPersonas = new ArrayList<>();
+        listaPersonasSiguiente = new ArrayList<>();
         personaDAO = new PersonaDAO();
-        tblConsultas.getColumnModel().getColumn(3).setCellEditor(new CeldaBotonEditor(this,personaDAO, tblConsultas));
+        tblConsultas.getColumnModel().getColumn(3).setCellEditor(new CeldaBotonEditor(this, personaDAO, tblConsultas));
         tblConsultas.getColumnModel().getColumn(3).setCellRenderer(new CeldaBotonRender());
         configPaginado = new ConfiguracionPaginado();
-        
+        configPaginadoSiguiente = new ConfiguracionPaginado();
+        configPaginadoSiguiente.setNumeroPagina(1);
     }
 
     /**
@@ -75,38 +80,39 @@ public class FrmConsulta extends javax.swing.JFrame {
         txtYear = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitulo.setText("Módulo de consultas");
         lblTitulo.setFont(new java.awt.Font("Yu Gothic UI", 1, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(105, 28, 50));
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setText("Módulo de consultas");
         lblTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        lblBuscarPersona.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblBuscarPersona.setText("Buscar persona");
         lblBuscarPersona.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblBuscarPersona.setForeground(new java.awt.Color(105, 28, 50));
+        lblBuscarPersona.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBuscarPersona.setText("Buscar persona");
 
-        btnBuscar.setText("Buscar");
         btnBuscar.setBackground(new java.awt.Color(159, 34, 65));
-        btnBuscar.setBorderPainted(false);
-        btnBuscar.setFocusPainted(false);
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscar.setText("Buscar");
+        btnBuscar.setBorderPainted(false);
+        btnBuscar.setFocusPainted(false);
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
             }
         });
 
-        btnRegresar.setText("Regresar");
         btnRegresar.setBackground(new java.awt.Color(159, 34, 65));
-        btnRegresar.setBorderPainted(false);
-        btnRegresar.setFocusPainted(false);
         btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegresar.setText("Regresar");
+        btnRegresar.setBorderPainted(false);
+        btnRegresar.setFocusPainted(false);
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarActionPerformed(evt);
@@ -143,38 +149,38 @@ public class FrmConsulta extends javax.swing.JFrame {
             tblConsultas.getColumnModel().getColumn(3).setPreferredWidth(30);
         }
 
-        lblCurp.setText("RFC:");
         lblCurp.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblCurp.setForeground(new java.awt.Color(105, 28, 50));
+        lblCurp.setText("RFC:");
 
-        lblNombre.setText("Nombre:");
         lblNombre.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblNombre.setForeground(new java.awt.Color(105, 28, 50));
+        lblNombre.setText("Nombre:");
 
-        lblAnioNacimiento.setText("Año de nacimiento:");
         lblAnioNacimiento.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblAnioNacimiento.setForeground(new java.awt.Color(105, 28, 50));
+        lblAnioNacimiento.setText("Año de nacimiento:");
 
-        btnAnterior.setText("<--");
         btnAnterior.setBackground(new java.awt.Color(159, 34, 65));
+        btnAnterior.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAnterior.setForeground(new java.awt.Color(255, 255, 255));
+        btnAnterior.setText("<--");
         btnAnterior.setBorderPainted(false);
         btnAnterior.setEnabled(false);
         btnAnterior.setFocusPainted(false);
-        btnAnterior.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnAnterior.setForeground(new java.awt.Color(255, 255, 255));
         btnAnterior.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAnteriorActionPerformed(evt);
             }
         });
 
-        btnSiguiente.setText("-->");
         btnSiguiente.setBackground(new java.awt.Color(159, 34, 65));
+        btnSiguiente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnSiguiente.setForeground(new java.awt.Color(255, 255, 255));
+        btnSiguiente.setText("-->");
         btnSiguiente.setBorderPainted(false);
         btnSiguiente.setEnabled(false);
         btnSiguiente.setFocusPainted(false);
-        btnSiguiente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnSiguiente.setForeground(new java.awt.Color(255, 255, 255));
         btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSiguienteActionPerformed(evt);
@@ -183,14 +189,10 @@ public class FrmConsulta extends javax.swing.JFrame {
 
         cmbPaginas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "3", "5", "10" }));
         cmbPaginas.setEnabled(false);
+        cmbPaginas.setFocusable(false);
         cmbPaginas.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbPaginasItemStateChanged(evt);
-            }
-        });
-        cmbPaginas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbPaginasActionPerformed(evt);
             }
         });
 
@@ -203,7 +205,7 @@ public class FrmConsulta extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -294,28 +296,27 @@ public class FrmConsulta extends javax.swing.JFrame {
         avanzarPagina();
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
-    private void cmbPaginasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbPaginasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbPaginasActionPerformed
-
     private void cmbPaginasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbPaginasItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             int elementosPorPagina = Integer.parseInt((String) evt.getItem());
             int numeroPagina = 0;
-            this.configPaginado.setElementosPorPagina(elementosPorPagina);   
+            this.configPaginado.setElementosPorPagina(elementosPorPagina);
             this.configPaginado.setNumeroPagina(numeroPagina);
+            this.configPaginadoSiguiente.setElementosPorPagina(elementosPorPagina);
+            this.configPaginadoSiguiente.setNumeroPagina(numeroPagina + 1);
             actualizarTabla();
         }
     }//GEN-LAST:event_cmbPaginasItemStateChanged
 
-    private void actualizarTabla(){
+    private void actualizarTabla() {
         validacionesCampos();
+        verificarTablaVacia();
     }
-    
+
     private void validacionesCampos() {
-        
         if (txtCurp.getText().isBlank() && txtNombre.getText().isBlank() && txtYear.getText().isBlank()) {
             JOptionPane.showMessageDialog(null, "No deje los campos de texto vacios", "Error", JOptionPane.ERROR_MESSAGE);
+            this.reiniciarFormulario();
         } else {
             if (!txtCurp.getText().isBlank()) {
                 params.setRfc(txtCurp.getText());
@@ -326,38 +327,69 @@ public class FrmConsulta extends javax.swing.JFrame {
             if (!txtNombre.getText().isBlank()) {
                 params.setNombre(txtNombre.getText());
             }
-            listaPersonas = personaDAO.consultarPorParametros(params,configPaginado);
-            btnAnterior.setEnabled(true);
-            btnSiguiente.setEnabled(true);
-            cmbPaginas.setEnabled(true);
+            listaPersonas = personaDAO.consultarPorParametros(params, configPaginado);
+            listaPersonasSiguiente = personaDAO.consultarPorParametros(params, configPaginadoSiguiente);
             cargarTablaPersonas();
+            if (listaPersonasSiguiente.isEmpty()) {
+                btnSiguiente.setEnabled(false);
+            }
+            if(configPaginado.getNumeroPagina()==0){
+                btnAnterior.setEnabled(false);
+            }
         }
     }
 
+    private void verificarTablaVacia() {
+        DefaultTableModel modelo = (DefaultTableModel) tblConsultas.getModel();
+        if (modelo.getRowCount() == 0) {
+            btnAnterior.setEnabled(false);
+            btnSiguiente.setEnabled(false);
+            cmbPaginas.setEnabled(false);
+        } else {
+            if (!listaPersonasSiguiente.isEmpty()) {
+                btnSiguiente.setEnabled(true);
+            }
+            if(configPaginado.getNumeroPagina()!=0){
+                btnAnterior.setEnabled(true);
+            }
+            cmbPaginas.setEnabled(true);
+        }
+    }
+
+    private void reiniciarFormulario() {
+        btnAnterior.setEnabled(false);
+        btnSiguiente.setEnabled(false);
+        cmbPaginas.setEnabled(false);
+        DefaultTableModel modelo = (DefaultTableModel) tblConsultas.getModel();
+        modelo.setRowCount(0);
+    }
+
     /**
-     * Este método carga y recarga la tabla de  personas
+     * Este método carga y recarga la tabla de personas
      */
-    private void cargarTablaPersonas() {       
+    private void cargarTablaPersonas() {
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblConsultas.getModel();
         modeloTabla.setRowCount(0);
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         for (Persona p : listaPersonas) {
-            Object[] fila = {p.getRfc(),(p.getNombre()+" "+p.getApellidoPaterno()+" "+p.getApellidoMaterno()),formatoFecha.format(p.getFechaNacimiento().getTime())};
+            Object[] fila = {p.getRfc(), (p.getNombre() + " " + p.getApellidoPaterno() + " " + p.getApellidoMaterno()), formatoFecha.format(p.getFechaNacimiento().getTime())};
             modeloTabla.addRow(fila);
         }
         params = new ParametrosBusquedaConsultaDTO();
     }
-    
-    private void avanzarPagina(){
+
+    private void avanzarPagina() {
         configPaginado.avanzarPagina();
+        configPaginadoSiguiente.avanzarPagina();
         actualizarTabla();
     }
-    private void retrocederPagina(){
+
+    private void retrocederPagina() {
         configPaginado.retrocederPagina();
+        configPaginadoSiguiente.retrocederPagina();
         actualizarTabla();
     }
-    
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnBuscar;
