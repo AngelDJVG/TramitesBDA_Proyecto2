@@ -62,6 +62,12 @@ public class FrmPlaca extends javax.swing.JFrame {
         lblDisponibilidad.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblDisponibilidad.setText("Buscar disponibilidad");
 
+        txtRFC.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtRFCKeyTyped(evt);
+            }
+        });
+
         btnBuscar.setBackground(new java.awt.Color(159, 34, 65));
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
@@ -151,6 +157,15 @@ public class FrmPlaca extends javax.swing.JFrame {
             verificarLicencia();
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void txtRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRFCKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume(); 
+        } else if (txtRFC.getText().length() >= 13) {
+            evt.consume(); 
+        }
+    }//GEN-LAST:event_txtRFCKeyTyped
 
     /**
      * Método que verifica si una persona ya tiene una licencia

@@ -5,6 +5,7 @@
 package org.itson.vista;
 
 import java.awt.event.ItemEvent;
+import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -119,6 +120,12 @@ public class FrmConsulta extends javax.swing.JFrame {
             }
         });
 
+        txtCurp.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCurpKeyTyped(evt);
+            }
+        });
+
         tblConsultas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -161,6 +168,12 @@ public class FrmConsulta extends javax.swing.JFrame {
         lblAnioNacimiento.setForeground(new java.awt.Color(105, 28, 50));
         lblAnioNacimiento.setText("Año de nacimiento:");
 
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
+
         btnAnterior.setBackground(new java.awt.Color(159, 34, 65));
         btnAnterior.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnAnterior.setForeground(new java.awt.Color(255, 255, 255));
@@ -193,6 +206,12 @@ public class FrmConsulta extends javax.swing.JFrame {
         cmbPaginas.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbPaginasItemStateChanged(evt);
+            }
+        });
+
+        txtYear.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtYearKeyTyped(evt);
             }
         });
 
@@ -308,6 +327,35 @@ public class FrmConsulta extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmbPaginasItemStateChanged
 
+    private void txtCurpKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCurpKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume(); 
+        } else if (txtCurp.getText().length() >= 13) {
+            evt.consume(); 
+        }
+    }//GEN-LAST:event_txtCurpKeyTyped
+
+    private void txtYearKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtYearKeyTyped
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9') {
+            evt.consume(); 
+        } else if(txtYear.getText().length() >= 4){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtYearKeyTyped
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        char c = evt.getKeyChar();
+        if (txtNombre.getText().isBlank() && c == ' ') {
+                evt.consume();
+        } else if (c == ' ' && txtNombre.getText().charAt(txtNombre.getText().length() - 1) == ' ') {
+            evt.consume();
+        } else if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNombreKeyTyped
+
     private void actualizarTabla() {
         validacionesCampos();
         verificarTablaVacia();
@@ -325,7 +373,7 @@ public class FrmConsulta extends javax.swing.JFrame {
                 params.setYear(Integer.valueOf(txtYear.getText()));
             }
             if (!txtNombre.getText().isBlank()) {
-                params.setNombre(txtNombre.getText());
+                params.setNombre(txtNombre.getText().trim());
             }
             listaPersonas = personaDAO.consultarPorParametros(params, configPaginado);
             listaPersonasSiguiente = personaDAO.consultarPorParametros(params, configPaginadoSiguiente);

@@ -231,8 +231,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         Persona persona16 = new Persona("16", "Lucía", "Peralta", "Romero", "6440987654", new GregorianCalendar(1997, 9, 9));
         Persona persona17 = new Persona("17", "Diego", "Gómez", "Castro", "6445432109", new GregorianCalendar(1995, 6, 17));
         Persona persona18 = new Persona("18", "Carmen", "Santos", "García", "6444321098", new GregorianCalendar(1990, 11, 27));
-        Persona persona19 = new Persona("19", "Elena", "Moreno", "Núñez", "6443210987", new GregorianCalendar(1998, 4, 7));
-        Persona persona20 = new Persona("20", "Diego", "Gómez", "Castro", "6445432109", new GregorianCalendar(1995, 6, 17));
+        Persona persona19 = new Persona("19", "Elena", "Moreno", "Valenzuela", "6443210987", new GregorianCalendar(1998, 4, 7));
+        Persona persona20 = new Persona("20", "Luis Pablo", "Ayon", "Figueroa", "6442111111", new GregorianCalendar(2003, 8, 11));
         List<Persona> personas = new ArrayList<>();
         personas.add(persona1);
         personas.add(persona2);

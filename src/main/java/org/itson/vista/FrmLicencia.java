@@ -54,20 +54,26 @@ public class FrmLicencia extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblTitulo.setFont(new java.awt.Font("Yu Gothic UI", 1, 36)); // NOI18N
-        lblTitulo.setForeground(new java.awt.Color(105, 28, 50));
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("Módulo de licencias");
+        lblTitulo.setFont(new java.awt.Font("Yu Gothic UI", 1, 36)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(105, 28, 50));
         lblTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        lblCurp.setText("RFC");
         lblCurp.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblCurp.setForeground(new java.awt.Color(105, 28, 50));
-        lblCurp.setText("RFC");
 
-        lblDisponibilidad.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lblDisponibilidad.setForeground(new java.awt.Color(105, 28, 50));
         lblDisponibilidad.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblDisponibilidad.setText("Buscar disponibilidad");
+        lblDisponibilidad.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblDisponibilidad.setForeground(new java.awt.Color(105, 28, 50));
+
+        txtRFC.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtRFCKeyTyped(evt);
+            }
+        });
 
         btnBuscar.setBackground(new java.awt.Color(159, 34, 65));
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -81,12 +87,12 @@ public class FrmLicencia extends javax.swing.JFrame {
             }
         });
 
-        btnRegresar.setBackground(new java.awt.Color(159, 34, 65));
-        btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
         btnRegresar.setText("Regresar");
+        btnRegresar.setBackground(new java.awt.Color(159, 34, 65));
         btnRegresar.setBorderPainted(false);
         btnRegresar.setFocusPainted(false);
+        btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarActionPerformed(evt);
@@ -156,6 +162,15 @@ public class FrmLicencia extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void txtRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRFCKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume(); 
+        } else if (txtRFC.getText().length() >= 13) {
+            evt.consume(); 
+        }
+    }//GEN-LAST:event_txtRFCKeyTyped
     
     /**
      * Método que verifica si una persona ya tiene una licencia

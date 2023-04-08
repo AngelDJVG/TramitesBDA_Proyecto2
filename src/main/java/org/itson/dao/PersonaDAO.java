@@ -104,14 +104,18 @@ public class PersonaDAO implements IPersona {
         if (params.getNombre() != null) {
             filtros.add(builder.like(
                     builder.concat(
-                            builder.concat(entidadPersona.get("nombre"), entidadPersona.get("apellidoPaterno")),
-                            entidadPersona.get("apellidoMaterno")
-                    ), "%" + params.getNombre() + "%")
-            );
+                          builder.concat(
+                                    entidadPersona.get("nombre"),
+                                    builder.concat(" ", entidadPersona.get("apellidoPaterno"))
+                            ),
+                            builder.concat(" ", entidadPersona.get("apellidoMaterno"))
+                    ),
+                    "%" + params.getNombre() + "%"
+            ));
         }
         if (params.getYear() != null) {
-            Expression<Integer> year = builder.function("year", Integer.class, entidadPersona.get("fechaNacimiento"));
-            filtros.add(builder.equal(year, params.getYear()));
+            Expression<String> year = builder.function("year", String.class, entidadPersona.get("fechaNacimiento"));
+            filtros.add(builder.like(year, "%" + params.getYear() + "%"));
         }
         criteria = criteria.select(entidadPersona).where(builder.or((filtros.toArray(new Predicate[0]))));
         TypedQuery<Persona> query = entityManager.createQuery(criteria);
