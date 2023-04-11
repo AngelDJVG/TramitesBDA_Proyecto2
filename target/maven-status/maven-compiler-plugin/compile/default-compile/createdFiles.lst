@@ -15,7 +15,6 @@ org\itson\dominio\Automovil_.class
 org\itson\vista\FrmPrincipal$6.class
 org\itson\dominio\Placa_.class
 org\itson\utilidades\ParametrosBusquedaConsultaDTO.class
-org\itson\vista\FrmPlaca$4.class
 org\itson\vista\FrmHistorial$3.class
 org\itson\vista\FrmPlaca$1.class
 org\itson\vista\FrmLicencia$2.class
@@ -32,6 +31,7 @@ org\itson\vista\FrmPrincipal$5.class
 org\itson\dominio\Licencia_.class
 org\itson\vista\FrmConsulta$3.class
 org\itson\boton\CeldaBotonRender.class
+org\itson\vista\FrmLicencia$3.class
 org\itson\vista\FrmVehiculos$5.class
 org\itson\enums\EnumTipoLicencia.class
 org\itson\vista\FrmHistorial$2.class
@@ -39,8 +39,10 @@ org\itson\vista\FrmRegistroLicencia$3.class
 org\itson\boton\CeldaBotonEditor$1.class
 org\itson\dominio\Vehiculo_.class
 org\itson\tramitesbda\TramitesBDA.class
+org\itson\vista\FrmConsulta$9.class
 org\itson\vista\FrmPrincipal$2.class
 org\itson\vista\FrmLicencia.class
+org\itson\vista\FrmConsulta$7.class
 org\itson\dominio\Vehiculo.class
 org\itson\vista\FrmConsulta.class
 org\itson\vista\FrmPrincipal$4.class
@@ -53,8 +55,8 @@ org\itson\vista\FrmVehiculos$4.class
 org\itson\boton\CeldaBotonEditor$2.class
 org\itson\vista\FrmRegistroLicencia$4.class
 org\itson\vista\FrmPrincipal$1.class
+org\itson\vista\FrmRegistrarPlaca$3.class
 org\itson\vista\FrmVehiculos$1.class
-.netbeans_automatic_build
 org\itson\interfaces\ITramite.class
 org\itson\vista\FrmReporte$1.class
 org\itson\dominio\Persona_.class
@@ -62,6 +64,7 @@ org\itson\vista\FrmConsulta$1.class
 org\itson\vista\FrmPlaca$2.class
 org\itson\vista\FrmPrincipal$3.class
 org\itson\interfaces\ILicencia.class
+org\itson\vista\FrmConsulta$8.class
 org\itson\vista\FrmVehiculos$3.class
 org\itson\vista\FrmLicencia$1.class
 org\itson\dao\AutomovilDAO.class

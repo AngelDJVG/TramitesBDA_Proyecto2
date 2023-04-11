@@ -7,7 +7,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import org.itson.dominio.Persona;
 import org.itson.dominio.Placa;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2023-04-07T20:28:11", comments="EclipseLink-2.7.10.v20211216-rNA")
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2023-04-11T04:45:15", comments="EclipseLink-2.7.10.v20211216-rNA")
 @StaticMetamodel(Vehiculo.class)
 public class Vehiculo_ { 
 

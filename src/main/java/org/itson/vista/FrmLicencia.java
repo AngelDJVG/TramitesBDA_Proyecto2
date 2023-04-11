@@ -4,6 +4,9 @@
  */
 package org.itson.vista;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.List;
 import javax.swing.JOptionPane;
 import org.itson.dao.LicenciaDAO;
@@ -166,12 +169,12 @@ public class FrmLicencia extends javax.swing.JFrame {
     private void txtRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRFCKeyTyped
         char c = evt.getKeyChar();
         if ((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
-            evt.consume(); 
+            evt.consume();
         } else if (txtRFC.getText().length() >= 13) {
-            evt.consume(); 
+            evt.consume();
         }
     }//GEN-LAST:event_txtRFCKeyTyped
-    
+
     /**
      * Método que verifica si una persona ya tiene una licencia
      *
@@ -182,8 +185,17 @@ public class FrmLicencia extends javax.swing.JFrame {
 
         Persona persona = personaDAO.consultarPersona(txtRFC.getText());
         if (persona != null) {
-            new FrmRegistroLicencia(persona).setVisible(true);
-            this.dispose();
+            if (persona.getNombre() == null || persona.getApellidoMaterno() == null || persona.getApellidoPaterno() == null || persona.getFechaNacimiento() == null || persona.getTelefono() == null) {
+                JOptionPane.showMessageDialog(null, "Falta alguno de los datos de la persona", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                int edad = Period.between(persona.getFechaNacimiento().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();
+                if (edad < 18) {
+                    JOptionPane.showMessageDialog(null, "La persona es menor de edad y no puede tramitar una licencia", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    new FrmRegistroLicencia(persona).setVisible(true);
+                    this.dispose();
+                }
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Ninguna persona cuenta con ese RFC", "Error", JOptionPane.ERROR_MESSAGE);
         }

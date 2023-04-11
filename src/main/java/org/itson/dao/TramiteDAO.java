@@ -76,7 +76,9 @@ public class TramiteDAO implements ITramite {
 
     @Override
     public List<Tramite> consultarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        TypedQuery<Tramite> query = entityManager.createQuery("SELECT t FROM Tramite t", Tramite.class);
+        List<Tramite> tramites = query.getResultList();
+        return tramites;
     }
 
     @Override

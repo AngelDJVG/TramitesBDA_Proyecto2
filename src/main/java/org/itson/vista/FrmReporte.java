@@ -4,7 +4,25 @@
  */
 package org.itson.vista;
 
-import javax.swing.JOptionPane;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.persistence.PersistenceException;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
+import org.itson.dao.TramiteDAO;
+import org.itson.dominio.Licencia;
+import org.itson.dominio.Placa;
+import org.itson.dominio.Tramite;
+import org.itson.interfaces.ITramite;
 
 /**
  *
@@ -12,11 +30,15 @@ import javax.swing.JOptionPane;
  */
 public class FrmReporte extends javax.swing.JFrame {
 
+    private ITramite tramiteDAO;
+
     /**
      * Creates new form reportes
      */
     public FrmReporte() {
         initComponents();
+        tramiteDAO = new TramiteDAO();
+        configurarDatePicker();
     }
 
     /**
@@ -40,8 +62,8 @@ public class FrmReporte extends javax.swing.JFrame {
         lblPeriodo = new javax.swing.JLabel();
         lblDesde = new javax.swing.JLabel();
         lblHasta = new javax.swing.JLabel();
-        datePicker1 = new com.github.lgooddatepicker.components.DatePicker();
-        datePicker2 = new com.github.lgooddatepicker.components.DatePicker();
+        dtpDesde = new com.github.lgooddatepicker.components.DatePicker();
+        dtpHasta = new com.github.lgooddatepicker.components.DatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -63,7 +85,7 @@ public class FrmReporte extends javax.swing.JFrame {
         lblTramites.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblTramites.setForeground(new java.awt.Color(105, 28, 50));
 
-        cbTramite.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Licencia", "Placas" }));
+        cbTramite.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Licencia", "Placas" }));
 
         lblNombre.setText("Nombre:");
         lblNombre.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
@@ -93,8 +115,6 @@ public class FrmReporte extends javax.swing.JFrame {
             }
         });
 
-        txtNombre.setText("Luis Esteban Durán Quintanar");
-
         lblPeriodo.setText("Periodo:");
         lblPeriodo.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblPeriodo.setForeground(new java.awt.Color(105, 28, 50));
@@ -116,20 +136,23 @@ public class FrmReporte extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblPeriodo)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(lblTramite)
-                                .addGap(41, 41, 41)
-                                .addComponent(cbTramite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(lblNombre)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblDesde)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(dtpDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                                .addComponent(datePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(dtpHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblPeriodo)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(lblTramite)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cbTramite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(lblNombre)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblDesde))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(70, 70, 70)
                         .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -160,8 +183,8 @@ public class FrmReporte extends javax.swing.JFrame {
                 .addComponent(lblPeriodo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(datePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dtpDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dtpHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDesde)
@@ -194,16 +217,57 @@ public class FrmReporte extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-        JOptionPane.showMessageDialog(this, "Generando...");
+        generarReporte();
     }//GEN-LAST:event_btnImprimirActionPerformed
 
+    private void configurarDatePicker() {
+        LocalDate fechaActual = LocalDate.now();
+        LocalDate minFecha = LocalDate.of(1920, 01, 01);
+        dtpDesde.getSettings().setDateRangeLimits(minFecha, fechaActual);
+        dtpHasta.getSettings().setDateRangeLimits(minFecha, fechaActual);
+        dtpDesde.getComponentDateTextField().setEnabled(false);
+        dtpHasta.getComponentDateTextField().setEnabled(false);
+    }
+
+    private void generarReporte() {
+        try {
+            List<Map<String, Object>> registros = new ArrayList<>();
+            List<Tramite> entities = this.tramiteDAO.consultarTodos();//CONSULTA
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+            for (Tramite t : entities) {
+                Map<String, Object> registro = new HashMap<>();
+                
+                registro.put("fecha_expedicion", formatoFecha.format(t.getFechaExpedicion().getTime()));
+                if (t instanceof Placa) {
+                    registro.put("DTYPE", "Placa");
+                } else if (t instanceof Licencia) {
+                    registro.put("DTYPE", "Licencia");
+                }
+                registro.put("nombre_persona", t.getNombrePersona());
+                registro.put("costo", t.getCosto());
+                registros.add(registro);
+            }
+
+            JasperCompileManager.compileReportToFile("src/main/resources/Tramites.jrxml", "src/main/resources/Tramites.jasper");
+
+            JRBeanCollectionDataSource datos = new JRBeanCollectionDataSource(registros);
+            Map<String, Object> parametros = new HashMap<>();
+            JasperPrint informe = JasperFillManager.fillReport("src/main/resources/Tramites.jasper", parametros, datos);
+            JasperExportManager.exportReportToPdfFile(informe, "src/main/resources/Tramites.pdf");
+
+            JasperViewer.viewReport(informe,false);
+        } catch (JRException e) {
+            throw new PersistenceException("Error al generar el reporte: " + e.getMessage());
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JComboBox<String> cbTramite;
-    private com.github.lgooddatepicker.components.DatePicker datePicker1;
-    private com.github.lgooddatepicker.components.DatePicker datePicker2;
+    private com.github.lgooddatepicker.components.DatePicker dtpDesde;
+    private com.github.lgooddatepicker.components.DatePicker dtpHasta;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblDesde;
     private javax.swing.JLabel lblHasta;

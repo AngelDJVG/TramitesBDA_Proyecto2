@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  *
@@ -64,7 +65,7 @@ public class Tramite implements Serializable {
         this.nombrePersona = nombrePersona;
         this.costo = costo;
     }
-   
+    
     public Long getId() {
         return id;
     }
@@ -129,7 +130,7 @@ public class Tramite implements Serializable {
 
     @Override
     public String toString() {
-        return "org.itson.dominio.Tramite[ id=" + id + " ]";
+        return "Tramite{" + "id=" + id + ", nombrePersona=" + nombrePersona + ", costo=" + costo + ", fechaExpedicion=" + fechaExpedicion + ", persona=" + persona + '}';
     }
     
 }

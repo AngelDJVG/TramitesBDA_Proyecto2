@@ -7,6 +7,7 @@ package org.itson.vista;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+import javax.persistence.PersistenceException;
 import javax.swing.JOptionPane;
 import org.itson.dao.PersonaDAO;
 import org.itson.dominio.Persona;
@@ -17,13 +18,20 @@ import org.itson.interfaces.IPersona;
  * @author LoanWeefos
  */
 public class FrmPrincipal extends javax.swing.JFrame {
+
     private IPersona personaDAO;
+
     /**
      * Creates new form principal
      */
     public FrmPrincipal() {
         initComponents();
-        personaDAO = new PersonaDAO();
+        try {
+            personaDAO = new PersonaDAO();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Base de datos no generada", "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
     }
 
     /**
@@ -212,55 +220,34 @@ public class FrmPrincipal extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnReportesActionPerformed
 
-    private List<Persona> lista20Personas(){
-        Persona persona1 = new Persona(  "1", "Jorge", "Sánchez", "Quezada", "6441234567", new GregorianCalendar(1995, 5, 15));
-        Persona persona2 = new Persona(  "2", "Mario", "Díaz", "Padilla", "6442345678", new GregorianCalendar(2003, 11, 25));
-        Persona persona3 = new Persona(  "3", "Gabriel", "Mancinas", "Cota", "6443456789", new GregorianCalendar(1992, 2, 12));
-        Persona persona4 = new Persona(  "4", "Julio", "Chon", "Obeso", "6444567890", new GregorianCalendar(1989, 11, 7));
-        Persona persona5 = new Persona(  "5", "Gibran", "Duran", "Solano", "6445678901", new GregorianCalendar(1998, 6, 30));
-        Persona persona6 = new Persona(  "6", "María", "Pérez", "Rodríguez", "6446789012", new GregorianCalendar(2002, 9, 18));
-        Persona persona7 = new Persona(  "7", "Juan", "Gutiérrez", "Fernández", "6447890123", new GregorianCalendar(1987, 4, 25));
-        Persona persona8 = new Persona(  "8", "Laura", "Díaz", "Sánchez", "6448901234", new GregorianCalendar(1997, 1, 5));
-        Persona persona9 = new Persona(  "9", "Alejandro", "Ramírez", "González", "6449012345", new GregorianCalendar(1990, 7, 19));
-        Persona persona10 = new Persona("10", "Isabel", "Herrera", "Santos", "6444321098", new GregorianCalendar(1999, 12, 3));
-        Persona persona11 = new Persona("11", "Arturo", "Vargas", "Montes", "6445432109", new GregorianCalendar(1996, 10, 29));
-        Persona persona12 = new Persona("12", "Rosa", "Álvarez", "Guzmán", "6446543210", new GregorianCalendar(1991, 8, 17));
-        Persona persona13 = new Persona("13", "Manuel", "Castillo", "Díaz", "6447654321", new GregorianCalendar(2001, 6, 11));
-        Persona persona14 = new Persona("14", "Mónica", "López", "Soto", "6448765432", new GregorianCalendar(1994, 3, 2));
-        Persona persona15 = new Persona("15", "Eduardo", "Flores", "Ortega", "6449876543", new GregorianCalendar(1993, 12, 21));
-        Persona persona16 = new Persona("16", "Lucía", "Peralta", "Romero", "6440987654", new GregorianCalendar(1997, 9, 9));
-        Persona persona17 = new Persona("17", "Diego", "Gómez", "Castro", "6445432109", new GregorianCalendar(1995, 6, 17));
-        Persona persona18 = new Persona("18", "Carmen", "Santos", "García", "6444321098", new GregorianCalendar(1990, 11, 27));
-        Persona persona19 = new Persona("19", "Elena", "Moreno", "Valenzuela", "6443210987", new GregorianCalendar(1998, 4, 7));
-        Persona persona20 = new Persona("20", "Luis Pablo", "Ayon", "Figueroa", "6442111111", new GregorianCalendar(2003, 8, 11));
+    private List<Persona> lista20Personas() {
         List<Persona> personas = new ArrayList<>();
-        personas.add(persona1);
-        personas.add(persona2);
-        personas.add(persona3);
-        personas.add(persona4);
-        personas.add(persona5);
-        personas.add(persona6);
-        personas.add(persona7);
-        personas.add(persona8);
-        personas.add(persona9);
-        personas.add(persona10);
-        personas.add(persona11);
-        personas.add(persona12);
-        personas.add(persona13);
-        personas.add(persona14);
-        personas.add(persona15);
-        personas.add(persona16);
-        personas.add(persona17);
-        personas.add(persona18);
-        personas.add(persona19);
-        personas.add(persona20);
+        personas.add(new Persona("SAQJ950615SM8", "Jorge", "Sánchez", "Quezada", "6441234567", new GregorianCalendar(1995, 5, 15)));
+        personas.add(new Persona("DAPM031125O19", "Mario", "Díaz", "Padilla", "6442345678", new GregorianCalendar(2003, 11, 25)));
+        personas.add(new Persona("MACG920212BQ2", "Gabriel", "Mancinas", "Cota", "6443456789", new GregorianCalendar(1992, 2, 12)));
+        personas.add(new Persona("COOJ891107VH5", "Julio", "Chon", "Obeso", "6444567890", new GregorianCalendar(1989, 11, 7)));
+        personas.add(new Persona("DOSG980630PC9", "Gibran", "Duran", "Solano", "6445678901", new GregorianCalendar(1998, 6, 30)));
+        personas.add(new Persona("PERM0209181E8", "María", "Pérez", "Rodríguez", "6446789012", new GregorianCalendar(2002, 9, 18)));
+        personas.add(new Persona("GUFJ870425DE0", "Juan", "Gutiérrez", "Fernández", "6447890123", new GregorianCalendar(1987, 4, 25)));
+        personas.add(new Persona("DISL970105J57", "Laura", "Díaz", "Sánchez", "6448901234", new GregorianCalendar(1997, 1, 5)));
+        personas.add(new Persona("RAGA9007191F2", "Alejandro", "Ramírez", "González", "6449012345", new GregorianCalendar(1990, 7, 19)));
+        personas.add(new Persona("HESI991203GF8", "Isabel", "Herrera", "Santos", "6444321098", new GregorianCalendar(1999, 12, 3)));
+        personas.add(new Persona("VAMA961029IX3", "Arturo", "Vargas", "Montes", "6445432109", new GregorianCalendar(1996, 10, 29)));
+        personas.add(new Persona("AUGR9108177C1", "Rosa", "Álvarez", "Guzmán", "6446543210", new GregorianCalendar(1991, 8, 17)));
+        personas.add(new Persona("CADM010611XK9", "Manuel", "Castillo", "Díaz", "6447654321", new GregorianCalendar(2001, 6, 11)));
+        personas.add(new Persona("LOPS9403028W2", "Mónica", "López", "Soto", "6448765432", new GregorianCalendar(1994, 3, 2)));
+        personas.add(new Persona("FOEO931221H79", "Eduardo", "Flores", "Ortega", "6449876543", new GregorianCalendar(1993, 12, 21)));
+        personas.add(new Persona("PEPL9709094Y4", "Lucía", "Peralta", "Romero", "6440987654", new GregorianCalendar(1997, 9, 9)));
+        personas.add(new Persona("GOCX950617HO4", "Diego", "Gómez", "Castro", "6445432109", new GregorianCalendar(1995, 6, 17)));
+        personas.add(new Persona("SAGC901127NX1", "Carmen", "Santos", "García", "6444321098", new GregorianCalendar(1990, 11, 27)));
+        personas.add(new Persona("MOVE980407RJ1", "Elena", "Moreno", "Valenzuela", "6443210987", new GregorianCalendar(1998, 4, 7)));
+        personas.add(new Persona("AIFL0508113P3", "Luis Pablo", "Ayon", "Figueroa", "6442111111", new GregorianCalendar(2005, 8, 11)));
         return personas;
     }
+
     private void insertarPersonas() {
         List<Persona> personas = lista20Personas();
-        System.out.println(lista20Personas());
-        System.out.println(personaDAO.consultarTodos());
-        
+
         if (personaDAO.consultarTodos().size() == 20) {
             JOptionPane.showMessageDialog(null, "Ya se han insertado las 20 personas", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
