@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.List;
+import javax.persistence.Convert;
+import org.itson.utilidades.JPAEncryptor;
 
 /**
  *
@@ -31,13 +33,16 @@ public class Persona implements Serializable {
     @Column(name = "rfc")
     private String rfc;
     
-    @Column(name = "nombre ", nullable = false, length = 50)
+    @Convert(converter = JPAEncryptor.class)
+    @Column(name = "nombre ", nullable = false, length = 200)
     private String nombre;
     
-    @Column(name = "apellidoPaterno ", nullable = false, length = 50)
+    @Convert(converter = JPAEncryptor.class)
+    @Column(name = "apellidoPaterno ", nullable = false, length = 200)
     private String apellidoPaterno;
     
-    @Column(name = "apellidoMaterno ", nullable = false, length = 50)
+    @Convert(converter = JPAEncryptor.class)
+    @Column(name = "apellidoMaterno ", nullable = false, length = 200)
     private String apellidoMaterno;
     
     @Column(name = "telefono ", nullable = false, length = 10)

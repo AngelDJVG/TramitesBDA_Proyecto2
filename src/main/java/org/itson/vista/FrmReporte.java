@@ -273,7 +273,7 @@ public class FrmReporte extends javax.swing.JFrame {
             List<Map<String, Object>> registros = new ArrayList<>();
             List<Tramite> entities = this.listaPorComboBox();//CONSULTA
             SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-
+            
             for (Tramite t : entities) {
                 Map<String, Object> registro = new HashMap<>();
                 registro.put("fecha_expedicion", formatoFecha.format(t.getFechaExpedicion().getTime()));

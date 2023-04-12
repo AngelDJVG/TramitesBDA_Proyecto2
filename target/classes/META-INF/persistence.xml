@@ -8,6 +8,7 @@
     <class>org.itson.dominio.Licencia</class>
     <class>org.itson.dominio.Vehiculo</class>
     <class>org.itson.dominio.Automovil</class>
+    <class>org.itson.utilidades.JPAEncryptor </class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/tramites?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

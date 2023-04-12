@@ -30,6 +30,7 @@ org\itson\interfaces\IPersona.class
 org\itson\vista\FrmPrincipal$5.class
 org\itson\dominio\Licencia_.class
 org\itson\vista\FrmConsulta$3.class
+org\itson\utilidades\JPAEncryptor.class
 org\itson\boton\CeldaBotonRender.class
 org\itson\vista\FrmLicencia$3.class
 org\itson\vista\FrmVehiculos$5.class
@@ -55,8 +56,10 @@ org\itson\vista\FrmVehiculos$4.class
 org\itson\boton\CeldaBotonEditor$2.class
 org\itson\vista\FrmRegistroLicencia$4.class
 org\itson\vista\FrmPrincipal$1.class
+org\itson\vista\FrmReporte$4.class
 org\itson\vista\FrmRegistrarPlaca$3.class
 org\itson\vista\FrmVehiculos$1.class
+.netbeans_automatic_build
 org\itson\interfaces\ITramite.class
 org\itson\vista\FrmReporte$1.class
 org\itson\dominio\Persona_.class
@@ -72,6 +75,7 @@ org\itson\dominio\Licencia.class
 org\itson\vista\FrmVehiculos.class
 org\itson\vista\FrmRegistroLicencia.class
 org\itson\dao\LicenciaDAO.class
+org\itson\vista\FrmReporte$3.class
 org\itson\vista\FrmConsulta$4.class
 org\itson\dao\TramiteDAO.class
 org\itson\boton\CeldaBotonEditor.class

@@ -4,6 +4,7 @@
  */
 package org.itson.dao;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
@@ -111,23 +112,49 @@ public class TramiteDAO implements ITramite {
 
     @Override
     public List<Tramite> consultarTramitesPorParametros(ParametrosBusquedaConsultaDTO params) {
+        if (params.getNombre() == null && params.getDesde() == null && params.getHasta() == null) {
+            return this.consultarTodos();
+        }
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Tramite> criteria = builder.createQuery(Tramite.class);
         Root<Tramite> entidadTramite = criteria.from(Tramite.class);
         List<Predicate> filtros = new LinkedList<>();
+        List<Tramite> todos = this.consultarTodos();
+
+        if (params.getNombre() != null) {
+            List<String> nombres = new ArrayList<>();
+            for (Tramite tramite : todos) {
+                String nombreSinAcentos = Normalizer.normalize(tramite.getNombrePersona(), Normalizer.Form.NFD)
+                        .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                        .toLowerCase();
+                String nombreBuscadoSinAcentos = Normalizer.normalize(params.getNombre(), Normalizer.Form.NFD)
+                        .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                        .toLowerCase();
+                if (nombreSinAcentos.contains(nombreBuscadoSinAcentos)) {
+                    nombres.add(tramite.getNombrePersona());
+                }
+            }
+            if (!nombres.isEmpty()) {
+                filtros.add(entidadTramite.get("nombrePersona").in(nombres));
+            } else {
+                // Si no se ha encontrado ningún nombre, puedes añadir una cadena que no
+                // coincide con ningún nombre, para que no se devuelvan todos los registros.
+                filtros.add(builder.equal(entidadTramite.get("nombrePersona"), "nombre_que_nunca_concidirañ´´´"));
+            }
+        }
 
         if (params.getDesde() != null && params.getHasta() != null) {
             filtros.add(builder.between(entidadTramite.get("fechaExpedicion"), params.getDesde(), params.getHasta()));
-        } else if (params.getDesde() != null) {
-            filtros.add(builder.greaterThanOrEqualTo(entidadTramite.get("fechaExpedicion"), params.getDesde()));
-        } else if (params.getHasta() != null) {
-            filtros.add(builder.lessThanOrEqualTo(entidadTramite.get("fechaExpedicion"), params.getHasta()));
+        } else {
+            if (params.getDesde() != null) {
+                filtros.add(builder.greaterThanOrEqualTo(entidadTramite.get("fechaExpedicion"), params.getDesde()));
+            }
+            if (params.getHasta() != null) {
+                filtros.add(builder.lessThanOrEqualTo(entidadTramite.get("fechaExpedicion"), params.getHasta()));
+            }
         }
-        if (params.getNombre() != null) {
-            filtros.add(builder.like(entidadTramite.get("nombrePersona"), "%" + params.getNombre() + "%"));
-        }
-
-        criteria = criteria.select(entidadTramite).where(builder.and((filtros.toArray(new Predicate[0]))));
+        
+        criteria = criteria.select(entidadTramite).where(builder.and((filtros.toArray(new Predicate[filtros.size()]))));
         TypedQuery<Tramite> query = entityManager.createQuery(criteria);
         List<Tramite> tramites = query.getResultList();
         return tramites;

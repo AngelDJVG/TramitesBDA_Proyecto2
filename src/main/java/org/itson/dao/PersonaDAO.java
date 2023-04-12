@@ -22,6 +22,7 @@ import javax.persistence.criteria.Root;
 import org.itson.dominio.Persona;
 import org.itson.interfaces.IPersona;
 import org.itson.utilidades.ConfiguracionPaginado;
+import org.itson.utilidades.JPAEncryptor;
 import org.itson.utilidades.ParametrosBusquedaConsultaDTO;
 
 /**
@@ -89,7 +90,6 @@ public class PersonaDAO implements IPersona {
         } catch (Exception e) {
             throw new PersistenceException("Error al consultar a la persona por RFC");
         }
-
     }
     
     @Override
@@ -98,20 +98,19 @@ public class PersonaDAO implements IPersona {
         CriteriaQuery<Persona> criteria = builder.createQuery(Persona.class);
         Root<Persona> entidadPersona = criteria.from(Persona.class);
         List<Predicate> filtros = new LinkedList<>();
+
+        List<Persona> todas = this.consultarTodos(); 
+
         if (params.getRfc() != null) {
             filtros.add(builder.like(entidadPersona.get("rfc"), "%" + params.getRfc() + "%"));
         }
         if (params.getNombre() != null) {
-            filtros.add(builder.like(
-                    builder.concat(
-                          builder.concat(
-                                    entidadPersona.get("nombre"),
-                                    builder.concat(" ", entidadPersona.get("apellidoPaterno"))
-                            ),
-                            builder.concat(" ", entidadPersona.get("apellidoMaterno"))
-                    ),
-                    "%" + params.getNombre() + "%"
-            ));
+            for (Persona persona : todas) { 
+                String concatenado = persona.getNombre() + " " + persona.getApellidoPaterno()+ " "+persona.getApellidoMaterno();
+                if (concatenado.toLowerCase().contains(params.getNombre().toLowerCase())) { 
+                    filtros.add(builder.equal(entidadPersona.get("rfc"), persona.getRfc()));
+                }
+            }
         }
         if (params.getYear() != null) {
             Expression<String> year = builder.function("year", String.class, entidadPersona.get("fechaNacimiento"));

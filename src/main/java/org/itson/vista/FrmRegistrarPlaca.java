@@ -271,15 +271,20 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         if (esNuevo) {
-            if (vehiculoDAO.verificarExistencia(extraerDatosFormulario().getNumero())) {
-                JOptionPane.showMessageDialog(null, "El vehículo con ese número de serie ya se encuentra registrado.\nFavor de dirigirse a la sección CAMBIAR PLACA.", "Error", JOptionPane.ERROR_MESSAGE);
+            if (verificarCamposVacios()) {
+                JOptionPane.showMessageDialog(null, "No deje ningún campo vacio", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                guardar();
-                personaDAO.actualizarPersona(persona);
-                JOptionPane.showMessageDialog(null, "Se han tramitado las placas y registrado el vehículo correctamente");
-                this.dispose();
-                new FrmVehiculos(persona).setVisible(true);
+                if (vehiculoDAO.verificarExistencia(extraerDatosFormulario().getNumero())) {
+                    JOptionPane.showMessageDialog(null, "El vehículo con ese número de serie ya se encuentra registrado.\nFavor de dirigirse a la sección CAMBIAR PLACA.", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    guardar();
+                    personaDAO.actualizarPersona(persona);
+                    JOptionPane.showMessageDialog(null, "Se han tramitado las placas y registrado el vehículo correctamente");
+                    this.dispose();
+                    new FrmVehiculos(persona).setVisible(true);
+                }
             }
+
         } else {
             Vehiculo vehiculo = vehiculoDAO.consultarVehiculo(numSerie);
             placaDAO.actualizarPlaca(vehiculo);
@@ -298,7 +303,10 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
             evt.consume();
         } 
     }//GEN-LAST:event_txtColorKeyTyped
-
+    
+    private boolean verificarCamposVacios(){
+        return txtSerie.getText().isBlank() || txtModelo.getText().isBlank() || txtColor.getText().isBlank() || txtLinea.getText().isEmpty() || txtMarca.getText().isBlank();
+    }
     private String generarNumPlaca() {
         String numPlaca = RandomStringUtils.randomAlphabetic(3).toUpperCase() + "-" + RandomStringUtils.randomNumeric(3);
         if (placaDAO.verificarExistencia(numPlaca)) {
