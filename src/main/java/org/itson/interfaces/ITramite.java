@@ -5,8 +5,11 @@
 package org.itson.interfaces;
 
 import java.util.List;
+import org.itson.dominio.Licencia;
+import org.itson.dominio.Placa;
 import org.itson.dominio.Tramite;
 import org.itson.utilidades.ConfiguracionPaginado;
+import org.itson.utilidades.ParametrosBusquedaConsultaDTO;
 
 /**
  *
@@ -20,4 +23,7 @@ public interface ITramite {
     public List<Tramite> consultarTodos();
     public List<Tramite> consultarTramitesPersona(String rfc, ConfiguracionPaginado configPaginado);
     public List<Tramite> consultarTramitesPersona(String rfc);
+    public List<Tramite> consultarTramitesPorParametros(ParametrosBusquedaConsultaDTO params); 
+    public List<Licencia> consultarTramitesLicencia(); 
+    public List<Placa> consultarTramitesPlacas(); 
 }

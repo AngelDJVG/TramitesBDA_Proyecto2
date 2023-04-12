@@ -248,7 +248,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void insertarPersonas() {
         List<Persona> personas = lista20Personas();
 
-        if (personaDAO.consultarTodos().size() == 20) {
+        if (personaDAO.consultarTodos().size() >= 20) {
             JOptionPane.showMessageDialog(null, "Ya se han insertado las 20 personas", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             for (Persona persona : personas) {

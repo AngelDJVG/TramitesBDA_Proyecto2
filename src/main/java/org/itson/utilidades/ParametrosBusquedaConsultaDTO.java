@@ -1,6 +1,8 @@
 
 package org.itson.utilidades;
 
+import java.util.Calendar;
+
 
 /**
  *
@@ -11,6 +13,9 @@ public class ParametrosBusquedaConsultaDTO {
     private String rfc;
     private Integer year;
     private String nombre;
+    private Calendar desde;
+    private Calendar hasta;
+    private String opcionComboBox;
     
     public ParametrosBusquedaConsultaDTO() {
     }
@@ -20,6 +25,19 @@ public class ParametrosBusquedaConsultaDTO {
         this.year = year;
         this.nombre = nombre;
     }
+
+    public ParametrosBusquedaConsultaDTO(String nombre, Calendar desde, Calendar hasta, String opcionComboBox) {
+        this.nombre = nombre;
+        this.desde = desde;
+        this.hasta = hasta;
+        this.opcionComboBox = opcionComboBox;
+    }
+
+    public ParametrosBusquedaConsultaDTO(String opcionComboBox) {
+        this.opcionComboBox = opcionComboBox;
+    }
+    
+    
 
     public String getRfc() {
         return rfc;
@@ -44,5 +62,30 @@ public class ParametrosBusquedaConsultaDTO {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public Calendar getDesde() {
+        return desde;
+    }
+
+    public void setDesde(Calendar desde) {
+        this.desde = desde;
+    }
+
+    public Calendar getHasta() {
+        return hasta;
+    }
+
+    public void setHasta(Calendar hasta) {
+        this.hasta = hasta;
+    }
+
+    public String getOpcionComboBox() {
+        return opcionComboBox;
+    }
+
+    public void setOpcionComboBox(String opcionComboBox) {
+        this.opcionComboBox = opcionComboBox;
+    }
+    
     
 }

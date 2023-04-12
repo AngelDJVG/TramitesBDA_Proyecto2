@@ -7,10 +7,12 @@ package org.itson.vista;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.PersistenceException;
+import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -23,6 +25,7 @@ import org.itson.dominio.Licencia;
 import org.itson.dominio.Placa;
 import org.itson.dominio.Tramite;
 import org.itson.interfaces.ITramite;
+import org.itson.utilidades.ParametrosBusquedaConsultaDTO;
 
 /**
  *
@@ -31,7 +34,7 @@ import org.itson.interfaces.ITramite;
 public class FrmReporte extends javax.swing.JFrame {
 
     private ITramite tramiteDAO;
-
+    private ParametrosBusquedaConsultaDTO params;
     /**
      * Creates new form reportes
      */
@@ -39,6 +42,8 @@ public class FrmReporte extends javax.swing.JFrame {
         initComponents();
         tramiteDAO = new TramiteDAO();
         configurarDatePicker();
+        params = new ParametrosBusquedaConsultaDTO(cbTramite.getSelectedItem().toString());
+        System.out.println(cbTramite.getSelectedItem().toString());
     }
 
     /**
@@ -86,6 +91,11 @@ public class FrmReporte extends javax.swing.JFrame {
         lblTramites.setForeground(new java.awt.Color(105, 28, 50));
 
         cbTramite.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Licencia", "Placas" }));
+        cbTramite.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbTramiteItemStateChanged(evt);
+            }
+        });
 
         lblNombre.setText("Nombre:");
         lblNombre.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
@@ -112,6 +122,12 @@ public class FrmReporte extends javax.swing.JFrame {
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarActionPerformed(evt);
+            }
+        });
+
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
             }
         });
 
@@ -220,6 +236,22 @@ public class FrmReporte extends javax.swing.JFrame {
         generarReporte();
     }//GEN-LAST:event_btnImprimirActionPerformed
 
+    private void cbTramiteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbTramiteItemStateChanged
+        String opcion = cbTramite.getSelectedItem().toString();
+        params.setOpcionComboBox(opcion);
+    }//GEN-LAST:event_cbTramiteItemStateChanged
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        char c = evt.getKeyChar();
+        if (txtNombre.getText().isBlank() && c == ' ') {
+                evt.consume();
+        } else if (c == ' ' && txtNombre.getText().charAt(txtNombre.getText().length() - 1) == ' ') {
+            evt.consume();
+        } else if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && c != ' ') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNombreKeyTyped
+
     private void configurarDatePicker() {
         LocalDate fechaActual = LocalDate.now();
         LocalDate minFecha = LocalDate.of(1920, 01, 01);
@@ -228,25 +260,48 @@ public class FrmReporte extends javax.swing.JFrame {
         dtpDesde.getComponentDateTextField().setEnabled(false);
         dtpHasta.getComponentDateTextField().setEnabled(false);
     }
+    
+    private List<Tramite> listaPorComboBox(){
+        validacionesCampos();
+        List<Tramite> lista = this.tramiteDAO.consultarTramitesPorParametros(params);
+        params = new ParametrosBusquedaConsultaDTO();
+        return lista;
+    }
 
     private void generarReporte() {
         try {
             List<Map<String, Object>> registros = new ArrayList<>();
-            List<Tramite> entities = this.tramiteDAO.consultarTodos();//CONSULTA
+            List<Tramite> entities = this.listaPorComboBox();//CONSULTA
             SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
             for (Tramite t : entities) {
                 Map<String, Object> registro = new HashMap<>();
-                
                 registro.put("fecha_expedicion", formatoFecha.format(t.getFechaExpedicion().getTime()));
-                if (t instanceof Placa) {
-                    registro.put("DTYPE", "Placa");
-                } else if (t instanceof Licencia) {
-                    registro.put("DTYPE", "Licencia");
+                if ("Placas".equals(cbTramite.getSelectedItem().toString())) {
+                    if (t instanceof Placa) {
+                        registro.put("DTYPE", "Placa");
+                        registro.put("nombre_persona", t.getNombrePersona());
+                        registro.put("costo", t.getCosto());
+                        registros.add(registro);
+                    }
+                } else if ("Licencia".equals(cbTramite.getSelectedItem().toString())) {
+                    if (t instanceof Licencia) {
+                        registro.put("DTYPE", "Licencia");
+                        registro.put("nombre_persona", t.getNombrePersona());
+                        registro.put("costo", t.getCosto());
+                        registros.add(registro);
+                    }
+                } else if ("Todos".equals(cbTramite.getSelectedItem().toString())) {
+                    if (t instanceof Placa) {
+                        registro.put("DTYPE", "Placa");
+                    } else if (t instanceof Licencia) {
+                        registro.put("DTYPE", "Licencia");
+                    }
+                    registro.put("nombre_persona", t.getNombrePersona());
+                    registro.put("costo", t.getCosto());
+                    registros.add(registro);
                 }
-                registro.put("nombre_persona", t.getNombrePersona());
-                registro.put("costo", t.getCosto());
-                registros.add(registro);
+                
             }
 
             JasperCompileManager.compileReportToFile("src/main/resources/Tramites.jrxml", "src/main/resources/Tramites.jasper");
@@ -260,6 +315,25 @@ public class FrmReporte extends javax.swing.JFrame {
         } catch (JRException e) {
             throw new PersistenceException("Error al generar el reporte: " + e.getMessage());
         }
+    }
+    
+    private void validacionesCampos() {
+            if(!txtNombre.getText().isBlank()){
+                params.setNombre(txtNombre.getText());
+            }
+            if(!dtpDesde.getText().isBlank()){
+                LocalDate fechaDesde = dtpDesde.getDate();
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(fechaDesde.getYear(), fechaDesde.getMonthValue()-1,fechaDesde.getDayOfMonth(),0, 0, 0);
+                params.setDesde(calendar);
+            }
+            if(!dtpHasta.getText().isBlank()){
+                LocalDate fechaHasta = dtpHasta.getDate();
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(fechaHasta.getYear(), fechaHasta.getMonthValue()-1,fechaHasta.getDayOfMonth(),23, 59, 59);
+                params.setHasta(calendar);
+            }
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

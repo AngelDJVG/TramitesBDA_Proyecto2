@@ -41,7 +41,7 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
         this.persona = persona;
         this.licenciaDAO = new LicenciaDAO();
         this.personaDAO = new PersonaDAO();
-        this.costo = 0;
+        this.costo = 600;
         this.cargarDatosPersona();
     }
 
