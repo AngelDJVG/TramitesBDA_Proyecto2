@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package org.itson.vista;
 
 import java.awt.event.ItemEvent;
@@ -18,8 +15,10 @@ import org.itson.interfaces.IVehiculo;
 import org.itson.utilidades.ConfiguracionPaginado;
 
 /**
- *
- * @author Ángel De Jesús Valenzuela García
+ * Esta clase se encarga de mostrar al usuario todos sus automóviles y la
+ * posibilidad de registrar uno nuevo o cambiarle las placas a uno usado.
+ * 
+ * @author Ángel Valenzuela, Luis Duran
  */
 public class FrmVehiculos extends javax.swing.JFrame {
 
@@ -30,9 +29,8 @@ public class FrmVehiculos extends javax.swing.JFrame {
     private ConfiguracionPaginado configPaginadoSiguiente;
 
     /**
-     * Creates new form Automoviles
-     *
-     * @param persona
+     * Método constructor que inicializa los atributos.
+     * @param persona Persona la cual se tiene registros de los automóviles.
      */
     public FrmVehiculos(Persona persona) {
         initComponents();
@@ -286,24 +284,47 @@ public class FrmVehiculos extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de regresar.
+     * Cierra la ventana y se abre la ventana anterior.
+     * @param evt El objeto ActionEvent que representa el evento del botón de regresar.
+     */
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         new FrmPlaca().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
-
+    
+    /**
+     * Método que abre la ventana para registrar una nuevo automóvil con su respectiva placa.
+     * @param evt 
+     */
     private void btnAgregarAutomovilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarAutomovilActionPerformed
         new FrmRegistrarPlaca(persona, true, null).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnAgregarAutomovilActionPerformed
-
+    
+    /**
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de anterior.
+     * Manda a llamar a un método que retrocede de página de la tabla de vehículos.
+     * @param evt El objeto ActionEvent que representa el evento del botón de anterior.
+     */
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
         retrocederPagina();
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
+    /**
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de siguiente.
+     * Manda a llamar a un método que avanza de página de la tabla de vehículos.
+     * @param evt El objeto ActionEvent que representa el evento del botón de siguiente.
+     */
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         avanzarPagina();
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
+    /**
+     * Método de evento que actualiza la tabla dependiendo del valor que se elige en el combobox.
+     * @param evt El objeto ItemEvent que representa el evento del combobox de paginado.
+     */
     private void cmbPaginasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbPaginasItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             int elementosPorPagina = Integer.parseInt((String) evt.getItem());
@@ -316,6 +337,9 @@ public class FrmVehiculos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmbPaginasItemStateChanged
 
+    /**
+     * Este método carga y recarga la tabla de vehículos.
+     */
     private void cargarTabla() {
         List<Object[]> datos = vehiculoDAO.consultarActivosPorRFC(persona.getRfc(), configPaginado);
         DefaultTableModel modelo = (DefaultTableModel) tblVehiculos.getModel();
@@ -326,6 +350,9 @@ public class FrmVehiculos extends javax.swing.JFrame {
         controlarBotones(datos);
     }
     
+    /**
+     * Método que carga los datos de una persona para ponerlos en labels.
+     */
     private void cargarDatosPersona() {     
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         lblNombreP.setText(persona.getNombre() + " " + persona.getApellidoPaterno() + " " + persona.getApellidoMaterno());
@@ -334,6 +361,10 @@ public class FrmVehiculos extends javax.swing.JFrame {
         lblTelefonoP.setText(persona.getTelefono());
     }
 
+    /**
+     * Método que controla los botones dependiendo si la tabla está vacia.
+     * @param listaTramites Lista de vehiculos que contiene la tabla para verificar si está vacia.
+     */
     private void controlarBotones(List datos) {
         if (datos.isEmpty()){
             cmbPaginas.setEnabled(false);
@@ -352,12 +383,18 @@ public class FrmVehiculos extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Método que avanza de página en la tabla de vehículos.
+     */
     private void avanzarPagina() {
         configPaginado.avanzarPagina();
         configPaginadoSiguiente.avanzarPagina();
         cargarTabla();
     }
 
+    /**
+     * Método que retrocede de página en la tabla de vehículos.
+     */
     private void retrocederPagina() {
         configPaginado.retrocederPagina();
         configPaginadoSiguiente.retrocederPagina();

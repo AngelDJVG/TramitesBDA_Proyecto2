@@ -17,8 +17,9 @@ import org.itson.interfaces.ILicencia;
 import org.itson.interfaces.IPersona;
 
 /**
- *
- * @author LoanWeefos
+ * Esta clase se encarga de buscar a una persona por su RFC para realizar un tramite de licencia. 
+ * 
+ * @author Ángel Valenzuela, Luis Duran
  */
 public class FrmLicencia extends javax.swing.JFrame {
 
@@ -26,8 +27,7 @@ public class FrmLicencia extends javax.swing.JFrame {
     private ILicencia licenciaDAO;
 
     /**
-     * Creates new form licencias
-     *
+     * Método constructor que inicializa los atributos.
      */
     public FrmLicencia() {
         initComponents();
@@ -151,12 +151,24 @@ public class FrmLicencia extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    
+    /**
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de regresar.
+     * Cierra la ventana y se abre la ventana anterior.
+     * @param evt El objeto ActionEvent que representa el evento del botón de regresar.
+     */
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         new FrmPrincipal().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
-
+    
+    /**
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de buscar.
+     * Si la tabla está vacia lanza un mensaje de error, en caso contrario manda a llamar a 
+     * un método que verifica la licencia.
+     * @param evt El objeto ActionEvent que representa el evento del botón de buscar.
+     */
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         if (txtRFC.getText().isBlank()) {
             JOptionPane.showMessageDialog(null, "Por favor, ingrese datos en el campo de texto", "Error", JOptionPane.ERROR_MESSAGE);
@@ -165,7 +177,10 @@ public class FrmLicencia extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnBuscarActionPerformed
-
+    /**
+     * Método de evento que limita al usuario a que no escriba caracteres especiales y a un máximo de 13 caracteres.
+     * @param evt El objeto KeyEvent que representa el evento de tecla presionada.
+     */
     private void txtRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRFCKeyTyped
         char c = evt.getKeyChar();
         if ((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
@@ -176,10 +191,8 @@ public class FrmLicencia extends javax.swing.JFrame {
     }//GEN-LAST:event_txtRFCKeyTyped
 
     /**
-     * Método que verifica si una persona ya tiene una licencia
-     *
-     * @return verdadero si ya cuenta con una licencia activa, falso en caso
-     * contrario
+     * Método que verifica si una persona cumple los requisitos para hacer un tramite de licencia,
+     * si no es así muestra un mensaje con su respectivo error.
      */
     private void verificarLicencia() {
 

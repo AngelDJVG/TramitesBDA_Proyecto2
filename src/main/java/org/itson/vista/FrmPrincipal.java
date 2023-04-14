@@ -7,22 +7,22 @@ package org.itson.vista;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
-import javax.persistence.PersistenceException;
 import javax.swing.JOptionPane;
 import org.itson.dao.PersonaDAO;
 import org.itson.dominio.Persona;
 import org.itson.interfaces.IPersona;
 
 /**
- *
- * @author LoanWeefos
+ * Esta clase se encarga de mostrar al usuario todas las funcionalidades del programa.
+ * 
+ * @author Ángel Valenzuela, Luis Duran
  */
 public class FrmPrincipal extends javax.swing.JFrame {
 
     private IPersona personaDAO;
 
     /**
-     * Creates new form principal
+     * Método constructor que inicializa los atributos.
      */
     public FrmPrincipal() {
         initComponents();
@@ -191,35 +191,64 @@ public class FrmPrincipal extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    /**
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de salir.
+     * Cierra la ventana y se termina el programa.
+     * @param evt El objeto ActionEvent que representa el evento del botón de salir.
+     */
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_btnSalirActionPerformed
-
+    
+    /**
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de agregar personas.
+     * Manda a llamar a un método que inserta 20 personas a la base de datos.
+     * @param evt El objeto ActionEvent que representa el evento del botón de agregar personas.
+     */
     private void btnAgregarPersonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPersonasActionPerformed
         this.insertarPersonas();
     }//GEN-LAST:event_btnAgregarPersonasActionPerformed
-
+    
+    /**
+     * Método que abre la ventana para solicitar una licencia.
+     * @param evt El objeto ActionEvent que representa el evento del botón de licencias.
+     */
     private void btnLicenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLicenciasActionPerformed
         new FrmLicencia().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnLicenciasActionPerformed
-
+    
+    /**
+     * Método que abre la ventana para solicitar una placa.
+     * @param evt El objeto ActionEvent que representa el evento del botón de placas.
+     */
     private void btnPlacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlacasActionPerformed
         new FrmPlaca().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnPlacasActionPerformed
 
+    /**
+     * Método que abre la ventana para consultar los tramites hechos por una persona.
+     * @param evt El objeto ActionEvent que representa el evento del botón de consultar.
+     */
     private void btnConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultasActionPerformed
         new FrmConsulta().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnConsultasActionPerformed
 
+    /**
+     * Método que abre la ventana para consultar el reporte de tramites realizados.
+     * @param evt El objeto ActionEvent que representa el evento del botón de consultar.
+     */
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
         new FrmReporte().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnReportesActionPerformed
-
+    /**
+     * Método que crea 20 personas y los agrega en una lista.
+     * @return Lista de las 20 personas a insertar.
+     */
     private List<Persona> lista20Personas() {
         List<Persona> personas = new ArrayList<>();
         personas.add(new Persona("SAQJ950615SM8", "Jorge", "Sánchez", "Quezada", "6441234567", new GregorianCalendar(1995, 5, 15)));
@@ -244,7 +273,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         personas.add(new Persona("AIFL0508113P3", "Luis Pablo", "Ayon", "Figueroa", "6442111111", new GregorianCalendar(2005, 8, 11)));
         return personas;
     }
-
+    
+    /**
+     * Inserta 20 personas a la base de datos, si ya están insertadas muestra error.
+     */
     private void insertarPersonas() {
         List<Persona> personas = lista20Personas();
 

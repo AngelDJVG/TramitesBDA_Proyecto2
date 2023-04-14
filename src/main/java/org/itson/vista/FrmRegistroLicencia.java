@@ -20,8 +20,9 @@ import org.itson.interfaces.ILicencia;
 import org.itson.interfaces.IPersona;
 
 /**
- *
- * @author LoanWeefos
+ * Esta clase se encarga de capturar datos para registrar una licencia.
+ * 
+ * @author Ángel Valenzuela, Luis Duran
  */
 public class FrmRegistroLicencia extends javax.swing.JFrame {
     
@@ -31,9 +32,8 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
     private float costo;
 
     /**
-     * Creates new form registroLicencias
-     *
-     * @param persona
+     * Método constructor que inicializa todos los atributos.
+     * @param persona Persona a la cual se le quiere registrar un trámite de licencia.
      */
     public FrmRegistroLicencia(Persona persona) {
         initComponents();
@@ -275,20 +275,38 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    /**
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de regresar.
+     * Cierra la ventana y se abre la ventana anterior.
+     * @param evt El objeto ActionEvent que representa el evento del botón de regresar.
+     */
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         new FrmLicencia().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    /**
+     * Método de evento que actualiza la vigencia dependiendo del valor que se elige en el combobox.
+     * @param evt El objeto ItemEvent que representa el evento del combobox de la vigencia.
+     */
     private void cbVigenciaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbVigenciaItemStateChanged
         actualizarCosto();
     }//GEN-LAST:event_cbVigenciaItemStateChanged
 
+    /**
+     * Método de evento que actualiza el tipo de la licencia dependiendo si esta elegido o no.
+     * @param evt El objeto ActionEvent que representa el evento del check box de discapacidad.
+     */
     private void chbDiscapacidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbDiscapacidadActionPerformed
         actualizarCosto();
     }//GEN-LAST:event_chbDiscapacidadActionPerformed
 
+    /**
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de registrar.
+     * Llama a varios métodos para guardar la licencia.
+     * @param evt El objeto ActionEvent que representa el evento del botón de registrar.
+     */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         guardar();
         personaDAO.actualizarPersona(persona);
@@ -297,6 +315,10 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
         new FrmPrincipal().setVisible(true);
     }//GEN-LAST:event_btnRegistrarActionPerformed
     
+    /**
+     * Método que extrae los datos de los campos de texto para asignarlos a un objeto de licencia.
+     * @return El objeto de licencia creada.
+     */
     private Licencia extraerDatosFormulario() {
         String nombrePersona = persona.getNombre() + " " + persona.getApellidoPaterno() + " " + persona.getApellidoMaterno();
         Calendar fechaExpedicion = new GregorianCalendar();
@@ -317,6 +339,9 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
         return licencia;
     }
     
+    /**
+     * Método que guarda una licencia en la base de datos.
+     */
     private void guardar() {
         Licencia licencia = extraerDatosFormulario();
         licenciaDAO.agregarLicencia(licencia);
@@ -325,6 +350,9 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
         persona.setTramites(listaTramites);
     }
     
+    /**
+     * Método que carga los datos de una persona para ponerlos en labels.
+     */
     private void cargarDatosPersona() {     
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         lblNombreP.setText(persona.getNombre() + " " + persona.getApellidoPaterno() + " " + persona.getApellidoMaterno());
@@ -333,6 +361,10 @@ public class FrmRegistroLicencia extends javax.swing.JFrame {
         lblTelefonoP.setText(persona.getTelefono());
     }
     
+    /**
+     * Método que funciona a través del combobox para asignar el costo de la licencia 
+     * dependiendo de lo elegido.
+     */
     private void actualizarCosto() {
         if (chbDiscapacidad.isSelected()) {
             if (cbVigencia.getSelectedItem().equals("1 año")) {

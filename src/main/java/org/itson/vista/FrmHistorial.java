@@ -17,9 +17,9 @@ import org.itson.interfaces.ITramite;
 import org.itson.utilidades.ConfiguracionPaginado;
 
 /**
- * Clase historial que muestra los tramites hechos por una persona
- *
- * @author LoanWeefos
+ * Esta clase se encarga de mostrar al usuario los trámites realizados por una persona. 
+ * 
+ * @author Ángel Valenzuela, Luis Duran
  */
 public class FrmHistorial extends javax.swing.JFrame {
 
@@ -32,7 +32,7 @@ public class FrmHistorial extends javax.swing.JFrame {
     /**
      * Método constructor que inicializa los atributos
      *
-     * @param persona Persona la cual se tienen los registros de los tramites
+     * @param persona Persona la cual se tienen los registros de los trámites
      */
     public FrmHistorial(Persona persona) {
         initComponents();
@@ -217,20 +217,39 @@ public class FrmHistorial extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    /**
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de regresar.
+     * Cierra la ventana y se abre la ventana anterior.
+     * @param evt El objeto ActionEvent que representa el evento del botón de regresar.
+     */
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         new FrmConsulta().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
-
+   
+    /**
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de anterior.
+     * Manda a llamar a un método que retrocede de página de la tabla del historial.
+     * @param evt El objeto ActionEvent que representa el evento del botón de anterior.
+     */
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
         retrocederPagina();
     }//GEN-LAST:event_btnAnteriorActionPerformed
-
+    
+    /**
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de siguiente.
+     * Manda a llamar a un método que avanza de página de la tabla del historial.
+     * @param evt El objeto ActionEvent que representa el evento del botón de siguiente.
+     */
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         avanzarPagina();
     }//GEN-LAST:event_btnSiguienteActionPerformed
-
+    
+    /**
+     * Método de evento que actualiza la tabla dependiendo del valor que se elige en el combobox.
+     * @param evt El objeto ItemEvent que representa el evento del combobox de paginado.
+     */
     private void cmbPaginasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbPaginasItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             int elementosPorPagina = Integer.parseInt((String) evt.getItem());
@@ -242,14 +261,16 @@ public class FrmHistorial extends javax.swing.JFrame {
             cargarTablaTramites();
         }
     }//GEN-LAST:event_cmbPaginasItemStateChanged
-
+    /**
+     * Método que asigna los datos correspondientes de las personas a labels.
+     */
     private void asignarDatosLabels() {
         lblNombre.setText("Nombre: " + persona.getNombre() + " " + persona.getApellidoPaterno() + " " + persona.getApellidoMaterno());
         lblRFC.setText("RFC: " + persona.getRfc());
     }
 
     /**
-     * Este método carga y recarga la tabla de tramites
+     * Este método carga y recarga la tabla de trámites.
      */
     private void cargarTablaTramites() {
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblHistorial.getModel();
@@ -267,7 +288,11 @@ public class FrmHistorial extends javax.swing.JFrame {
         }
         controlarBotones(listaTramites);
     }
-
+    
+    /**
+     * Método que controla los botones dependiendo si la tabla está vacia.
+     * @param listaTramites Lista de trámites que contiene la tabla para verificar si está vacia.
+     */
     private void controlarBotones(List listaTramites) {
         if (listaTramites.isEmpty()) {
             cmbPaginas.setEnabled(false);
@@ -285,13 +310,19 @@ public class FrmHistorial extends javax.swing.JFrame {
             btnAnterior.setEnabled(true);
         }
     }
-
+    
+    /**
+     * Método que avanza de página en la tabla de historial.
+     */
     private void avanzarPagina() {
         configPaginado.avanzarPagina();
         configPaginadoSiguiente.avanzarPagina();
         cargarTablaTramites();
     }
-
+    
+    /**
+     * Método que retrocede de página en la tabla de historial.
+     */
     private void retrocederPagina() {
         configPaginado.retrocederPagina();
         configPaginadoSiguiente.retrocederPagina();

@@ -25,8 +25,9 @@ import org.itson.interfaces.IAutomovil;
 import org.itson.interfaces.IVehiculo;
 
 /**
- *
- * @author LoanWeefos
+ * Esta clase se encarga de capturar datos para registrar una placa.
+ * 
+ * @author Ángel Valenzuela, Luis Duran
  */
 public class FrmRegistrarPlaca extends javax.swing.JFrame {
 
@@ -39,7 +40,10 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
     private String numSerie;
 
     /**
-     * Creates new form registrarPlacas
+     * Método constructor que inicializa atributos.
+     * @param persona Persona a la cual se le va a registrar una placa.
+     * @param esNuevo Booleano que indica si la placa es nueva o usada.
+     * @param numSerie Número de serie del automóvil.
      */
     public FrmRegistrarPlaca(Persona persona, Boolean esNuevo, String numSerie) {
         initComponents();
@@ -283,12 +287,22 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    /**
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de regresar.
+     * Cierra la ventana y se abre la ventana anterior.
+     * @param evt El objeto ActionEvent que representa el evento del botón de regresar.
+     */
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         new FrmVehiculos(persona).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
-
+    
+    /**
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de registrar.
+     * Manda a llamar varios métodos para verificar si se puede registrar la placa o cambiar placa.
+     * @param evt El objeto ActionEvent que representa el evento del botón de registrar.
+     */
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         if (esNuevo) {
             if (verificarCamposVacios()) {
@@ -316,14 +330,24 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnRegistrarActionPerformed
-
+    
+    /**
+     * Método de evento que limita al usuario a que no escriba caracteres especiales ni números y a un máximo de 30 caracteres.
+     * @param evt El objeto KeyEvent que representa el evento de tecla presionada.
+     */
     private void txtColorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtColorKeyTyped
         char c = evt.getKeyChar();
         if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
             evt.consume();
+        }else if (txtColor.getText().length() >= 30) {
+            evt.consume();
         }
     }//GEN-LAST:event_txtColorKeyTyped
-
+    
+    /**
+     * Método de evento que limita al usuario a que no escriba caracteres especiales y a un máximo de 6 caracteres.
+     * @param evt El objeto KeyEvent que representa el evento de tecla presionada.
+     */
     private void txtSerieKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSerieKeyTyped
         char c = evt.getKeyChar();
         if ((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
@@ -332,32 +356,58 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtSerieKeyTyped
-
+    
+    /**
+     * Método de evento que limita al usuario a que no escriba caracteres especiales y a un máximo de 30 caracteres.
+     * @param evt El objeto KeyEvent que representa el evento de tecla presionada.
+     */
     private void txtLineaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLineaKeyTyped
         char c = evt.getKeyChar();
         if ((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
             evt.consume();
+        }else if (txtLinea.getText().length() >= 30) {
+            evt.consume();
         }
     }//GEN-LAST:event_txtLineaKeyTyped
 
+    /**
+     * Método de evento que limita al usuario a que no escriba caracteres especiales y a un máximo de 30 caracteres.
+     * @param evt El objeto KeyEvent que representa el evento de tecla presionada.
+     */
     private void txtModeloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtModeloKeyTyped
         char c = evt.getKeyChar();
         if ((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
             evt.consume();
+        }else if (txtModelo.getText().length() >= 30) {
+            evt.consume();
         }
     }//GEN-LAST:event_txtModeloKeyTyped
 
+    /**
+     * Método de evento que limita al usuario a que no escriba caracteres especiales y a un máximo de 30 caracteres.
+     * @param evt El objeto KeyEvent que representa el evento de tecla presionada.
+     */
     private void txtMarcaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMarcaKeyTyped
         char c = evt.getKeyChar();
         if ((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
             evt.consume();
+        }else if (txtMarca.getText().length() >= 30) {
+            evt.consume();
         }
     }//GEN-LAST:event_txtMarcaKeyTyped
-
+    
+    /**
+     * Método que valida si los campos de texto están vacios.
+     * @return Verdadero si hay algún campo vacio, falso en caso contrario.
+     */
     private boolean verificarCamposVacios() {
         return txtSerie.getText().isBlank() || txtModelo.getText().isBlank() || txtColor.getText().isBlank() || txtLinea.getText().isEmpty() || txtMarca.getText().isBlank();
     }
-
+    
+    /**
+     * Método que genera números de placa y verifica si no existe otro número de palca igual.
+     * @return El número de placa.
+     */
     private String generarNumPlaca() {
         String numPlaca = RandomStringUtils.randomAlphabetic(3).toUpperCase() + "-" + RandomStringUtils.randomNumeric(3);
         if (placaDAO.verificarExistencia(numPlaca)) {
@@ -366,7 +416,12 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
             return numPlaca;
         }
     }
-
+    
+    /**
+     * Método que verifica si la placa se va a registrar o cambiar. 
+     * Si es nueva, se activan los campos de texto para capturar datos del vehiculo.
+     * Si ya existe, se desactivan los campos de texto y muestran los datos del vehiculo.
+     */
     private void cambiarPorTipo() {
         if (esNuevo) {
             lblTotal.setText(String.valueOf(EnumCostosPlacas.NUEVO.getCosto()));
@@ -388,14 +443,22 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
             btnRegistrar.setText("Cambiar");
         }
     }
-
+    
+    /**
+     * Método que genera una nueva placa.
+     * @return La placa generada.
+     */
     private Placa generarPlaca() {
         String nombrePersona = persona.getNombre() + " " + persona.getApellidoPaterno() + " " + persona.getApellidoMaterno();
         Calendar fechaExpedicion = new GregorianCalendar();
         return new Placa(generarNumPlaca(), fechaExpedicion, fechaExpedicion, true, extraerDatosFormulario(), nombrePersona, Float.valueOf(lblTotal.getText()), persona);
 
     }
-
+    
+    /**
+     * Método que extrae los datos de los campos de texto para asignarlos a un objeto de automóvil.
+     * @return El objeto de automóvil creado.
+     */
     private Automovil extraerDatosFormulario() {
         this.numSerie = txtSerie.getText();
         String linea = txtLinea.getText();
@@ -405,7 +468,10 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
 
         return new Automovil(numSerie, marca, linea, color, modelo, persona);
     }
-
+    
+    /**
+     * Método que guarda o actualiza un vehiculo en la base de datos.
+     */
     private void guardar() {
         if (esNuevo) {
             Automovil automovil = extraerDatosFormulario();

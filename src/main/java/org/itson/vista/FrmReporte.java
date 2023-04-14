@@ -27,15 +27,19 @@ import org.itson.interfaces.ITramite;
 import org.itson.utilidades.ParametrosBusquedaConsultaDTO;
 
 /**
- *
- * @author LoanWeefos
+ * Esta clase se encarga de mostrar al usuario formas de consultar trámites
+ * a tráves de filtros por datos de una persona y por fechas determinadas,
+ * los cuales muestra en un reporte Jasper. 
+ * 
+ * @author Ángel Valenzuela, Luis Duran
  */
 public class FrmReporte extends javax.swing.JFrame {
 
     private ITramite tramiteDAO;
     private ParametrosBusquedaConsultaDTO params;
+    
     /**
-     * Creates new form reportes
+     * Método constructor que inicializa atributos.
      */
     public FrmReporte() {
         initComponents();
@@ -225,20 +229,38 @@ public class FrmReporte extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de regresar.
+     * Cierra la ventana y se abre la ventana anterior.
+     * @param evt El objeto ActionEvent que representa el evento del botón de regresar.
+     */
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         new FrmPrincipal().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    /**
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de imprimir.
+     * Muestra todos los reportes encontrados a través de los filtros.
+     * @param evt El objeto ActionEvent que representa el evento del botón de imprimir.
+     */
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
         generarReporte();
     }//GEN-LAST:event_btnImprimirActionPerformed
 
+    /**
+     * Método de evento que filtra los tipos de trámites que se eligen por combobox.
+     * @param evt El objeto ItemEvent que representa el evento del combobox del tipo de trámite.
+     */
     private void cbTramiteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbTramiteItemStateChanged
         String opcion = cbTramite.getSelectedItem().toString();
         params.setOpcionComboBox(opcion);
     }//GEN-LAST:event_cbTramiteItemStateChanged
 
+    /**
+     * Método de evento que actualiza la vigencia dependiendo del valor que se elige en el combobox.
+     * @param evt El objeto ItemEvent que representa el evento del combobox de la vigencia.
+     */
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
         char c = evt.getKeyChar();
         if (txtNombre.getText().isBlank() && c == ' ') {
@@ -250,6 +272,9 @@ public class FrmReporte extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtNombreKeyTyped
 
+    /**
+     * Método que configura el date picker para que tenga un rango de selección de fechas.
+     */
     private void configurarDatePicker() {
         LocalDate fechaActual = LocalDate.now();
         LocalDate minFecha = LocalDate.of(1920, 01, 01);
@@ -259,13 +284,21 @@ public class FrmReporte extends javax.swing.JFrame {
         dtpHasta.getComponentDateTextField().setEnabled(false);
     }
     
+    /**
+     * Método que manda a llamar a un método para validar campos para consultar
+     * la lista de trámites por filtros.
+     * @return Lista de trámites encontrados por filtro.
+     */
     private List<Tramite> listaPorComboBox(){
         validacionesCampos();
         List<Tramite> lista = this.tramiteDAO.consultarTramitesPorParametros(params);
         params = new ParametrosBusquedaConsultaDTO();
         return lista;
     }
-
+    
+    /**
+     * Método que manda a llamar el método que filtra las consultas y genera el reporte en JasperReports.
+     */
     private void generarReporte() {
         try {
             List<Map<String, Object>> registros = new ArrayList<>();
@@ -315,6 +348,9 @@ public class FrmReporte extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Método que valida los campos de texto para mandarle los datos al filtrador.
+     */
     private void validacionesCampos() {
             if(!txtNombre.getText().isBlank()){
                 params.setNombre(txtNombre.getText());
@@ -331,7 +367,6 @@ public class FrmReporte extends javax.swing.JFrame {
                 calendar.set(fechaHasta.getYear(), fechaHasta.getMonthValue()-1,fechaHasta.getDayOfMonth(),23, 59, 59);
                 params.setHasta(calendar);
             }
-        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
