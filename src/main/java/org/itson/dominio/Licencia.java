@@ -17,8 +17,9 @@ import javax.persistence.TemporalType;
 import org.itson.enums.EnumTipoLicencia;
 
 /**
+ * Esta clase representa un objeto Licencia que hereda de la clase Trámite.
  *
- * @author Ángel De Jesús Valenzuela García
+ * @author Ángel Valenzuela, Luis Durán
  */
 @Entity
 @Table(name = "licencias")
@@ -36,13 +37,36 @@ public class Licencia extends Tramite implements Serializable {
     @Enumerated(value = EnumType.STRING)
     private EnumTipoLicencia tipo;
 
+    /**
+     * Constructor por omisión.
+     */
     public Licencia() {
     }
 
+    /**
+     * Constructor que inicializa los atributos de la licencia de su clase
+     * padre.
+     *
+     * @param nombrePersona Nombre de la persona que solicita la licencia.
+     * @param costo Costo de la licencia.
+     * @param persona Persona que solicita la licencia.
+     * @param fechaExpedicion Fecha en que se expidió la licencia.
+     */
     public Licencia(String nombrePersona, Float costo, Persona persona, Calendar fechaExpedicion) {
         super(nombrePersona, costo, persona, fechaExpedicion);
     }
 
+    /**
+     * Constructor que inicializa todos los atributos de la licencia.
+     *
+     * @param nombrePersona Nombre de la persona que solicita la licencia.
+     * @param costo Costo de la licencia.
+     * @param persona Persona que solicita la licencia.
+     * @param vigencia Número de años de vigencia de la licencia.
+     * @param fechaExpedicion Fecha en que se expidió la licencia.
+     * @param fechaVencimiento Fecha de vencimiento de la licencia.
+     * @param tipo Tipo de licencia (normal o discapacitado).
+     */
     public Licencia(String nombrePersona, Float costo, Persona persona, int vigencia, Calendar fechaExpedicion, Calendar fechaVencimiento, EnumTipoLicencia tipo) {
         super(nombrePersona, costo, persona, fechaExpedicion);
         this.vigencia = vigencia;
@@ -50,36 +74,81 @@ public class Licencia extends Tramite implements Serializable {
         this.tipo = tipo;
     }
 
+    /**
+     * Constructor que inicializa algunos atributos de la licencia.
+     *
+     * @param vigencia Número de años de vigencia de la licencia.
+     * @param fechaExpedicion Fecha en que se expidió la licencia.
+     * @param tipo Tipo de licencia (normal o discapacitado).
+     * @param nombrePersona Nombre de la persona que solicita la licencia.
+     * @param costo Costo de la licencia.
+     * @param persona Persona que solicita la licencia.
+     */
     public Licencia(int vigencia, Calendar fechaExpedicion, EnumTipoLicencia tipo, String nombrePersona, Float costo, Persona persona) {
         super(nombrePersona, costo, persona, fechaExpedicion);
         this.vigencia = vigencia;
         this.tipo = tipo;
     }
 
+    /**
+     * Devuelve la vigencia de la licencia.
+     *
+     * @return la vigencia de la licencia
+     */
     public int getVigencia() {
         return vigencia;
     }
 
+    /**
+     * Establece la vigencia de la licencia.
+     *
+     * @param vigencia la nueva vigencia de la licencia
+     */
     public void setVigencia(int vigencia) {
         this.vigencia = vigencia;
     }
 
+    /**
+     * Devuelve la fecha de vencimiento de la licencia.
+     *
+     * @return la fecha de vencimiento de la licencia
+     */
     public Calendar getFechaVencimiento() {
         return fechaVencimiento;
     }
 
+    /**
+     * Establece la fecha de vencimiento de la licencia.
+     *
+     * @param fechaVencimiento la nueva fecha de vencimiento de la licencia
+     */
     public void setFechaVencimiento(Calendar fechaVencimiento) {
         this.fechaVencimiento = fechaVencimiento;
     }
 
+    /**
+     * Devuelve el tipo de la licencia.
+     *
+     * @return el tipo de la licencia
+     */
     public EnumTipoLicencia getTipo() {
         return tipo;
     }
 
+    /**
+     * Establece el tipo de la licencia.
+     *
+     * @param tipo el nuevo tipo de la licencia
+     */
     public void setTipo(EnumTipoLicencia tipo) {
         this.tipo = tipo;
     }
 
+    /**
+     * Método que genera un código hash para la clase Licencia.
+     *
+     * @return el código hash generado
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -87,19 +156,27 @@ public class Licencia extends Tramite implements Serializable {
         return hash;
     }
 
+    /**
+     * Método que compara la igualdad de objetos de la clase Licencia.
+     *
+     * @param object el objeto a comparar
+     * @return true si los objetos son iguales, false si no lo son
+     */
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Licencia)) {
             return false;
         }
         Licencia other = (Licencia) object;
-        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.getId().equals(other.getId()))) {
-            return false;
-        }
-        return true;
+        return !((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.getId().equals(other.getId())));
     }
 
+    /**
+     * Método que devuelve una cadena de texto que representa al objeto
+     * Licencia.
+     *
+     * @return la cadena de texto generada
+     */
     @Override
     public String toString() {
         return "Licencia{" + "vigencia=" + vigencia + ", fechaExpedicion=" + super.getFechaExpedicion() + ", fechaVencimiento=" + fechaVencimiento + ", tipo=" + tipo + '}';

@@ -10,19 +10,27 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import org.itson.dominio.Automovil;
 import org.itson.interfaces.IAutomovil;
 
 /**
+ * Clase que implementa la interfaz IAutomovil y utiliza JPA para interactuar
+ * con la base de datos.
  *
- * @author wikit
+ * @author Ángel Valenzuela, Luis Durán
  */
 public class AutomovilDAO implements IAutomovil {
 
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.itson.tramites");
-    private EntityManager entityManager = emf.createEntityManager();
-    
+    private final EntityManager entityManager = emf.createEntityManager();
+
+    /**
+     * Agrega un objeto Automovil a la base de datos.
+     *
+     * @param automovil El objeto Automovil a agregar.
+     * @throws PersistenceException Si ocurre algún error al agregar el objeto a
+     * la base de datos.
+     */
     @Override
     public void agregarAutomovil(Automovil automovil) {
         try {
@@ -37,6 +45,13 @@ public class AutomovilDAO implements IAutomovil {
         }
     }
 
+    /**
+     * Actualiza un objeto Automovil en la base de datos.
+     *
+     * @param automovil El objeto Automovil a actualizar.
+     * @throws PersistenceException Si ocurre algún error al actualizar el
+     * objeto en la base de datos.
+     */
     @Override
     public void actualizarAutomovil(Automovil automovil) {
         try {
@@ -51,6 +66,13 @@ public class AutomovilDAO implements IAutomovil {
         }
     }
 
+    /**
+     * Elimina un objeto Automovil de la base de datos.
+     *
+     * @param automovil El objeto Automovil a eliminar.
+     * @throws PersistenceException Si ocurre algún error al eliminar el objeto
+     * de la base de datos.
+     */
     @Override
     public void eliminarAutomovil(Automovil automovil) {
         try {
@@ -65,6 +87,12 @@ public class AutomovilDAO implements IAutomovil {
         }
     }
 
+    /**
+     * Consulta y devuelve una lista de todos los objetos Automovil en la base
+     * de datos.
+     *
+     * @return Una lista de todos los objetos Automovil en la base de datos.
+     */
     @Override
     public List<Automovil> consultarTodos() {
         Query query = entityManager.createQuery("SELECT a FROM Automovil a");

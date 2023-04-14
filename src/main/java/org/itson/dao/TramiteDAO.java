@@ -6,7 +6,6 @@ package org.itson.dao;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -18,26 +17,36 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
 import org.itson.dominio.Licencia;
 import org.itson.dominio.Placa;
 import org.itson.dominio.Tramite;
 import org.itson.interfaces.ITramite;
-import org.itson.tramitesbda.TramitesBDA;
 import org.itson.utilidades.ConfiguracionPaginado;
 import org.itson.utilidades.ParametrosBusquedaConsultaDTO;
 
 /**
+ * Clase que implementa la interfaz ITramite y utiliza JPA para interactuar con
+ * la base de datos.
  *
- * @author Ángel De Jesús Valenzuela García
+ * @author Ángel Valenzuela, Luis Durán
  */
 public class TramiteDAO implements ITramite {
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.itson.tramites");
-    private EntityManager entityManager = emf.createEntityManager();
 
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.itson.tramites");
+    private final EntityManager entityManager = emf.createEntityManager();
+
+    /**
+     * Constructor por omisión.
+     */
     public TramiteDAO() {
     }
 
+    /**
+     * Agrega un Tramite a la base de datos.
+     *
+     * @param tramite Objeto Tramite a agregar
+     * @throws PersistenceException Si ocurre un error al agregar el tramite
+     */
     @Override
     public void agregarTramite(Tramite tramite) {
         try {
@@ -52,6 +61,12 @@ public class TramiteDAO implements ITramite {
         }
     }
 
+    /**
+     * Actualiza un Tramite de la base de datos.
+     *
+     * @param tramite Objeto Tramite a actualizar
+     * @throws PersistenceException Si ocurre un error al actualizar el tramite
+     */
     @Override
     public void actualizarTramite(Tramite tramite) {
         try {
@@ -66,6 +81,12 @@ public class TramiteDAO implements ITramite {
         }
     }
 
+    /**
+     * Elimina un Tramite de la base de datos.
+     *
+     * @param tramite Objeto Tramite a eliminar
+     * @throws PersistenceException Si ocurre un error al eliminar el tramite
+     */
     @Override
     public void eliminarTramite(Tramite tramite) {
         try {
@@ -80,11 +101,11 @@ public class TramiteDAO implements ITramite {
         }
     }
 
-    @Override
-    public Tramite consultarTramite(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
+    /**
+     * Consulta todos los trámites en la base de datos.
+     *
+     * @return Una lista con todos los trámites.
+     */
     @Override
     public List<Tramite> consultarTodos() {
         TypedQuery<Tramite> query = entityManager.createQuery("SELECT t FROM Tramite t", Tramite.class);
@@ -92,6 +113,13 @@ public class TramiteDAO implements ITramite {
         return tramites;
     }
 
+    /**
+     * Consulta los trámites de una persona por su RFC.
+     *
+     * @param rfc El RFC de la persona a buscar.
+     * @param configPaginado La configuración de paginado.
+     * @return Una lista con los trámites de la persona.
+     */
     @Override
     public List<Tramite> consultarTramitesPersona(String rfc, ConfiguracionPaginado configPaginado) {
         TypedQuery<Tramite> query = entityManager.createQuery("SELECT t FROM Tramite t WHERE t.persona.rfc = :persona", Tramite.class);
@@ -102,6 +130,12 @@ public class TramiteDAO implements ITramite {
         return tramites;
     }
 
+    /**
+     * Consulta los trámites de una persona por su RFC.
+     *
+     * @param rfc El RFC de la persona a buscar.
+     * @return Una lista con los trámites de la persona especificada.
+     */
     @Override
     public List<Tramite> consultarTramitesPersona(String rfc) {
         TypedQuery<Tramite> query = entityManager.createQuery("SELECT t FROM Tramite t WHERE t.persona.rfc = :persona", Tramite.class);
@@ -110,6 +144,13 @@ public class TramiteDAO implements ITramite {
         return tramites;
     }
 
+    /**
+     * Consulta los trámites que coinciden con los parámetros.
+     *
+     * @param params Los parámetros de búsqueda.
+     * @return Una lista con los trámites que coinciden con los parámetros
+     * especificados.
+     */
     @Override
     public List<Tramite> consultarTramitesPorParametros(ParametrosBusquedaConsultaDTO params) {
         if (params.getNombre() == null && params.getDesde() == null && params.getHasta() == null) {
@@ -153,13 +194,19 @@ public class TramiteDAO implements ITramite {
                 filtros.add(builder.lessThanOrEqualTo(entidadTramite.get("fechaExpedicion"), params.getHasta()));
             }
         }
-        
+
         criteria = criteria.select(entidadTramite).where(builder.and((filtros.toArray(new Predicate[filtros.size()]))));
         TypedQuery<Tramite> query = entityManager.createQuery(criteria);
         List<Tramite> tramites = query.getResultList();
         return tramites;
     }
 
+    /**
+     * Consulta los trámites de licencia registrados.
+     *
+     * @return una lista de objetos Licencia que representa los trámites
+     * registrados
+     */
     @Override
     public List<Licencia> consultarTramitesLicencia() {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -170,6 +217,12 @@ public class TramiteDAO implements ITramite {
         return query.getResultList();
     }
 
+    /**
+     * Consulta los trámites de placas registrados.
+     *
+     * @return una lista de objetos Placa que representa los trámites
+     * registrados
+     */
     @Override
     public List<Placa> consultarTramitesPlacas() {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -179,5 +232,5 @@ public class TramiteDAO implements ITramite {
         TypedQuery<Placa> query = entityManager.createQuery(criteria);
         return query.getResultList();
     }
-    
+
 }

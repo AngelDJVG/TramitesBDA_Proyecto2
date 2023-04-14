@@ -8,8 +8,8 @@ import java.awt.event.ItemEvent;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import org.itson.boton.CeldaBotonEditor;
-import org.itson.boton.CeldaBotonRender;
+import org.itson.utilidades.CeldaBotonEditor;
+import org.itson.utilidades.CeldaBotonRender;
 import org.itson.dao.AutomovilDAO;
 import org.itson.dao.VehiculoDAO;
 import org.itson.dominio.Persona;
@@ -363,22 +363,6 @@ public class FrmVehiculos extends javax.swing.JFrame {
         configPaginadoSiguiente.retrocederPagina();
         cargarTabla();
     }
-
-//    private void verificarNumSerie(){
-//        String numSerie = JOptionPane.showInputDialog(this, "Ingrese el número de placas anteriores:", "Módulo de placas", JOptionPane.QUESTION_MESSAGE);
-//        if (numSerie != null) {
-//            if (!numSerie.isBlank()) {
-//                if (vehiculoDAO.verificarExistencia(numSerie)) {
-//                    new FrmRegistrarPlaca(persona, false, numSerie).setVisible(true);
-//                    this.dispose();
-//                } else {
-//                    JOptionPane.showMessageDialog(null, "El vehículo con ese número de serie no se encuentra registrado.\nFavor de dirigirse a la sección AGREGAR.", "Error", JOptionPane.ERROR_MESSAGE);
-//                }
-//            } else {
-//                JOptionPane.showMessageDialog(null, "Por favor, ingrese datos en el campo de texto", "Error", JOptionPane.ERROR_MESSAGE);
-//            }
-//        }
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarAutomovil;

@@ -6,28 +6,45 @@ package org.itson.dominio;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
+ * Esta clase representa un objeto Automovil que hereda de la clase Vehiculo.
  *
- * @author Ángel De Jesús Valenzuela García
+ * @author Ángel Valenzuela, Luis Durán
  */
 @Entity
 @Table(name = "automoviles")
 @PrimaryKeyJoinColumn(name = "serie_automovil")
 public class Automovil extends Vehiculo implements Serializable {
 
+    /**
+     * Constructor por omisión.
+     */
     public Automovil() {
     }
 
+    /**
+     * Constructor de la clase Automovil con parámetros, aplica el constructor
+     * de la clase padre.
+     *
+     * @param numero el número de serie del automóvil
+     * @param marca la marca del automóvil
+     * @param linea la línea del automóvil
+     * @param color el color del automóvil
+     * @param modelo el modelo del automóvil
+     * @param persona la persona asociada al automóvil
+     */
     public Automovil(String numero, String marca, String linea, String color, String modelo, Persona persona) {
         super(numero, marca, linea, color, modelo, persona);
     }
 
+    /**
+     * Método que genera un código hash para la clase Automovil.
+     *
+     * @return el código hash generado
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -35,24 +52,30 @@ public class Automovil extends Vehiculo implements Serializable {
         return hash;
     }
 
+    /**
+     * Método que compara la igualdad de objetos de la clase Automovil.
+     *
+     * @param object el objeto a comparar
+     * @return true si los objetos son iguales, false si no lo son
+     */
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Automovil)) {
             return false;
         }
         Automovil other = (Automovil) object;
-        if ((this.getNumero() == null && other.getNumero() != null) || (this.getNumero() != null && !this.getNumero().equals(other.getNumero()))) {
-            return false;
-        }
-        return true;
+        return !((this.getNumero() == null && other.getNumero() != null) || (this.getNumero() != null && !this.getNumero().equals(other.getNumero())));
     }
 
+    /**
+     * Método que devuelve una cadena de texto que representa al objeto
+     * Automovil.
+     *
+     * @return la cadena de texto generada
+     */
     @Override
     public String toString() {
-        return "Automovil{" +super.getNumero()+ '}';
+        return "Automovil{" + super.getNumero() + '}';
     }
 
-    
-    
 }

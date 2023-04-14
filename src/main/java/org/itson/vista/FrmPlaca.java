@@ -5,8 +5,10 @@
 package org.itson.vista;
 
 import javax.swing.JOptionPane;
+import org.itson.dao.LicenciaDAO;
 import org.itson.dao.PersonaDAO;
 import org.itson.dominio.Persona;
+import org.itson.interfaces.ILicencia;
 import org.itson.interfaces.IPersona;
 
 /**
@@ -16,6 +18,7 @@ import org.itson.interfaces.IPersona;
 public class FrmPlaca extends javax.swing.JFrame {
 
     private IPersona personaDAO;
+    private ILicencia licenciaDAO;
 
     /**
      * Creates new form placas
@@ -23,6 +26,7 @@ public class FrmPlaca extends javax.swing.JFrame {
     public FrmPlaca() {
         initComponents();
         personaDAO = new PersonaDAO();
+        licenciaDAO = new LicenciaDAO();
     }
 
     /**
@@ -161,9 +165,9 @@ public class FrmPlaca extends javax.swing.JFrame {
     private void txtRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRFCKeyTyped
         char c = evt.getKeyChar();
         if ((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
-            evt.consume(); 
+            evt.consume();
         } else if (txtRFC.getText().length() >= 13) {
-            evt.consume(); 
+            evt.consume();
         }
     }//GEN-LAST:event_txtRFCKeyTyped
 
@@ -176,8 +180,12 @@ public class FrmPlaca extends javax.swing.JFrame {
     private void verificarLicencia() {
         Persona persona = personaDAO.consultarPersona(txtRFC.getText());
         if (persona != null) {
-            new FrmVehiculos(persona).setVisible(true);
-            this.dispose();
+            if (licenciaDAO.consultarLicenciaPersona(persona.getRfc()) != null) {
+                new FrmVehiculos(persona).setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "La persona no cuenta con licencia vigente", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Ninguna persona cuenta con ese RFC", "Error", JOptionPane.ERROR_MESSAGE);
         }

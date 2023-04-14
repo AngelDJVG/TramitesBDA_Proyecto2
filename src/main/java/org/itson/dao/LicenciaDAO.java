@@ -15,17 +15,29 @@ import org.itson.dominio.Licencia;
 import org.itson.interfaces.ILicencia;
 
 /**
+ * Clase que implementa la interfaz ILicencia y utiliza JPA para interactuar con
+ * la base de datos.
  *
- * @author Ángel De Jesús Valenzuela García
+ * @author Ángel Valenzuela, Luis Durán
  */
-public class LicenciaDAO implements ILicencia{
-    
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.itson.tramites");
-    private EntityManager entityManager = emf.createEntityManager();
+public class LicenciaDAO implements ILicencia {
 
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.itson.tramites");
+    private final EntityManager entityManager = emf.createEntityManager();
+
+    /**
+     * Constructor por omisión.
+     */
     public LicenciaDAO() {
     }
-    
+
+    /**
+     * Agrega una nueva licencia a la base de datos.
+     *
+     * @param licencia Objeto Licencia que se va a agregar.
+     * @throws PersistenceException Si ocurre algún error al agregar la
+     * licencia.
+     */
     @Override
     public void agregarLicencia(Licencia licencia) {
         try {
@@ -40,6 +52,13 @@ public class LicenciaDAO implements ILicencia{
         }
     }
 
+    /**
+     * Actualiza una licencia existente en la base de datos.
+     *
+     * @param licencia Objeto Licencia que se va a actualizar.
+     * @throws PersistenceException Si ocurre algún error al actualizar la
+     * licencia.
+     */
     @Override
     public void actualizarLicencia(Licencia licencia) {
         try {
@@ -53,9 +72,16 @@ public class LicenciaDAO implements ILicencia{
             throw new PersistenceException("Error al actualizar la licencia");
         }
     }
-    
+
+    /**
+     * Elimina una licencia existente de la base de datos.
+     *
+     * @param licencia Objeto Licencia que se va a eliminar.
+     * @throws PersistenceException Si ocurre algún error al eliminar la
+     * licencia.
+     */
     @Override
-    public void eliminarLicencia(Licencia licencia){
+    public void eliminarLicencia(Licencia licencia) {
         try {
             entityManager.getTransaction().begin();
             entityManager.remove(licencia);
@@ -67,12 +93,25 @@ public class LicenciaDAO implements ILicencia{
             throw new PersistenceException("Error al eliminar la licencia");
         }
     }
+
+    /**
+     * Consulta todas las licencias existentes en la base de datos.
+     *
+     * @return Lista de licencias.
+     */
     @Override
     public List<Licencia> consultarTodos() {
         Query query = entityManager.createQuery("SELECT l FROM Licencia  l");
         return query.getResultList();
     }
 
+    /**
+     * Consulta la licencia vigente de una persona.
+     *
+     * @param rfc RFC de la persona de la que se quiere consultar la licencia.
+     * @return Licencia vigente de la persona, o null si no tiene
+     * licencia vigente.
+     */
     @Override
     public Licencia consultarLicenciaPersona(String rfc) {
         TypedQuery<Licencia> query = entityManager.createQuery("SELECT l FROM Licencia l WHERE l.persona.rfc = :persona AND l.fechaVencimiento > CURRENT_DATE", Licencia.class);
@@ -80,5 +119,4 @@ public class LicenciaDAO implements ILicencia{
         List<Licencia> licencias = query.getResultList();
         return licencias.isEmpty() ? null : licencias.get(0);
     }
-    
 }

@@ -1,6 +1,4 @@
-
 package org.itson.utilidades;
-
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -10,13 +8,29 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Base64;
 
+/**
+ * Esta clase implementa la interfaz AttributeConverter y se encarga de
+ * encriptar y desencriptar valores en JPA.
+ *
+ * @author Ángel Valenzuela, Luis Durán
+ */
 @Converter
 public class JPAEncryptor implements AttributeConverter<String, String> {
+
     private static final String AES_ALGORITHM = "AES/ECB/PKCS5Padding";
     private static final byte[] SECRET_KEY_BYTES = "mySecretKey12345".getBytes(StandardCharsets.UTF_8);
 
     private final Key secretKey = new SecretKeySpec(SECRET_KEY_BYTES, "AES");
 
+    /**
+     * Método que encripta un String utilizando la clave secreta establecida y
+     * el algoritmo AES/ECB/PKCS5Padding.
+     *
+     * @param attribute el valor a encriptar
+     * @return el valor encriptado en String
+     * @throws RuntimeException si ocurre un error durante el proceso de
+     * encriptación
+     */
     @Override
     public String convertToDatabaseColumn(String attribute) {
         try {
@@ -29,6 +43,15 @@ public class JPAEncryptor implements AttributeConverter<String, String> {
         }
     }
 
+    /**
+     * Método que desencripta un String utilizando la clave secreta establecida
+     * y el algoritmo AES/ECB/PKCS5Padding.
+     *
+     * @param dbData el valor a desencriptar de la base de datos
+     * @return el valor desencriptado en String
+     * @throws RuntimeException si ocurre un error durante el proceso de
+     * desencriptación
+     */
     @Override
     public String convertToEntityAttribute(String dbData) {
         try {

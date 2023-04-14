@@ -5,8 +5,9 @@
 package org.itson.enums;
 
 /**
+ * Esta clase enum define los tipos de licencia.
  *
- * @author Ángel De Jesús Valenzuela García
+ * @author Ángel Valenzuela, Luis Durán
  */
 public enum EnumTipoLicencia {
     NORMAL,

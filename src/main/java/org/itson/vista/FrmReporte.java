@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.PersistenceException;
-import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -43,7 +42,6 @@ public class FrmReporte extends javax.swing.JFrame {
         tramiteDAO = new TramiteDAO();
         configurarDatePicker();
         params = new ParametrosBusquedaConsultaDTO(cbTramite.getSelectedItem().toString());
-        System.out.println(cbTramite.getSelectedItem().toString());
     }
 
     /**

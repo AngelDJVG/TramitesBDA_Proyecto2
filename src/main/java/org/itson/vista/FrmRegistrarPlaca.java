@@ -85,72 +85,82 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitulo.setText("Módulo de placas");
         lblTitulo.setFont(new java.awt.Font("Yu Gothic UI", 1, 36)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(105, 28, 50));
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setText("Módulo de placas");
         lblTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        lblRegistrar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblRegistrar.setText("Registrar vehículo y generar placas");
         lblRegistrar.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblRegistrar.setForeground(new java.awt.Color(105, 28, 50));
+        lblRegistrar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblRegistrar.setText("Registrar vehículo y generar placas");
 
-        lblCosto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCosto.setText("Costo: $");
         lblCosto.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblCosto.setForeground(new java.awt.Color(105, 28, 50));
+        lblCosto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblCosto.setText("Costo: $");
 
         lblTotal.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblTotal.setForeground(new java.awt.Color(105, 28, 50));
 
-        btnRegistrar.setText("Registrar");
         btnRegistrar.setBackground(new java.awt.Color(159, 34, 65));
-        btnRegistrar.setBorderPainted(false);
-        btnRegistrar.setFocusPainted(false);
         btnRegistrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRegistrar.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegistrar.setText("Registrar");
+        btnRegistrar.setBorderPainted(false);
+        btnRegistrar.setFocusPainted(false);
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistrarActionPerformed(evt);
             }
         });
 
-        btnRegresar.setText("Regresar");
         btnRegresar.setBackground(new java.awt.Color(159, 34, 65));
-        btnRegresar.setBorderPainted(false);
-        btnRegresar.setFocusPainted(false);
         btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRegresar.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegresar.setText("Regresar");
+        btnRegresar.setBorderPainted(false);
+        btnRegresar.setFocusPainted(false);
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarActionPerformed(evt);
             }
         });
 
-        lblMarca.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblMarca.setText("Marca:");
         lblMarca.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblMarca.setForeground(new java.awt.Color(105, 28, 50));
+        lblMarca.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblMarca.setText("Marca:");
 
-        lblSerie.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblSerie.setText("Serie:");
         lblSerie.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblSerie.setForeground(new java.awt.Color(105, 28, 50));
+        lblSerie.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblSerie.setText("Serie:");
 
         txtMarca.setToolTipText("");
+        txtMarca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMarcaKeyTyped(evt);
+            }
+        });
 
-        lblLinea.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblLinea.setText("Línea:");
         lblLinea.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblLinea.setForeground(new java.awt.Color(105, 28, 50));
+        lblLinea.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblLinea.setText("Línea:");
 
         txtLinea.setToolTipText("");
+        txtLinea.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtLineaKeyTyped(evt);
+            }
+        });
 
-        lblColor.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblColor.setText("Color:");
         lblColor.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblColor.setForeground(new java.awt.Color(105, 28, 50));
+        lblColor.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblColor.setText("Color:");
 
         txtColor.setToolTipText("");
         txtColor.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -159,14 +169,24 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
             }
         });
 
-        lblModelo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblModelo.setText("Modelo:");
         lblModelo.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lblModelo.setForeground(new java.awt.Color(105, 28, 50));
+        lblModelo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblModelo.setText("Modelo:");
 
         txtModelo.setToolTipText("");
+        txtModelo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtModeloKeyTyped(evt);
+            }
+        });
 
         txtSerie.setToolTipText("");
+        txtSerie.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSerieKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -301,12 +321,43 @@ public class FrmRegistrarPlaca extends javax.swing.JFrame {
         char c = evt.getKeyChar();
         if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
             evt.consume();
-        } 
+        }
     }//GEN-LAST:event_txtColorKeyTyped
-    
-    private boolean verificarCamposVacios(){
+
+    private void txtSerieKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSerieKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume();
+        } else if (txtSerie.getText().length() >= 6) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtSerieKeyTyped
+
+    private void txtLineaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLineaKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtLineaKeyTyped
+
+    private void txtModeloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtModeloKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtModeloKeyTyped
+
+    private void txtMarcaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMarcaKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtMarcaKeyTyped
+
+    private boolean verificarCamposVacios() {
         return txtSerie.getText().isBlank() || txtModelo.getText().isBlank() || txtColor.getText().isBlank() || txtLinea.getText().isEmpty() || txtMarca.getText().isBlank();
     }
+
     private String generarNumPlaca() {
         String numPlaca = RandomStringUtils.randomAlphabetic(3).toUpperCase() + "-" + RandomStringUtils.randomNumeric(3);
         if (placaDAO.verificarExistencia(numPlaca)) {
