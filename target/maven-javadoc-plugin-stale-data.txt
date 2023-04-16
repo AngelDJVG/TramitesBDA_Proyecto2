@@ -1,0 +1,85 @@
+@options
+@packages
+-classpath
+'C:/Users/wikit/.m2/repository/net/sf/jasperreports/jasperreports/6.20.1/jasperreports-6.20.1.jar;C:/Users/wikit/.m2/repository/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar;C:/Users/wikit/.m2/repository/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar;C:/Users/wikit/.m2/repository/commons-digester/commons-digester/2.1/commons-digester-2.1.jar;C:/Users/wikit/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar;C:/Users/wikit/.m2/repository/org/apache/commons/commons-collections4/4.2/commons-collections4-4.2.jar;C:/Users/wikit/.m2/repository/com/github/librepdf/openpdf/1.3.30.jaspersoft.1/openpdf-1.3.30.jaspersoft.1.jar;C:/Users/wikit/.m2/repository/org/jfree/jcommon/1.0.23/jcommon-1.0.23.jar;C:/Users/wikit/.m2/repository/org/jfree/jfreechart/1.0.19/jfreechart-1.0.19.jar;C:/Users/wikit/.m2/repository/org/eclipse/jdt/ecj/3.21.0/ecj-3.21.0.jar;C:/Users/wikit/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.14.1/jackson-core-2.14.1.jar;C:/Users/wikit/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.14.1/jackson-databind-2.14.1.jar;C:/Users/wikit/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.14.1/jackson-annotations-2.14.1.jar;C:/Users/wikit/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-xml/2.14.1/jackson-dataformat-xml-2.14.1.jar;C:/Users/wikit/.m2/repository/org/codehaus/woodstox/stax2-api/4.2.1/stax2-api-4.2.1.jar;C:/Users/wikit/.m2/repository/com/fasterxml/woodstox/woodstox-core/6.4.0/woodstox-core-6.4.0.jar;C:/Users/wikit/.m2/repository/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.jar;C:/Users/wikit/.m2/repository/com/github/lgooddatepicker/LGoodDatePicker/11.2.1/LGoodDatePicker-11.2.1.jar;C:/Users/wikit/.m2/repository/com/mysql/mysql-connector-j/8.0.32/mysql-connector-j-8.0.32.jar;C:/Users/wikit/.m2/repository/com/google/protobuf/protobuf-java/3.21.9/protobuf-java-3.21.9.jar;C:/Users/wikit/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.core/2.7.10/org.eclipse.persistence.core-2.7.10.jar;C:/Users/wikit/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.asm/9.2.0/org.eclipse.persistence.asm-9.2.0.jar;C:/Users/wikit/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.antlr/2.7.10/org.eclipse.persistence.antlr-2.7.10.jar;C:/Users/wikit/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.jpa/2.7.10/org.eclipse.persistence.jpa-2.7.10.jar;C:/Users/wikit/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.jpa.jpql/2.7.10/org.eclipse.persistence.jpa.jpql-2.7.10.jar;C:/Users/wikit/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.moxy/2.7.10/org.eclipse.persistence.moxy-2.7.10.jar;C:/Users/wikit/.m2/repository/org/eclipse/persistence/jakarta.persistence/2.2.3/jakarta.persistence-2.2.3.jar;C:/Users/wikit/.m2/repository/org/eclipse/persistence/org.eclipse.persistence.jpa.modelgen.processor/2.7.10/org.eclipse.persistence.jpa.modelgen.processor-2.7.10.jar;C:/Users/wikit/.m2/repository/org/netbeans/external/AbsoluteLayout/RELEASE160/AbsoluteLayout-RELEASE160.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'17'
+-sourcepath
+'C:/Users/wikit/Documents/Github/TramitesBDA_Proyecto2/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2023. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/wikit/Documents/Github/TramitesBDA_Proyecto2/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'TramitesBDA 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'TramitesBDA 1.0-SNAPSHOT API'
+org.itson.dao
+org.itson.dominio
+org.itson.enums
+org.itson.excepciones
+org.itson.interfaces
+org.itson.tramitesbda
+org.itson.utilidades
+org.itson.vista
+C:\Users\wikit\.m2\repository\net\sf\jasperreports\jasperreports\6.20.1\jasperreports-6.20.1.jar = 1681203740384
+C:\Users\wikit\.m2\repository\commons-beanutils\commons-beanutils\1.9.4\commons-beanutils-1.9.4.jar = 1681203737747
+C:\Users\wikit\.m2\repository\commons-collections\commons-collections\3.2.2\commons-collections-3.2.2.jar = 1681203738221
+C:\Users\wikit\.m2\repository\commons-digester\commons-digester\2.1\commons-digester-2.1.jar = 1681203738075
+C:\Users\wikit\.m2\repository\commons-logging\commons-logging\1.1.1\commons-logging-1.1.1.jar = 1681203737920
+C:\Users\wikit\.m2\repository\org\apache\commons\commons-collections4\4.2\commons-collections4-4.2.jar = 1681203738193
+C:\Users\wikit\.m2\repository\com\github\librepdf\openpdf\1.3.30.jaspersoft.1\openpdf-1.3.30.jaspersoft.1.jar = 1681203742216
+C:\Users\wikit\.m2\repository\org\jfree\jcommon\1.0.23\jcommon-1.0.23.jar = 1681203738587
+C:\Users\wikit\.m2\repository\org\jfree\jfreechart\1.0.19\jfreechart-1.0.19.jar = 1681203740070
+C:\Users\wikit\.m2\repository\org\eclipse\jdt\ecj\3.21.0\ecj-3.21.0.jar = 1681203738979
+C:\Users\wikit\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.14.1\jackson-core-2.14.1.jar = 1681203738524
+C:\Users\wikit\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.14.1\jackson-databind-2.14.1.jar = 1681203739182
+C:\Users\wikit\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.14.1\jackson-annotations-2.14.1.jar = 1681203738950
+C:\Users\wikit\.m2\repository\com\fasterxml\jackson\dataformat\jackson-dataformat-xml\2.14.1\jackson-dataformat-xml-2.14.1.jar = 1681203739299
+C:\Users\wikit\.m2\repository\org\codehaus\woodstox\stax2-api\4.2.1\stax2-api-4.2.1.jar = 1681203739295
+C:\Users\wikit\.m2\repository\com\fasterxml\woodstox\woodstox-core\6.4.0\woodstox-core-6.4.0.jar = 1681203739716
+C:\Users\wikit\.m2\repository\org\apache\commons\commons-lang3\3.1\commons-lang3-3.1.jar = 1680638820367
+C:\Users\wikit\.m2\repository\com\github\lgooddatepicker\LGoodDatePicker\11.2.1\LGoodDatePicker-11.2.1.jar = 1680644622105
+C:\Users\wikit\.m2\repository\com\mysql\mysql-connector-j\8.0.32\mysql-connector-j-8.0.32.jar = 1680638804418
+C:\Users\wikit\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar = 1680638803165
+C:\Users\wikit\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.core\2.7.10\org.eclipse.persistence.core-2.7.10.jar = 1680638803857
+C:\Users\wikit\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.asm\9.2.0\org.eclipse.persistence.asm-9.2.0.jar = 1680638801725
+C:\Users\wikit\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.antlr\2.7.10\org.eclipse.persistence.antlr-2.7.10.jar = 1680638801639
+C:\Users\wikit\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.jpa\2.7.10\org.eclipse.persistence.jpa-2.7.10.jar = 1680638802538
+C:\Users\wikit\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.jpa.jpql\2.7.10\org.eclipse.persistence.jpa.jpql-2.7.10.jar = 1680638802775
+C:\Users\wikit\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.moxy\2.7.10\org.eclipse.persistence.moxy-2.7.10.jar = 1680638803217
+C:\Users\wikit\.m2\repository\org\eclipse\persistence\jakarta.persistence\2.2.3\jakarta.persistence-2.2.3.jar = 1680638803234
+C:\Users\wikit\.m2\repository\org\eclipse\persistence\org.eclipse.persistence.jpa.modelgen.processor\2.7.10\org.eclipse.persistence.jpa.modelgen.processor-2.7.10.jar = 1680638803431
+C:\Users\wikit\.m2\repository\org\netbeans\external\AbsoluteLayout\RELEASE160\AbsoluteLayout-RELEASE160.jar = 1680918108004
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\src\main\java = 1680644578720
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\allclasses-index.html = 1681608863852
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\allpackages-index.html = 1681608863857
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\copy.svg = 1681608863919
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\element-list = 1681608863421
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\help-doc.html = 1681608863912
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\index-all.html = 1681608863898
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\index.html = 1681608863794
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\jquery-ui.overrides.css = 1681608863933
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\member-search-index.js = 1681608863863
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\module-search-index.js = 1681608863858
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\overview-summary.html = 1681608863904
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\overview-tree.html = 1681608863789
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\package-search-index.js = 1681608863860
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\script.js = 1681608863918
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\search-page.js = 1681608863926
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\search.html = 1681608863900
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\search.js = 1681608863924
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\serialized-form.html = 1681608863559
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\stylesheet.css = 1681608863916
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\tag-search-index.js = 1681608863865
+C:\Users\wikit\Documents\Github\TramitesBDA_Proyecto2\target\site\apidocs\type-search-index.js = 1681608863861

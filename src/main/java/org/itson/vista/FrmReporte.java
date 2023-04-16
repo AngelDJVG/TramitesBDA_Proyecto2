@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.PersistenceException;
+import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -332,7 +333,7 @@ public class FrmReporte extends javax.swing.JFrame {
                     if (t instanceof Licencia) {
                         registro.put("DTYPE", "Licencia");
                         registro.put("nombre_persona", t.getNombrePersona());
-                        registro.put("costo", t.getCosto());
+                        registro.put("costo", "$" + String.valueOf(t.getCosto()));
                         registros.add(registro);
                     }
                 } else if ("Todos".equals(cbTramite.getSelectedItem().toString())) {
@@ -347,15 +348,18 @@ public class FrmReporte extends javax.swing.JFrame {
                 }
 
             }
+            if (registros.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "No se encontraron datos para generar el reporte", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JasperCompileManager.compileReportToFile("src/main/resources/Tramites.jrxml", "src/main/resources/Tramites.jasper");
 
-            JasperCompileManager.compileReportToFile("src/main/resources/Tramites.jrxml", "src/main/resources/Tramites.jasper");
+                JRBeanCollectionDataSource datos = new JRBeanCollectionDataSource(registros);
+                Map<String, Object> parametros = new HashMap<>();
+                JasperPrint informe = JasperFillManager.fillReport("src/main/resources/Tramites.jasper", parametros, datos);
+                JasperExportManager.exportReportToPdfFile(informe, "src/main/resources/Tramites.pdf");
 
-            JRBeanCollectionDataSource datos = new JRBeanCollectionDataSource(registros);
-            Map<String, Object> parametros = new HashMap<>();
-            JasperPrint informe = JasperFillManager.fillReport("src/main/resources/Tramites.jasper", parametros, datos);
-            JasperExportManager.exportReportToPdfFile(informe, "src/main/resources/Tramites.pdf");
-
-            JasperViewer.viewReport(informe, false);
+                JasperViewer.viewReport(informe, false);
+            }
         } catch (JRException e) {
             throw new PersistenceException("Error al generar el reporte: " + e.getMessage());
         }
