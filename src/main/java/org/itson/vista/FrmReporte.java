@@ -27,17 +27,17 @@ import org.itson.interfaces.ITramite;
 import org.itson.utilidades.ParametrosBusquedaConsultaDTO;
 
 /**
- * Esta clase se encarga de mostrar al usuario formas de consultar trámites
- * a tráves de filtros por datos de una persona y por fechas determinadas,
- * los cuales muestra en un reporte Jasper. 
- * 
+ * Esta clase se encarga de mostrar al usuario formas de consultar trámites a
+ * tráves de filtros por datos de una persona y por fechas determinadas, los
+ * cuales muestra en un reporte Jasper.
+ *
  * @author Ángel Valenzuela, Luis Duran
  */
 public class FrmReporte extends javax.swing.JFrame {
 
     private ITramite tramiteDAO;
     private ParametrosBusquedaConsultaDTO params;
-    
+
     /**
      * Método constructor que inicializa atributos.
      */
@@ -230,9 +230,11 @@ public class FrmReporte extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Método de evento que se ejecuta cuando el usuario presiona el botón de regresar.
-     * Cierra la ventana y se abre la ventana anterior.
-     * @param evt El objeto ActionEvent que representa el evento del botón de regresar.
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de
+     * regresar. Cierra la ventana y se abre la ventana anterior.
+     *
+     * @param evt El objeto ActionEvent que representa el evento del botón de
+     * regresar.
      */
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         new FrmPrincipal().setVisible(true);
@@ -240,17 +242,22 @@ public class FrmReporte extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**
-     * Método de evento que se ejecuta cuando el usuario presiona el botón de imprimir.
-     * Muestra todos los reportes encontrados a través de los filtros.
-     * @param evt El objeto ActionEvent que representa el evento del botón de imprimir.
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de
+     * imprimir. Muestra todos los reportes encontrados a través de los filtros.
+     *
+     * @param evt El objeto ActionEvent que representa el evento del botón de
+     * imprimir.
      */
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
         generarReporte();
     }//GEN-LAST:event_btnImprimirActionPerformed
 
     /**
-     * Método de evento que filtra los tipos de trámites que se eligen por combobox.
-     * @param evt El objeto ItemEvent que representa el evento del combobox del tipo de trámite.
+     * Método de evento que filtra los tipos de trámites que se eligen por
+     * combobox.
+     *
+     * @param evt El objeto ItemEvent que representa el evento del combobox del
+     * tipo de trámite.
      */
     private void cbTramiteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbTramiteItemStateChanged
         String opcion = cbTramite.getSelectedItem().toString();
@@ -258,13 +265,16 @@ public class FrmReporte extends javax.swing.JFrame {
     }//GEN-LAST:event_cbTramiteItemStateChanged
 
     /**
-     * Método de evento que actualiza la vigencia dependiendo del valor que se elige en el combobox.
-     * @param evt El objeto ItemEvent que representa el evento del combobox de la vigencia.
+     * Método de evento que actualiza la vigencia dependiendo del valor que se
+     * elige en el combobox.
+     *
+     * @param evt El objeto ItemEvent que representa el evento del combobox de
+     * la vigencia.
      */
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
         char c = evt.getKeyChar();
         if (txtNombre.getText().isBlank() && c == ' ') {
-                evt.consume();
+            evt.consume();
         } else if (c == ' ' && txtNombre.getText().charAt(txtNombre.getText().length() - 1) == ' ') {
             evt.consume();
         } else if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && c != ' ') {
@@ -273,7 +283,8 @@ public class FrmReporte extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNombreKeyTyped
 
     /**
-     * Método que configura el date picker para que tenga un rango de selección de fechas.
+     * Método que configura el date picker para que tenga un rango de selección
+     * de fechas.
      */
     private void configurarDatePicker() {
         LocalDate fechaActual = LocalDate.now();
@@ -283,28 +294,30 @@ public class FrmReporte extends javax.swing.JFrame {
         dtpDesde.getComponentDateTextField().setEnabled(false);
         dtpHasta.getComponentDateTextField().setEnabled(false);
     }
-    
+
     /**
      * Método que manda a llamar a un método para validar campos para consultar
      * la lista de trámites por filtros.
+     *
      * @return Lista de trámites encontrados por filtro.
      */
-    private List<Tramite> listaPorComboBox(){
+    private List<Tramite> listaPorComboBox() {
         validacionesCampos();
         List<Tramite> lista = this.tramiteDAO.consultarTramitesPorParametros(params);
         params = new ParametrosBusquedaConsultaDTO();
         return lista;
     }
-    
+
     /**
-     * Método que manda a llamar el método que filtra las consultas y genera el reporte en JasperReports.
+     * Método que manda a llamar el método que filtra las consultas y genera el
+     * reporte en JasperReports.
      */
     private void generarReporte() {
         try {
             List<Map<String, Object>> registros = new ArrayList<>();
             List<Tramite> entities = this.listaPorComboBox();//CONSULTA
             SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            
+
             for (Tramite t : entities) {
                 Map<String, Object> registro = new HashMap<>();
                 registro.put("fecha_expedicion", formatoFecha.format(t.getFechaExpedicion().getTime()));
@@ -312,7 +325,7 @@ public class FrmReporte extends javax.swing.JFrame {
                     if (t instanceof Placa) {
                         registro.put("DTYPE", "Placa");
                         registro.put("nombre_persona", t.getNombrePersona());
-                        registro.put("costo", t.getCosto());
+                        registro.put("costo", "$" + String.valueOf(t.getCosto()));
                         registros.add(registro);
                     }
                 } else if ("Licencia".equals(cbTramite.getSelectedItem().toString())) {
@@ -329,10 +342,10 @@ public class FrmReporte extends javax.swing.JFrame {
                         registro.put("DTYPE", "Licencia");
                     }
                     registro.put("nombre_persona", t.getNombrePersona());
-                    registro.put("costo", t.getCosto());
+                    registro.put("costo", "$" + String.valueOf(t.getCosto()));
                     registros.add(registro);
                 }
-                
+
             }
 
             JasperCompileManager.compileReportToFile("src/main/resources/Tramites.jrxml", "src/main/resources/Tramites.jasper");
@@ -342,31 +355,32 @@ public class FrmReporte extends javax.swing.JFrame {
             JasperPrint informe = JasperFillManager.fillReport("src/main/resources/Tramites.jasper", parametros, datos);
             JasperExportManager.exportReportToPdfFile(informe, "src/main/resources/Tramites.pdf");
 
-            JasperViewer.viewReport(informe,false);
+            JasperViewer.viewReport(informe, false);
         } catch (JRException e) {
             throw new PersistenceException("Error al generar el reporte: " + e.getMessage());
         }
     }
-    
+
     /**
-     * Método que valida los campos de texto para mandarle los datos al filtrador.
+     * Método que valida los campos de texto para mandarle los datos al
+     * filtrador.
      */
     private void validacionesCampos() {
-            if(!txtNombre.getText().isBlank()){
-                params.setNombre(txtNombre.getText());
-            }
-            if(!dtpDesde.getText().isBlank()){
-                LocalDate fechaDesde = dtpDesde.getDate();
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(fechaDesde.getYear(), fechaDesde.getMonthValue()-1,fechaDesde.getDayOfMonth(),0, 0, 0);
-                params.setDesde(calendar);
-            }
-            if(!dtpHasta.getText().isBlank()){
-                LocalDate fechaHasta = dtpHasta.getDate();
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(fechaHasta.getYear(), fechaHasta.getMonthValue()-1,fechaHasta.getDayOfMonth(),23, 59, 59);
-                params.setHasta(calendar);
-            }
+        if (!txtNombre.getText().isBlank()) {
+            params.setNombre(txtNombre.getText());
+        }
+        if (!dtpDesde.getText().isBlank()) {
+            LocalDate fechaDesde = dtpDesde.getDate();
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(fechaDesde.getYear(), fechaDesde.getMonthValue() - 1, fechaDesde.getDayOfMonth(), 0, 0, 0);
+            params.setDesde(calendar);
+        }
+        if (!dtpHasta.getText().isBlank()) {
+            LocalDate fechaHasta = dtpHasta.getDate();
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(fechaHasta.getYear(), fechaHasta.getMonthValue() - 1, fechaHasta.getDayOfMonth(), 23, 59, 59);
+            params.setHasta(calendar);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

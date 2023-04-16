@@ -5,16 +5,12 @@
 package org.itson.vista;
 
 import java.awt.event.ItemEvent;
-import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import org.itson.utilidades.CeldaBotonEditor;
 import org.itson.utilidades.CeldaBotonRender;
 import org.itson.dao.PersonaDAO;
@@ -24,9 +20,10 @@ import org.itson.utilidades.ConfiguracionPaginado;
 import org.itson.utilidades.ParametrosBusquedaConsultaDTO;
 
 /**
- * Esta clase se encarga de mostrar al usuario formas de consultar personas
- * por los filtros de RFC, año de nacimiento y nombre, los cuales muestra en una tabla. 
- * 
+ * Esta clase se encarga de mostrar al usuario formas de consultar personas por
+ * los filtros de RFC, año de nacimiento y nombre, los cuales muestra en una
+ * tabla.
+ *
  * @author Ángel Valenzuela, Luis Duran
  */
 public class FrmConsulta extends javax.swing.JFrame {
@@ -177,9 +174,9 @@ public class FrmConsulta extends javax.swing.JFrame {
         });
 
         btnAnterior.setBackground(new java.awt.Color(159, 34, 65));
-        btnAnterior.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAnterior.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnAnterior.setForeground(new java.awt.Color(255, 255, 255));
-        btnAnterior.setText("<--");
+        btnAnterior.setText("<");
         btnAnterior.setBorderPainted(false);
         btnAnterior.setEnabled(false);
         btnAnterior.setFocusPainted(false);
@@ -190,9 +187,9 @@ public class FrmConsulta extends javax.swing.JFrame {
         });
 
         btnSiguiente.setBackground(new java.awt.Color(159, 34, 65));
-        btnSiguiente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnSiguiente.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnSiguiente.setForeground(new java.awt.Color(255, 255, 255));
-        btnSiguiente.setText("-->");
+        btnSiguiente.setText(">");
         btnSiguiente.setBorderPainted(false);
         btnSiguiente.setEnabled(false);
         btnSiguiente.setFocusPainted(false);
@@ -299,47 +296,60 @@ public class FrmConsulta extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    
+
     /**
-     * Método de evento que se ejecuta cuando el usuario presiona el botón de buscar.
-     * Llama a un método que actualiza la tabla.
-     * @param evt El objeto ActionEvent que representa el evento del botón de buscar.
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de
+     * buscar. Llama a un método que actualiza la tabla.
+     *
+     * @param evt El objeto ActionEvent que representa el evento del botón de
+     * buscar.
      */
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         actualizarTabla();
     }//GEN-LAST:event_btnBuscarActionPerformed
-    
+
     /**
-     * Método de evento que se ejecuta cuando el usuario presiona el botón de regresar.
-     * Cierra la ventana y se abre la ventana anterior.
-     * @param evt El objeto ActionEvent que representa el evento del botón de regresar.
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de
+     * regresar. Cierra la ventana y se abre la ventana anterior.
+     *
+     * @param evt El objeto ActionEvent que representa el evento del botón de
+     * regresar.
      */
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         new FrmPrincipal().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
-    
+
     /**
-     * Método de evento que se ejecuta cuando el usuario presiona el botón de anterior.
-     * Manda a llamar a un método que retrocede de página de la tabla de consultas.
-     * @param evt El objeto ActionEvent que representa el evento del botón de anterior.
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de
+     * anterior. Manda a llamar a un método que retrocede de página de la tabla
+     * de consultas.
+     *
+     * @param evt El objeto ActionEvent que representa el evento del botón de
+     * anterior.
      */
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
         retrocederPagina();
     }//GEN-LAST:event_btnAnteriorActionPerformed
-    
+
     /**
-     * Método de evento que se ejecuta cuando el usuario presiona el botón de siguiente.
-     * Manda a llamar a un método que avanza de página de la tabla de consultas.
-     * @param evt El objeto ActionEvent que representa el evento del botón de siguiente.
+     * Método de evento que se ejecuta cuando el usuario presiona el botón de
+     * siguiente. Manda a llamar a un método que avanza de página de la tabla de
+     * consultas.
+     *
+     * @param evt El objeto ActionEvent que representa el evento del botón de
+     * siguiente.
      */
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         avanzarPagina();
     }//GEN-LAST:event_btnSiguienteActionPerformed
-    
+
     /**
-     * Método de evento que actualiza la tabla dependiendo del valor que se elige en el combobox.
-     * @param evt El objeto ItemEvent que representa el evento del combobox de paginado.
+     * Método de evento que actualiza la tabla dependiendo del valor que se
+     * elige en el combobox.
+     *
+     * @param evt El objeto ItemEvent que representa el evento del combobox de
+     * paginado.
      */
     private void cmbPaginasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbPaginasItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
@@ -352,59 +362,70 @@ public class FrmConsulta extends javax.swing.JFrame {
             actualizarTabla();
         }
     }//GEN-LAST:event_cmbPaginasItemStateChanged
-    
+
     /**
-     * Método de evento que limita al usuario a que no escriba caracteres especiales y a un máximo de 13 caracteres.
-     * @param evt El objeto KeyEvent que representa el evento de tecla presionada.
+     * Método de evento que limita al usuario a que no escriba caracteres
+     * especiales y a un máximo de 13 caracteres.
+     *
+     * @param evt El objeto KeyEvent que representa el evento de tecla
+     * presionada.
      */
     private void txtCurpKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCurpKeyTyped
         char c = evt.getKeyChar();
         if ((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
-            evt.consume(); 
+            evt.consume();
         } else if (txtCurp.getText().length() >= 13) {
-            evt.consume(); 
+            evt.consume();
         }
     }//GEN-LAST:event_txtCurpKeyTyped
-    
+
     /**
-     * Método de evento que limita al usuario a escribir solo números y a un máximo de 4 caracteres.
-     * @param evt El objeto KeyEvent que representa el evento de tecla presionada.
+     * Método de evento que limita al usuario a escribir solo números y a un
+     * máximo de 4 caracteres.
+     *
+     * @param evt El objeto KeyEvent que representa el evento de tecla
+     * presionada.
      */
     private void txtYearKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtYearKeyTyped
         char c = evt.getKeyChar();
         if (c < '0' || c > '9') {
-            evt.consume(); 
-        } else if(txtYear.getText().length() >= 4){
+            evt.consume();
+        } else if (txtYear.getText().length() >= 4) {
             evt.consume();
         }
     }//GEN-LAST:event_txtYearKeyTyped
-    
+
     /**
-     * Método de evento que limita al usuario a que no escriba caracteres especiales, un máximo de 13 caracteres
-     * y que solo pueda escribir un espacio despues de cada palabra.
-     * @param evt El objeto KeyEvent que representa el evento de tecla presionada.
+     * Método de evento que limita al usuario a que no escriba caracteres
+     * especiales, un máximo de 13 caracteres y que solo pueda escribir un
+     * espacio despues de cada palabra.
+     *
+     * @param evt El objeto KeyEvent que representa el evento de tecla
+     * presionada.
      */
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
         char c = evt.getKeyChar();
         if (txtNombre.getText().isBlank() && c == ' ') {
-                evt.consume();
+            evt.consume();
         } else if (c == ' ' && txtNombre.getText().charAt(txtNombre.getText().length() - 1) == ' ') {
             evt.consume();
         } else if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z') && c != ' ') {
             evt.consume();
         }
     }//GEN-LAST:event_txtNombreKeyTyped
-    
+
     /**
-     * Método que llama a un método para que valide campos y otro para que valide si la tabla está vacia.
+     * Método que llama a un método para que valide campos y otro para que
+     * valide si la tabla está vacia.
      */
     private void actualizarTabla() {
         validacionesCampos();
         verificarTablaVacia();
     }
-    
+
     /**
-     * Método que valida si los campos de texto estan vacios para asignarlos a un onbjeto filtrador.
+     * Método que valida si los campos de texto estan vacios para asignarlos a
+     * un onbjeto filtrador.
      */
     private void validacionesCampos() {
         if (txtCurp.getText().isBlank() && txtNombre.getText().isBlank() && txtYear.getText().isBlank()) {
@@ -426,12 +447,12 @@ public class FrmConsulta extends javax.swing.JFrame {
             if (listaPersonasSiguiente.isEmpty()) {
                 btnSiguiente.setEnabled(false);
             }
-            if(configPaginado.getNumeroPagina()==0){
+            if (configPaginado.getNumeroPagina() == 0) {
                 btnAnterior.setEnabled(false);
             }
         }
     }
-    
+
     /**
      * Método que valida si la tabla está vacia.
      */
@@ -445,13 +466,13 @@ public class FrmConsulta extends javax.swing.JFrame {
             if (!listaPersonasSiguiente.isEmpty()) {
                 btnSiguiente.setEnabled(true);
             }
-            if(configPaginado.getNumeroPagina()!=0){
+            if (configPaginado.getNumeroPagina() != 0) {
                 btnAnterior.setEnabled(true);
             }
             cmbPaginas.setEnabled(true);
         }
     }
-    
+
     /**
      * Método que reinicia el formulario de la tabla.
      */
@@ -476,7 +497,7 @@ public class FrmConsulta extends javax.swing.JFrame {
         }
         params = new ParametrosBusquedaConsultaDTO();
     }
-    
+
     /**
      * Método que avanza de página en la tabla de consultas.
      */
@@ -485,7 +506,7 @@ public class FrmConsulta extends javax.swing.JFrame {
         configPaginadoSiguiente.avanzarPagina();
         actualizarTabla();
     }
-    
+
     /**
      * Método que retrocede de página en la tabla de consultas.
      */

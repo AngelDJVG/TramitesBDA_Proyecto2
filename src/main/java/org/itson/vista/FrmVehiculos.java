@@ -110,9 +110,9 @@ public class FrmVehiculos extends javax.swing.JFrame {
         });
 
         btnAnterior.setBackground(new java.awt.Color(159, 34, 65));
-        btnAnterior.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAnterior.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnAnterior.setForeground(new java.awt.Color(255, 255, 255));
-        btnAnterior.setText("<--");
+        btnAnterior.setText("<");
         btnAnterior.setBorderPainted(false);
         btnAnterior.setFocusPainted(false);
         btnAnterior.addActionListener(new java.awt.event.ActionListener() {
@@ -122,9 +122,9 @@ public class FrmVehiculos extends javax.swing.JFrame {
         });
 
         btnSiguiente.setBackground(new java.awt.Color(159, 34, 65));
-        btnSiguiente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnSiguiente.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnSiguiente.setForeground(new java.awt.Color(255, 255, 255));
-        btnSiguiente.setText("-->");
+        btnSiguiente.setText(">");
         btnSiguiente.setBorderPainted(false);
         btnSiguiente.setFocusPainted(false);
         btnSiguiente.addActionListener(new java.awt.event.ActionListener() {

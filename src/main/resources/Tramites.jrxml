@@ -31,7 +31,7 @@
 		<property name="com.jaspersoft.studio.field.label" value="nombre_persona"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="tramites"/>
 	</field>
-	<field name="costo" class="java.lang.Float">
+	<field name="costo" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="costo"/>
 		<property name="com.jaspersoft.studio.field.label" value="costo"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="tramites"/>
